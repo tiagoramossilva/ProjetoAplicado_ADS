@@ -1,12 +1,15 @@
+// models/Compra.js
 const db = require('../config/firebase');
 
 class Compra {
-  constructor(id, dataCompra, dataInvoice, dataEnvio, projeto, valorTotal) {
+  constructor(id, dataCompra, dataInvoice, dataEnvio, projeto_id, fornecedor_id, comprador_id, valorTotal) {
     this.id = id;
     this.dataCompra = dataCompra;
     this.dataInvoice = dataInvoice;
     this.dataEnvio = dataEnvio;
-    this.projeto = projeto;
+    this.projeto_id = projeto_id; 
+    this.fornecedor_id = fornecedor_id; 
+    this.comprador_id = comprador_id; 
     this.valorTotal = valorTotal;
   }
 
@@ -17,7 +20,9 @@ class Compra {
       compraData.dataCompra,
       compraData.dataInvoice,
       compraData.dataEnvio,
-      compraData.projeto,
+      compraData.projeto_id,
+      compraData.fornecedor_id,
+      compraData.comprador_id,
       compraData.valorTotal
     );
     await docRef.set(novaCompra);
@@ -29,14 +34,34 @@ class Compra {
     if (!doc.exists) {
       throw new Error('Compra não encontrada');
     }
-    return new Compra(doc.id, ...Object.values(doc.data()));
+    const data = doc.data();
+    return new Compra(
+      doc.id,
+      data.dataCompra,
+      data.dataInvoice,
+      data.dataEnvio,
+      data.projeto_id,
+      data.fornecedor_id,
+      data.comprador_id,
+      data.valorTotal
+    );
   }
 
   static async update(id, updateData) {
     const docRef = db.collection('compras').doc(id);
     await docRef.update(updateData);
     const doc = await docRef.get();
-    return new Compra(doc.id, ...Object.values(doc.data()));
+    const data = doc.data();
+    return new Compra(
+      doc.id,
+      data.dataCompra,
+      data.dataInvoice,
+      data.dataEnvio,
+      data.projeto_id,
+      data.fornecedor_id,
+      data.comprador_id,
+      data.valorTotal
+    );
   }
 
   static async delete(id) {
@@ -48,7 +73,17 @@ class Compra {
     const snapshot = await db.collection('compras').get();
     const compras = [];
     snapshot.forEach(doc => {
-      compras.push(new Compra(doc.id, ...Object.values(doc.data())));
+      const data = doc.data();
+      compras.push(new Compra(
+        doc.id,
+        data.dataCompra,
+        data.dataInvoice,
+        data.dataEnvio,
+        data.projeto_id,
+        data.fornecedor_id,
+        data.comprador_id,
+        data.valorTotal
+      ));
     });
     return compras;
   }

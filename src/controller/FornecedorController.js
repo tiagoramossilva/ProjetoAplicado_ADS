@@ -1,9 +1,17 @@
 const Fornecedor = require('../models/Fornecedor');
+const RazaoSocial = require('../models/RazaoSocial');
 
 class FornecedorController {
   async create(req, res) {
     try {
-      const fornecedor = await Fornecedor.create(req.body);
+      const { razao_social_id } = req.body;
+
+      const razaoSocial = await RazaoSocial.getById(razao_social_id);
+      if (!razaoSocial) {
+        return res.status(400).json({ error: 'Razão Social inválida' });
+      }
+
+      const fornecedor = await Fornecedor.create({ razao_social_id });
       res.status(201).json(fornecedor);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -21,6 +29,15 @@ class FornecedorController {
 
   async update(req, res) {
     try {
+      const { razao_social_id } = req.body;
+
+      if (razao_social_id) {
+        const razaoSocial = await RazaoSocial.getById(razao_social_id);
+        if (!razaoSocial) {
+          return res.status(400).json({ error: 'Razão Social inválida' });
+        }
+      }
+
       const fornecedor = await Fornecedor.update(req.params.id, req.body);
       res.status(200).json(fornecedor);
     } catch (error) {

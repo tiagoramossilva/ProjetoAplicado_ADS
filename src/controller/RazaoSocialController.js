@@ -1,10 +1,10 @@
-const Item = require('../models/Item');
+const RazaoSocial = require('../models/RazaoSocial');
 
-class ItemController {
+class RazaoSocialController {
   async create(req, res) {
     try {
-      const item = await Item.create(req.body);
-      res.status(201).json(item);
+      const razaoSocial = await RazaoSocial.create(req.body);
+      res.status(201).json(razaoSocial);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -12,17 +12,18 @@ class ItemController {
 
   async getById(req, res) {
     try {
-      const item = await Item.getById(req.params.id);
-      res.status(200).json(item);
+      const razaoSocial = await RazaoSocial.getById(req.params.id);
+      res.status(200).json(razaoSocial);
     } catch (error) {
       res.status(404).json({ error: error.message });
     }
   }
 
+  // Atualizar uma Razão Social
   async update(req, res) {
     try {
-      const item = await Item.update(req.params.id, req.body);
-      res.status(200).json(item);
+      const razaoSocial = await RazaoSocial.update(req.params.id, req.body);
+      res.status(200).json(razaoSocial);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -30,7 +31,7 @@ class ItemController {
 
   async delete(req, res) {
     try {
-      const response = await Item.delete(req.params.id);
+      const response = await RazaoSocial.delete(req.params.id);
       res.status(200).json(response);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -39,12 +40,12 @@ class ItemController {
 
   async getAll(req, res) {
     try {
-      const itens = await Item.getAll();
-      res.status(200).json(itens);
+      const razoes = await RazaoSocial.getAll();
+      res.status(200).json(razoes);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
 }
 
-module.exports = new ItemController();
+module.exports = new RazaoSocialController();

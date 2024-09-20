@@ -1,50 +1,16 @@
-const Compra = require('../models/Compra');
+const express = require('express');
+const CompraController = require('../controller/CompraController');
 
-class CompraController {
-  async create(req, res) {
-    try {
-      const compra = await Compra.create(req.body);
-      res.status(201).json(compra);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
+const router = express.Router();
 
-  async getById(req, res) {
-    try {
-      const compra = await Compra.getById(req.params.id);
-      res.status(200).json(compra);
-    } catch (error) {
-      res.status(404).json({ error: error.message });
-    }
-  }
+router.post('/', CompraController.create);
 
-  async update(req, res) {
-    try {
-      const compra = await Compra.update(req.params.id, req.body);
-      res.status(200).json(compra);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
+router.get('/', CompraController.getAll);
 
-  async delete(req, res) {
-    try {
-      const response = await Compra.delete(req.params.id);
-      res.status(200).json(response);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
+router.get('/:id', CompraController.getById);
 
-  async getAll(req, res) {
-    try {
-      const compras = await Compra.getAll();
-      res.status(200).json(compras);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-}
+router.put('/:id', CompraController.update);
 
-module.exports = new CompraController();
+router.delete('/:id', CompraController.delete);
+
+module.exports = router;

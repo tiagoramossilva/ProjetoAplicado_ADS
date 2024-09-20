@@ -1,32 +1,17 @@
 const db = require('../config/firebase');
+const RazaoSocial = require('./RazaoSocial.js');
 
 class Fornecedor {
-  constructor(id, razao_social, cnpj, inscricao_estadual, endereco, bairro, cep, municipio, uf, telefone) {
+  constructor(id, razao_social_id) {
     this.id = id;
-    this.razao_social = razao_social;
-    this.cnpj = cnpj;
-    this.inscricao_estadual = inscricao_estadual;
-    this.endereco = endereco;
-    this.bairro = bairro;
-    this.cep = cep;
-    this.municipio = municipio;
-    this.uf = uf;
-    this.telefone = telefone;
+    this.razao_social_id = razao_social_id;
   }
 
   static async create(fornecedorData) {
     const docRef = db.collection('fornecedores').doc();
     const novoFornecedor = new Fornecedor(
       docRef.id,
-      fornecedorData.razao_social,
-      fornecedorData.cnpj,
-      fornecedorData.inscricao_estadual,
-      fornecedorData.endereco,
-      fornecedorData.bairro,
-      fornecedorData.cep,
-      fornecedorData.municipio,
-      fornecedorData.uf,
-      fornecedorData.telefone
+      fornecedorData.razao_social_id
     );
     await docRef.set(novoFornecedor);
     return novoFornecedor;
@@ -37,14 +22,16 @@ class Fornecedor {
     if (!doc.exists) {
       throw new Error('Fornecedor não encontrado');
     }
-    return new Fornecedor(doc.id, ...Object.values(doc.data()));
+    const data = doc.data();
+    return new Fornecedor(doc.id, data.razao_social_id);
   }
 
   static async update(id, updateData) {
     const docRef = db.collection('fornecedores').doc(id);
     await docRef.update(updateData);
     const doc = await docRef.get();
-    return new Fornecedor(doc.id, ...Object.values(doc.data()));
+    const data = doc.data();
+    return new Fornecedor(doc.id, data.razao_social_id);
   }
 
   static async delete(id) {
@@ -56,7 +43,8 @@ class Fornecedor {
     const snapshot = await db.collection('fornecedores').get();
     const fornecedores = [];
     snapshot.forEach(doc => {
-      fornecedores.push(new Fornecedor(doc.id, ...Object.values(doc.data())));
+      const data = doc.data();
+      fornecedores.push(new Fornecedor(doc.id, data.razao_social_id));
     });
     return fornecedores;
   }
