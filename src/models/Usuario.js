@@ -68,15 +68,7 @@ class Usuario {
     return new Usuario(doc.id, data.nome, data.email, data.funcao, data.permissao, data.usuario, data.senha);
   }
 
-  static async findByEmail(email) {
-    const snapshot = await db.collection('usuarios').where('email', '==', email).get();
-    if (snapshot.empty) {
-      return null;
-    }
-    const doc = snapshot.docs[0];
-    const data = doc.data();
-    return new Usuario(doc.id, data.nome, data.email, data.funcao, data.permissao, data.usuario, data.senha);
-  }
+
 }
 
 module.exports = Usuario;

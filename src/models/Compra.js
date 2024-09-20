@@ -2,7 +2,7 @@
 const db = require('../config/firebase');
 
 class Compra {
-  constructor(id, dataCompra, dataInvoice, dataEnvio, projeto_id, fornecedor_id, comprador_id, valorTotal) {
+  constructor(id, dataCompra, dataInvoice, dataEnvio, projeto_id, fornecedor_id, comprador_id, produto_id, valorTotal) {
     this.id = id;
     this.dataCompra = dataCompra;
     this.dataInvoice = dataInvoice;
@@ -10,6 +10,7 @@ class Compra {
     this.projeto_id = projeto_id; 
     this.fornecedor_id = fornecedor_id; 
     this.comprador_id = comprador_id; 
+    this.produto_id = produto_id;
     this.valorTotal = valorTotal;
   }
 
@@ -23,6 +24,7 @@ class Compra {
       compraData.projeto_id,
       compraData.fornecedor_id,
       compraData.comprador_id,
+      compraData.produto_id,
       compraData.valorTotal
     );
     await docRef.set(novaCompra);
@@ -43,6 +45,7 @@ class Compra {
       data.projeto_id,
       data.fornecedor_id,
       data.comprador_id,
+      data.produto_id,
       data.valorTotal
     );
   }
@@ -60,6 +63,7 @@ class Compra {
       data.projeto_id,
       data.fornecedor_id,
       data.comprador_id,
+      data.produto_id,
       data.valorTotal
     );
   }
@@ -82,6 +86,7 @@ class Compra {
         data.projeto_id,
         data.fornecedor_id,
         data.comprador_id,
+        data.produto_id,
         data.valorTotal
       ));
     });
