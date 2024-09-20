@@ -1,10 +1,63 @@
 const Usuario = require('../models/Usuario');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 class UsuarioController {
   async create(req, res) {
     try {
-      const usuario = await Usuario.create(req.body);
-      res.status(201).json(usuario);
+      const { nome, email, funcao, permissao, usuario, senha } = req.body;
+
+      const existingUser = await Usuario.findByUsuario(usuario);
+      if (existingUser) {
+        return res.status(400).json({ error: 'Usuário já existe.' });
+      }
+
+      const existingEmail = await Usuario.findByEmail(email);
+      if (existingEmail) {
+        return res.status(400).json({ error: 'Email já está em uso.' });
+      }
+
+      // Hash a senha antes de salvar
+      const salt = await bcrypt.genSalt(10);
+      const hashedSenha = await bcrypt.hash(senha, salt);
+
+      const usuarioData = {
+        nome,
+        email,
+        funcao,
+        permissao,
+        usuario,
+        senha: hashedSenha
+      };
+
+      const novoUsuario = await Usuario.create(usuarioData);
+      res.status(201).json(novoUsuario);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async login(req, res) {
+    try {
+      const { usuario, senha } = req.body;
+
+      const usuarioObj = await Usuario.findByUsuario(usuario);
+      if (!usuarioObj) {
+        return res.status(400).json({ error: 'Usuário ou senha inválidos.' });
+      }
+
+      const isMatch = await bcrypt.compare(senha, usuarioObj.senha);
+      if (!isMatch) {
+        return res.status(400).json({ error: 'Usuário ou senha inválidos.' });
+      }
+
+      const token = jwt.sign(
+        { id: usuarioObj.id, nome: usuarioObj.nome },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+
+      res.status(200).json({ token });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

@@ -31,14 +31,16 @@ class Usuario {
     if (!doc.exists) {
       throw new Error('Usuário não encontrado');
     }
-    return new Usuario(doc.id, ...Object.values(doc.data()));
+    const data = doc.data();
+    return new Usuario(doc.id, data.nome, data.email, data.funcao, data.permissao, data.usuario, data.senha);
   }
 
   static async update(id, updateData) {
     const docRef = db.collection('usuarios').doc(id);
     await docRef.update(updateData);
     const doc = await docRef.get();
-    return new Usuario(doc.id, ...Object.values(doc.data()));
+    const data = doc.data();
+    return new Usuario(doc.id, data.nome, data.email, data.funcao, data.permissao, data.usuario, data.senha);
   }
 
   static async delete(id) {
@@ -50,9 +52,30 @@ class Usuario {
     const snapshot = await db.collection('usuarios').get();
     const usuarios = [];
     snapshot.forEach(doc => {
-      usuarios.push(new Usuario(doc.id, ...Object.values(doc.data())));
+      const data = doc.data();
+      usuarios.push(new Usuario(doc.id, data.nome, data.email, data.funcao, data.permissao, data.usuario, data.senha));
     });
     return usuarios;
+  }
+
+  static async findByUsuario(usuario) {
+    const snapshot = await db.collection('usuarios').where('usuario', '==', usuario).get();
+    if (snapshot.empty) {
+      return null;
+    }
+    const doc = snapshot.docs[0];
+    const data = doc.data();
+    return new Usuario(doc.id, data.nome, data.email, data.funcao, data.permissao, data.usuario, data.senha);
+  }
+
+  static async findByEmail(email) {
+    const snapshot = await db.collection('usuarios').where('email', '==', email).get();
+    if (snapshot.empty) {
+      return null;
+    }
+    const doc = snapshot.docs[0];
+    const data = doc.data();
+    return new Usuario(doc.id, data.nome, data.email, data.funcao, data.permissao, data.usuario, data.senha);
   }
 }
 

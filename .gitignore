@@ -1,5 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Arquivo de ambiente
+.env
+
+# Arquivo de credenciais do Firebase
+config/firebaseServiceAccount.json
+
 # dependencies
 /node_modules
 /.pnp
