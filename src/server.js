@@ -10,6 +10,7 @@ const produtoRoutes = require('./routes/produtoRoutes');
 const estoqueRoutes = require('./routes/estoqueRoutes');
 const localArmazenamentoRoutes = require('./routes/localArmazenamentoRoutes'); 
 const compraRoutes = require('./routes/compraRoutes'); 
+const authRoutes = require('./routes/authRoutes')
 
 
 const errorHandler = require('./middleware/errorHandler');
@@ -30,6 +31,7 @@ app.use('/api/produtos', produtoRoutes);
 app.use('/api/estoques', estoqueRoutes);
 app.use('/api/locais-armazenamento', localArmazenamentoRoutes); 
 app.use('/api/compras', compraRoutes); 
+app.use('/api/login', authRoutes)
 
 
 app.use(errorHandler);

@@ -17,7 +17,6 @@ class UsuarioController {
         return res.status(400).json({ error: 'Email já está em uso.' });
       }
 
-      // Hash a senha antes de salvar
       const salt = await bcrypt.genSalt(10);
       const hashedSenha = await bcrypt.hash(senha, salt);
 
