@@ -7,7 +7,6 @@ function Login() {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Lógica de autenticação
     console.log('Usuário:', username);
     console.log('Senha:', password);
   };
