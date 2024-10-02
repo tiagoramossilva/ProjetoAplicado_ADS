@@ -1,6 +1,5 @@
 const express = require('express');
 const RazaoSocialController = require('../controller/RazaoSocialController');
-
 const router = express.Router();
 
 router.post('/', RazaoSocialController.create);

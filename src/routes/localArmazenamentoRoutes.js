@@ -1,6 +1,5 @@
 const express = require('express');
 const LocalArmazenamentoController = require('../controller/LocalArmazenamentoController');
-
 const router = express.Router();
 
 router.post('/', LocalArmazenamentoController.create);

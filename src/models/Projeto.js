@@ -1,16 +1,22 @@
 const db = require('../config/firebase');
 
 class Projeto {
-  constructor(id, nome) {
+  constructor(id, nome_projeto, responsavel_tecnico, gerente_projeto, cliente_id) {
     this.id = id;
-    this.nome = nome;
+    this.nome_projeto = nome_projeto;
+    this.responsavel_tecnico = responsavel_tecnico;
+    this.gerente_projeto = gerente_projeto;
+    this.cliente_id = cliente_id;
   }
 
   static async create(projetoData) {
     const docRef = db.collection('projetos').doc();
     const novoProjeto = new Projeto(
       docRef.id,
-      projetoData.nome,
+      projetoData.nome_projeto,
+      projetoData.responsavel_tecnico,
+      projetoData.gerente_projeto,
+      projetoData.cliente_id
     );
     await docRef.set(novoProjeto);
     return novoProjeto;
@@ -24,7 +30,10 @@ class Projeto {
     const data = doc.data();
     return new Projeto(
       doc.id,
-      data.nome,
+      data.nome_projeto,
+      data.responsavel_tecnico,
+      data.gerente_projeto,
+      data.cliente_id
     );
   }
 
@@ -35,7 +44,10 @@ class Projeto {
     const data = doc.data();
     return new Projeto(
       doc.id,
-      data.nome,
+      data.nome_projeto,
+      data.responsavel_tecnico,
+      data.gerente_projeto,
+      data.cliente_id
     );
   }
 
@@ -51,7 +63,10 @@ class Projeto {
       const data = doc.data();
       projetos.push(new Projeto(
         doc.id,
-        data.nome,
+        data.nome_projeto,
+        data.responsavel_tecnico,
+        data.gerente_projeto,
+        data.cliente_id
       ));
     });
     return projetos;

@@ -1,15 +1,14 @@
-// models/Compra.js
 const db = require('../config/firebase');
 
 class Compra {
-  constructor(id, dataCompra, dataInvoice, dataEnvio, projeto_id, fornecedor_id, comprador_id, produto_id, valorTotal) {
+  constructor(id, dataCompra, dataEmissao, dataEnvio, projeto_id, fornecedor_id, cliente_id, produto_id, valorTotal) {
     this.id = id;
     this.dataCompra = dataCompra;
-    this.dataInvoice = dataInvoice;
+    this.dataEmissao = dataEmissao;
     this.dataEnvio = dataEnvio;
     this.projeto_id = projeto_id; 
     this.fornecedor_id = fornecedor_id; 
-    this.comprador_id = comprador_id; 
+    this.cliente_id = cliente_id; 
     this.produto_id = produto_id;
     this.valorTotal = valorTotal;
   }
@@ -19,11 +18,11 @@ class Compra {
     const novaCompra = new Compra(
       docRef.id,
       compraData.dataCompra,
-      compraData.dataInvoice,
+      compraData.dataEmissao,
       compraData.dataEnvio,
       compraData.projeto_id,
       compraData.fornecedor_id,
-      compraData.comprador_id,
+      compraData.cliente_id,
       compraData.produto_id,
       compraData.valorTotal
     );
@@ -40,11 +39,11 @@ class Compra {
     return new Compra(
       doc.id,
       data.dataCompra,
-      data.dataInvoice,
+      data.dataEmissao,
       data.dataEnvio,
       data.projeto_id,
       data.fornecedor_id,
-      data.comprador_id,
+      data.cliente_id,
       data.produto_id,
       data.valorTotal
     );
@@ -58,11 +57,11 @@ class Compra {
     return new Compra(
       doc.id,
       data.dataCompra,
-      data.dataInvoice,
+      data.dataEmissao,
       data.dataEnvio,
       data.projeto_id,
       data.fornecedor_id,
-      data.comprador_id,
+      data.cliente_id,
       data.produto_id,
       data.valorTotal
     );
@@ -81,11 +80,11 @@ class Compra {
       compras.push(new Compra(
         doc.id,
         data.dataCompra,
-        data.dataInvoice,
+        data.dataEmissao,
         data.dataEnvio,
         data.projeto_id,
         data.fornecedor_id,
-        data.comprador_id,
+        data.cliente_id,
         data.produto_id,
         data.valorTotal
       ));

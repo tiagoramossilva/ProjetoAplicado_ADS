@@ -1,6 +1,5 @@
 const express = require('express');
 const FornecedorController = require('../controller/FornecedorController');
-
 const router = express.Router();
 
 router.post('/', FornecedorController.create);

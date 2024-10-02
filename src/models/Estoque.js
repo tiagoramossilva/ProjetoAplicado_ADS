@@ -2,11 +2,12 @@ const db = require('../config/firebase');
 const Produto = require('./Produto');
 
 class Estoque {
-  constructor(id, quantidade, tipo_unitario, produto_id) {
+  constructor(id, quantidade, tipo_unitario, produto_id, projeto_id) {
     this.id = id;
     this.quantidade = quantidade;
     this.tipo_unitario = tipo_unitario;
     this.produto_id = produto_id;
+    this.projeto_id = projeto_id;
   }
 
   static async create(estoqueData) {
@@ -15,7 +16,8 @@ class Estoque {
       docRef.id,
       estoqueData.quantidade,
       estoqueData.tipo_unitario,
-      estoqueData.produto_id
+      estoqueData.produto_id,
+      estoqueData.projeto_id
     );
     await docRef.set(novoEstoque);
     return novoEstoque;
@@ -31,7 +33,8 @@ class Estoque {
       doc.id,
       data.quantidade,
       data.tipo_unitario,
-      data.produto_id
+      data.produto_id,
+      data.projeto_id
     );
   }
 
@@ -44,7 +47,8 @@ class Estoque {
       doc.id,
       data.quantidade,
       data.tipo_unitario,
-      data.produto_id
+      data.produto_id,
+      data.projeto_id
     );
   }
 
@@ -62,7 +66,8 @@ class Estoque {
         doc.id,
         data.quantidade,
         data.tipo_unitario,
-        data.produto_id
+        data.produto_id,
+        data.projeto_id
       ));
     });
     return estoques;

@@ -1,8 +1,11 @@
 const db = require('../config/firebase');
 
 class Produto {
-  constructor(id, descricao) {
+  constructor(id, nome, numero_serie, fabricante, descricao) {
     this.id = id;
+    this.nome = nome,
+    this.numero_serie = numero_serie,
+    this.fabricante = fabricante,
     this.descricao = descricao;
   }
 
@@ -10,6 +13,9 @@ class Produto {
     const docRef = db.collection('produtos').doc();
     const novoProduto = new Produto(
       docRef.id,
+      produtoData.nome,
+      produtoData.numero_serie,
+      produtoData.fabricante,
       produtoData.descricao
     );
     await docRef.set(novoProduto);
@@ -22,7 +28,7 @@ class Produto {
       throw new Error('Produto não encontrado');
     }
     const data = doc.data();
-    return new Produto(doc.id, data.descricao);
+    return new Produto(doc.id, data.nome, data.numero_serie, data.fabricante, data.descricao);
   }
 
   static async update(id, updateData) {
@@ -30,7 +36,7 @@ class Produto {
     await docRef.update(updateData);
     const doc = await docRef.get();
     const data = doc.data();
-    return new Produto(doc.id, data.descricao);
+    return new Produto(doc.id, data.nome, data.numero_serie, data.fabricante, data.descricao);
   }
 
   static async delete(id) {
@@ -43,7 +49,7 @@ class Produto {
     const produtos = [];
     snapshot.forEach(doc => {
       const data = doc.data();
-      produtos.push(new Produto(doc.id, data.descricao));
+      produtos.push(new Produto(doc.id, data.nome, data.numero_serie, data.fabricante, data.descricao));
     });
     return produtos;
   }

@@ -1,11 +1,11 @@
-const Estoque = require('../models/Estoque');
+const Cliente = require('../models/Cliente');
 
-class EstoqueController {
+class ClienteController {
   static async create(req, res) {
     try {
-      const estoqueData = req.body;
-      const novoEstoque = await Estoque.create(estoqueData);
-      res.status(201).json(novoEstoque);
+      const clienteData = req.body;
+      const novoCliente = await Cliente.create(clienteData);
+      res.status(201).json(novoCliente);
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
@@ -13,8 +13,8 @@ class EstoqueController {
 
   static async getById(req, res) {
     try {
-      const estoque = await Estoque.getById(req.params.id);
-      res.status(200).json(estoque);
+      const cliente = await Cliente.getById(req.params.id);
+      res.status(200).json(cliente);
     } catch (error) {
       res.status(404).json({ error: error.message });
     }
@@ -22,8 +22,8 @@ class EstoqueController {
 
   static async update(req, res) {
     try {
-      const estoqueAtualizado = await Estoque.update(req.params.id, req.body);
-      res.status(200).json(estoqueAtualizado);
+      const clienteAtualizado = await Cliente.update(req.params.id, req.body);
+      res.status(200).json(clienteAtualizado);
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
@@ -31,7 +31,7 @@ class EstoqueController {
 
   static async delete(req, res) {
     try {
-      const response = await Estoque.delete(req.params.id);
+      const response = await Cliente.delete(req.params.id);
       res.status(200).json(response);
     } catch (error) {
       res.status(404).json({ error: error.message });
@@ -40,12 +40,12 @@ class EstoqueController {
 
   static async getAll(req, res) {
     try {
-      const estoques = await Estoque.getAll();
-      res.status(200).json(estoques);
+      const clientes = await Cliente.getAll();
+      res.status(200).json(clientes);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
 }
 
-module.exports = EstoqueController;
+module.exports = ClienteController;

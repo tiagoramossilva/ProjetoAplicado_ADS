@@ -1,7 +1,7 @@
 const Produto = require('../models/Produto');
 
 class ProdutoController {
-  async create(req, res) {
+  static async create(req, res) {
     try {
       const produto = await Produto.create(req.body);
       res.status(201).json(produto);
@@ -10,7 +10,7 @@ class ProdutoController {
     }
   }
 
-  async getById(req, res) {
+  static async getById(req, res) {
     try {
       const produto = await Produto.getById(req.params.id);
       res.status(200).json(produto);
@@ -19,25 +19,25 @@ class ProdutoController {
     }
   }
 
-  async update(req, res) {
+  static async update(req, res) {
     try {
       const produto = await Produto.update(req.params.id, req.body);
       res.status(200).json(produto);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(404).json({ error: error.message });
     }
   }
 
-  async delete(req, res) {
+  static async delete(req, res) {
     try {
-      const response = await Produto.delete(req.params.id);
-      res.status(200).json(response);
+      const message = await Produto.delete(req.params.id);
+      res.status(200).json(message);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(404).json({ error: error.message });
     }
   }
 
-  async getAll(req, res) {
+  static async getAll(req, res) {
     try {
       const produtos = await Produto.getAll();
       res.status(200).json(produtos);
@@ -47,4 +47,4 @@ class ProdutoController {
   }
 }
 
-module.exports = new ProdutoController();
+module.exports = ProdutoController;
