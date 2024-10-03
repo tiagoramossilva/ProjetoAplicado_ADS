@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { Link } from "react-router-dom";
 import logo from './StockMaster.png';
 
 function Login() {
@@ -64,7 +65,8 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button className="login-btn" onClick={handleLogin}>LOGIN</button>
+        {/* <button className="login-btn" onClick={handleLogin}>LOGIN</button> */}
+        <Link className="login-btn" to="/home">LOGIN</Link>
       </div>
     </div>
   );
