@@ -1,11 +1,18 @@
 import React from 'react';
-import { FaUpload, FaBox, FaHistory } from 'react-icons/fa'; 
+import { FaUpload, FaBox, FaHistory } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
+  const navigate = useNavigate();
+
+  const handleUploadClick = () => {
+    navigate('/cadastro-compra');
+  };
+
   return (
     <div className="home-container">
-      <div className="card">
+      <div className="card" onClick={handleUploadClick}>
         <div className="icon-container upload-icon">
           <FaUpload className='iconUpload'/>
         </div>

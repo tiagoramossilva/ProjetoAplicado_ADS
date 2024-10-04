@@ -2,10 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
-    gap: 20px;
-   
-
+    height: 100vh;
     background-image: url('./wpp.png');
     background-size: cover; 
     background-position: center; 
@@ -19,32 +16,30 @@
     justify-content: center;
     width: 200px;
     height: 150px;
+    margin: 20px;
     background-color: #3b3b3b;
-    border-radius: 8px;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
   }
   
   .icon-container {
     font-size: 40px;
     margin-bottom: 10px;
   }
-  
   .iconUpload {
     color: #ffffff; 
   }
   
-  .stock-icon .svg-inline--fa {
-    color: #28a745; 
-  }
-  
-  .history-icon .svg-inline--fa {
-    color: #ffc107;
-  }
-  
   .card-title {
     font-size: 18px;
-    font-weight: 500;
-    color: #ffffff;
+    text-align: center;
+    color: #ffffff; 
+  }
+  
+
+  .card:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1); 
   }
   

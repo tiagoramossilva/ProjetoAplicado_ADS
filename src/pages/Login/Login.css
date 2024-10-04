@@ -13,7 +13,7 @@
     display: flex;
     height: 100vh;
 
-    background-color: #3b3b3b;;
+    background-color: #3b3b3b;
     color: white;
 
     background-image: url('./wpp.png');
@@ -82,7 +82,7 @@
   
   .login-btn {
     padding: 15px; 
-    background-color: #3b3b3b;;
+    background-color: #3b3b3b;
     color: white;
     border: none;
     border-radius: 10px;
@@ -90,8 +90,10 @@
     font-size: 18px; 
     width: 100%;
     max-width: 400px;
+    text-align: center;
+    text-decoration: none;
   }
   
   .login-btn:hover {
-    background-color: #0056b3;
+    background-color: #636363;
   }
