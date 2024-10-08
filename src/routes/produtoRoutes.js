@@ -1,5 +1,6 @@
 const express = require('express');
-const ProdutoController = require('../controller/ProdutoController');
+const ProdutoController = require('../controller/produtoController');
+
 const router = express.Router();
 
 router.post('/', ProdutoController.create);
@@ -13,4 +14,3 @@ router.delete('/:id', ProdutoController.delete);
 router.get('/', ProdutoController.getAll);
 
 module.exports = router;
-

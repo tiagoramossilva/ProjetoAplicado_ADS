@@ -1,12 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Importa o hook useNavigate
 import './CadastroCompra.css';
 
 function CadastroCompra() {
   const navigate = useNavigate(); // Inicializa o useNavigate
+  const [produtos, setProdutos] = useState([
+    { nome: '', numero_serie: '', fabricante: '', descricao: '', tipo_unitario: '', quantidade: '', andar: '', sala: '', armario: '' },
+  ]);
 
   const handleCancel = () => {
     navigate(-1); // Retorna à tela anterior
+  };
+
+  
+  const handleAddProduct = () => {
+    setProdutos([...produtos, { nome: '', numero_serie: '', fabricante: '', descricao: '', tipo_unitario: '', quantidade: '', andar: '', sala: '', armario: '' }]);
+  };
+
+  const handleRemoveProduct = () => {
+    if (produtos.length > 1) {
+      setProdutos(produtos.slice(0, -1));
+    }
+  };
+
+  const handleChange = (index, event) => {
+    const { name, value } = event.target;
+    const newProdutos = [...produtos];
+    newProdutos[index][name] = value;
+    setProdutos(newProdutos);
   };
 
   return (
@@ -92,40 +113,45 @@ function CadastroCompra() {
           </div>
         </fieldset>
 
-        {/* Informações de produto */}
-        <fieldset className="form-section">
-          <legend>Informações de produto</legend>
-          <div className="form-group">
-            <label>Nome:</label>
-            <input type="text" />
-            <label>Número de série:</label>
-            <input type="text" />
-            <label>Fabricante:</label>
-            <input type="text" />
-          </div>
+        {/* Informações de produto e armazenamento */}
+        {produtos.map((produto, index) => (
+          <fieldset className="form-section" key={index}>
+            <legend>Informações do produto</legend>
+            <div className="form-group">
+              <label>Nome:</label>
+              <input type="text" name="nome" value={produto.nome} onChange={event => handleChange(index, event)} />
+              <label>Número de série:</label>
+              <input type="text" name="numero_serie" value={produto.numero_serie} onChange={event => handleChange(index, event)} />
+              <label>Fabricante:</label>
+              <input type="text" name="fabricante" value={produto.fabricante} onChange={event => handleChange(index, event)} />
+            </div>
 
-          <div className="form-group">
-            <label>Descrição do item:</label>
-            <input type="text" />
-            <label>Tipo unitário:</label>
-            <input type="text" />
-            <label>Quantidade:</label>
-            <input type="number" />
-          </div>
-        </fieldset>
+            <div className="form-group">
+              <label>Descrição do item:</label>
+              <input type="text" name="descricao" value={produto.descricao} onChange={event => handleChange(index, event)} style={{ flex: 2 }} />
+              <label>Tipo unitário:</label>
+              <input type="text" name="tipo_unitario" value={produto.tipo_unitario} onChange={event => handleChange(index, event)} />
+              <label>Quantidade:</label>
+              <input type="number" name="quantidade" value={produto.quantidade} onChange={event => handleChange(index, event)} />
+            </div>
+            <br></br>
+            <legend>Informações de armazenamento: </legend>
+            <br></br>
+            <div className="form-group">
+              <label>Andar:</label>
+              <input type="text" name="andar" value={produto.andar} onChange={event => handleChange(index, event)} />
+              <label>Sala:</label>
+              <input type="text" name="sala" value={produto.sala} onChange={event => handleChange(index, event)} />
+              <label>Armário:</label>
+              <input type="text" name="armario" value={produto.armario} onChange={event => handleChange(index, event)} />
+            </div>
+          </fieldset>
+        ))}
 
-        {/* Informações de armazenamento */}
-        <fieldset className="form-section">
-          <legend>Informações de armazenamento</legend>
-          <div className="form-group">
-            <label>Andar:</label>
-            <input type="text" />
-            <label>Sala:</label>
-            <input type="text" />
-            <label>Armário:</label>
-            <input type="text" />
-          </div>
-        </fieldset>
+        <div className="form-actions">
+          <button type="button" onClick={handleAddProduct}>Adicionar Item +</button>
+          <button type="button" onClick={handleRemoveProduct}>Remover Item -</button>
+        </div>
 
         {/* Informações do Projeto */}
         <fieldset className="form-section">

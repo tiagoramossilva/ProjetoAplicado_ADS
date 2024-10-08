@@ -1,15 +1,15 @@
-const express = require('express');
-const LocalArmazenamentoController = require('../controller/LocalArmazenamentoController');
+const express = require("express");
+const LocalArmazenamentoController = require("../controller/localArmazenamentoController");
 const router = express.Router();
 
-router.post('/', LocalArmazenamentoController.create);
+router.post("/", LocalArmazenamentoController.create);
 
-router.get('/', LocalArmazenamentoController.getAll);
+router.get("/:id", LocalArmazenamentoController.getById);
 
-router.get('/:id', LocalArmazenamentoController.getById);
+router.put("/:id", LocalArmazenamentoController.update);
 
-router.put('/:id', LocalArmazenamentoController.update);
+router.delete("/:id", LocalArmazenamentoController.delete);
 
-router.delete('/:id', LocalArmazenamentoController.delete);
+router.get("/", LocalArmazenamentoController.getAll);
 
 module.exports = router;

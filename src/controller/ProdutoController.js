@@ -3,10 +3,11 @@ const Produto = require('../models/Produto');
 class ProdutoController {
   static async create(req, res) {
     try {
-      const produto = await Produto.create(req.body);
-      res.status(201).json(produto);
+      const produtoData = req.body; 
+      const novoProduto = await Produto.create(produtoData);
+      res.status(201).json(novoProduto);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(400).json({ error: error.message });
     }
   }
 
@@ -21,17 +22,17 @@ class ProdutoController {
 
   static async update(req, res) {
     try {
-      const produto = await Produto.update(req.params.id, req.body);
-      res.status(200).json(produto);
+      const updatedProduto = await Produto.update(req.params.id, req.body);
+      res.status(200).json(updatedProduto);
     } catch (error) {
-      res.status(404).json({ error: error.message });
+      res.status(400).json({ error: error.message });
     }
   }
 
   static async delete(req, res) {
     try {
-      const message = await Produto.delete(req.params.id);
-      res.status(200).json(message);
+      const result = await Produto.delete(req.params.id);
+      res.status(200).json(result);
     } catch (error) {
       res.status(404).json({ error: error.message });
     }

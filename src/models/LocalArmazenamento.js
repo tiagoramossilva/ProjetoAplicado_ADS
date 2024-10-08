@@ -1,11 +1,12 @@
 const db = require('../config/firebase');
 
 class LocalArmazenamento {
-  constructor(id, andar, sala, armario) {
+  constructor(id, andar, sala, armario, id_produto) {
     this.id = id;
     this.andar = andar;
     this.sala = sala;
     this.armario = armario;
+    this.id_produto = id_produto; 
   }
 
   static async create(localData) {
@@ -14,7 +15,8 @@ class LocalArmazenamento {
       docRef.id,
       localData.andar,
       localData.sala,
-      localData.armario
+      localData.armario,
+      localData.id_produto 
     );
     await docRef.set(novoLocal);
     return novoLocal;
