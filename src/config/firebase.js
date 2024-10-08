@@ -1,11 +1,19 @@
-const admin = require('firebase-admin');
-const serviceAccount = require('./firebaseServiceAccount.json');
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from 'firebase/firestore';
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://pa-iii-3afc6.firebaseio.com', 
-});
+const firebaseConfig = {
+  apiKey: "AIzaSyArI0Ktq7N1JuaOZgR9i-ROXKDeUfe5HIs",
+  authDomain: "pa-iii-3afc6.firebaseapp.com",
+  projectId: "pa-iii-3afc6",
+  storageBucket: "pa-iii-3afc6.appspot.com",
+  messagingSenderId: "1060402143938",
+  appId: "1:1060402143938:web:491256e3189e911425115b",
+  measurementId: "G-FPVS84RW90"
+};
 
-const db = admin.firestore();
 
-module.exports = db;
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+export { db };

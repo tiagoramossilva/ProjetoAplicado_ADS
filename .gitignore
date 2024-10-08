@@ -4,7 +4,7 @@
 .env
 
 # Arquivo de credenciais do Firebase
-config/firebaseServiceAccount.json
+config/firebase.js
 
 # dependencies
 /node_modules

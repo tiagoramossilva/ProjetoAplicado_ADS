@@ -1,8 +1,9 @@
 const db = require("../config/firebase.js");
 
 class Cliente {
-  constructor(id, razao_social_id) {
+  constructor(id, razao_social, razao_social_id) {
     this.id = id;
+    this.razao_social = razao_social;
     this.razao_social_id = razao_social_id;
   }
 
@@ -10,6 +11,7 @@ class Cliente {
     const docRef = db.collection("clientes").doc();
     const novoCliente = new Cliente(
       docRef.id,
+      clienteData.razao_social,
       clienteData.razao_social_id
     );
     await docRef.set(novoCliente);
@@ -30,7 +32,7 @@ class Cliente {
     await docRef.update(updateData);
     const doc = await docRef.get();
     const data = doc.data();
-    return new Cliente(doc.id, data.razao_social_id);
+    return new Cliente(doc.id, data.razao_social, data.razao_social_id);
   }
 
   static async delete(id) {
@@ -43,7 +45,7 @@ class Cliente {
     const clientes = [];
     snapshot.forEach((doc) => {
       const data = doc.data();
-      clientes.push(new Cliente(doc.id, data.razao_social_id));
+      clientes.push(new Cliente(doc.id, data.razao_social, data.razao_social_id));
     });
     return clientes;
   }

@@ -2,8 +2,9 @@ const db = require('../config/firebase');
 const RazaoSocial = require('./RazaoSocial.js');
 
 class Fornecedor {
-  constructor(id, razao_social_id) {
+  constructor(id, razao_social, razao_social_id) {
     this.id = id;
+    this.razao_social = razao_social;
     this.razao_social_id = razao_social_id;
   }
 
@@ -11,6 +12,7 @@ class Fornecedor {
     const docRef = db.collection('fornecedores').doc();
     const novoFornecedor = new Fornecedor(
       docRef.id,
+      fornecedorData.razao_social,
       fornecedorData.razao_social_id
     );
     await docRef.set(novoFornecedor);
@@ -23,7 +25,7 @@ class Fornecedor {
       throw new Error('Fornecedor não encontrado');
     }
     const data = doc.data();
-    return new Fornecedor(doc.id, data.razao_social_id);
+    return new Fornecedor(doc.id, data.razao_social, data.razao_social_id);
   }
 
   static async update(id, updateData) {
@@ -44,7 +46,7 @@ class Fornecedor {
     const fornecedores = [];
     snapshot.forEach(doc => {
       const data = doc.data();
-      fornecedores.push(new Fornecedor(doc.id, data.razao_social_id));
+      fornecedores.push(new Fornecedor(doc.id, data.razao_social, data.razao_social_id));
     });
     return fornecedores;
   }
