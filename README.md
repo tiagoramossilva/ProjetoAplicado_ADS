@@ -13,5 +13,5 @@ O sistema foi desenvolvido com o intuito de garantir a padronização no process
 Tecnologias Utilizadas
 Backend: Node.js, Express
 Frontend: React.js
-Banco de Dados: MySQL 
+Banco de Dados: Firebase
 Outras Tecnologias: ORM
