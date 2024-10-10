@@ -447,7 +447,7 @@ function CadastroCompra() {
         <fieldset className="form-section">
           <legend>Informações adicionais</legend>
           <div className="form-group">
-            <label>Data da compra:</label>
+            <label>Usuario:</label>
             <input
               type="text"
               name="adicionais.usuario"
