@@ -1,0 +1,103 @@
+.estoque-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .estoque-title {
+    text-align: left;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .search-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 150px;
+  }
+  
+  .search-button {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .iconSearch{
+    color: black;
+  }
+  
+  .estoque-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .table-header-row {
+    background-color: #f4f4f4;
+  }
+  
+  .table-header {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  .table-row {
+    border: 1px solid #ccc;
+  }
+  
+  .table-data {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .table-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .action-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .update-button {
+    color: blue;
+  }
+  
+  .delete-button {
+    color: red;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .estoque-button {
+    padding: 10px 15px;
+    background-color: #494949;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .voltar-button {
+    background-color: #d9d9d9;
+  }
+  
