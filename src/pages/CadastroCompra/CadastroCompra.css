@@ -26,11 +26,45 @@ h1 {
   border-radius: 5px;
 }
 
+.form-section-grid {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.form-group-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colunas de largura igual */
+  gap: 10px; /* Espaçamento entre os itens */
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column; /* Alinha label e input verticalmente */
+}
+
+.form-item label {
+  margin-bottom: 5px; /* Espaço entre o label e o input */
+}
+
+
 .form-group {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
   margin-bottom: 10px;
+}
+
+.form-group-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas de largura igual */
+  gap: 10px; /* Espaçamento entre os itens */
+  margin-bottom: 20px; /* Espaço entre grupos de produtos, se houver */
+}
+
+.form-group-grid label {
+  margin-bottom: 5px; /* Espaço entre o label e o input */
 }
 
 input[type="text"],
@@ -40,6 +74,10 @@ input[type="number"] {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 3px;
+}
+
+input.errorInput {
+  border-color: rgb(255, 72, 72);
 }
 
 .descricao-item {
@@ -60,6 +98,7 @@ input[type="number"] {
 }
 
 button {
+  margin-right: 10px;
   padding: 10px 15px;
   background-color: #3b3b3b;
   color: white;
