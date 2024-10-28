@@ -1,4 +1,4 @@
-const db = require('../config/firebase');
+import { db } from '../config/firebase';
 
 class Usuario {
   constructor(id, nome, email, funcao, permissao, usuario, senha) {
@@ -71,4 +71,4 @@ class Usuario {
 
 }
 
-module.exports = Usuario;
+export default Usuario;

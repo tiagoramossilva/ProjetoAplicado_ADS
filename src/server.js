@@ -2,7 +2,6 @@ const express = require('express');
 const dotenv = require('dotenv');
 
 const usuarioRoutes = require('./routes/usuarioRoutes');
-const razaoSocialRoutes = require('./routes/razaoSocialRoutes');
 const fornecedorRoutes = require('./routes/fornecedorRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const projetoRoutes = require('./routes/projetoRoutes');
@@ -23,7 +22,6 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.use('/api/usuarios', usuarioRoutes);
-app.use('/api/razoes-sociais', razaoSocialRoutes);
 app.use('/api/fornecedores', fornecedorRoutes);
 app.use('/api/clientes', clienteRoutes);
 app.use('/api/projetos', projetoRoutes);

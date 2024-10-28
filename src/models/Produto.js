@@ -1,4 +1,5 @@
-const db = require('../config/firebase');
+import { db } from '../config/firebase';
+import { setDoc, doc, getDoc, updateDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
 
 class Produto {
   constructor(id, nome, numero_serie, fabricante, descricao, id_local_armazenamento) {
@@ -11,71 +12,65 @@ class Produto {
   }
 
   static async create(produtoData) {
-    const docRef = db.collection('produtos').doc();
-    const novoProduto = new Produto(
-      docRef.id,
-      produtoData.nome,
-      produtoData.numero_serie,
-      produtoData.fabricante,
-      produtoData.descricao,  
-      produtoData.id_local_armazenamento         
-    );
-    await docRef.set(novoProduto);
-    return novoProduto;
+    const docRef = doc(collection(db, 'produtos')); // Cria referência para um novo documento
+    await setDoc(docRef, { ...produtoData, id: docRef.id }); // Salva os dados do produto
+    return { id: docRef.id, ...produtoData }; // Retorna os dados com o novo ID
   }
 
   static async getById(id) {
-    const doc = await db.collection('produtos').doc(id).get();
-    if (!doc.exists) {
+    const docRef = doc(db, 'produtos', id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
       throw new Error('Produto não encontrado');
     }
-    const data = doc.data();
+    const data = docSnap.data();
     return new Produto(
-      doc.id,
+      docSnap.id,
       data.nome,
       data.numero_serie,
       data.fabricante,
-      data.descricao,   
-      data.id_local_armazenamento         
+      data.descricao,
+      data.id_local_armazenamento
     );
   }
 
   static async update(id, updateData) {
-    const docRef = db.collection('produtos').doc(id);
-    await docRef.update(updateData);
-    const doc = await docRef.get();
-    const data = doc.data();
+    const docRef = doc(db, 'produtos', id);
+    await updateDoc(docRef, updateData);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
     return new Produto(
-      doc.id,
+      docSnap.id,
       data.nome,
       data.numero_serie,
       data.fabricante,
-      data.descricao,     
-      data.id_local_armazenamento         
+      data.descricao,
+      data.id_local_armazenamento
     );
   }
 
   static async delete(id) {
-    await db.collection('produtos').doc(id).delete();
+    const docRef = doc(db, 'produtos', id);
+    await deleteDoc(docRef);
     return { message: 'Produto deletado com sucesso' };
   }
 
   static async getAll() {
-    const snapshot = await db.collection('produtos').get();
+    const snapshot = await getDocs(collection(db, 'produtos'));
     const produtos = [];
-    snapshot.forEach(doc => {
-      const data = doc.data();
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
       produtos.push(new Produto(
-        doc.id,
+        docSnap.id,
         data.nome,
         data.numero_serie,
         data.fabricante,
-        data.descricao,   
-        data.id_local_armazenamento         
+        data.descricao,
+        data.id_local_armazenamento
       ));
     });
     return produtos;
   }
 }
 
-module.exports = Produto;
+export default Produto;

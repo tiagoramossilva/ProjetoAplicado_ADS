@@ -1,55 +1,59 @@
-const db = require('../config/firebase');
-const RazaoSocial = require('./RazaoSocial.js');
+// src/models/Fornecedor.js
+import { db } from '../config/firebase';
+import { setDoc, doc, getDoc, updateDoc, deleteDoc, getDocs, collection } from 'firebase/firestore';
 
 class Fornecedor {
-  constructor(id, razao_social, razao_social_id) {
+  constructor(id, razao_social, cnpj, inscricao_estadual, endereco, bairro, cep, municipio, uf, telefone) {
     this.id = id;
     this.razao_social = razao_social;
-    this.razao_social_id = razao_social_id;
+    this.cnpj = cnpj;
+    this.inscricao_estadual = inscricao_estadual;
+    this.endereco = endereco;
+    this.bairro = bairro;
+    this.cep = cep;
+    this.municipio = municipio;
+    this.uf = uf;
+    this.telefone = telefone;
   }
 
   static async create(fornecedorData) {
-    const docRef = db.collection('fornecedores').doc();
-    const novoFornecedor = new Fornecedor(
-      docRef.id,
-      fornecedorData.razao_social,
-      fornecedorData.razao_social_id
-    );
-    await docRef.set(novoFornecedor);
-    return novoFornecedor;
+    const docRef = doc(collection(db, 'fornecedores')); // Gera automaticamente um ID único
+    await setDoc(docRef, { ...fornecedorData, id: docRef.id }); // Usa setDoc para salvar os dados
+    return new Fornecedor(docRef.id, ...Object.values(fornecedorData)); // Retorna uma nova instância
   }
 
   static async getById(id) {
-    const doc = await db.collection('fornecedores').doc(id).get();
-    if (!doc.exists) {
+    const docRef = doc(db, 'fornecedores', id);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
       throw new Error('Fornecedor não encontrado');
     }
-    const data = doc.data();
-    return new Fornecedor(doc.id, data.razao_social, data.razao_social_id);
+    const data = docSnap.data();
+    return new Fornecedor(docSnap.id, ...Object.values(data));
   }
 
   static async update(id, updateData) {
-    const docRef = db.collection('fornecedores').doc(id);
-    await docRef.update(updateData);
-    const doc = await docRef.get();
-    const data = doc.data();
-    return new Fornecedor(doc.id, data.razao_social_id);
+    const docRef = doc(db, 'fornecedores', id);
+    await updateDoc(docRef, updateData);
+    return await this.getById(id); // Retorna o fornecedor atualizado
   }
 
   static async delete(id) {
-    await db.collection('fornecedores').doc(id).delete();
+    const docRef = doc(db, 'fornecedores', id);
+    await deleteDoc(docRef);
     return { message: 'Fornecedor deletado com sucesso' };
   }
 
   static async getAll() {
-    const snapshot = await db.collection('fornecedores').get();
+    const snapshot = await getDocs(collection(db, 'fornecedores'));
     const fornecedores = [];
     snapshot.forEach(doc => {
       const data = doc.data();
-      fornecedores.push(new Fornecedor(doc.id, data.razao_social, data.razao_social_id));
+      fornecedores.push(new Fornecedor(doc.id, ...Object.values(data)));
     });
     return fornecedores;
   }
 }
 
-module.exports = Fornecedor;
+export default Fornecedor; // Exporta a classe como padrão

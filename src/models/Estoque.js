@@ -1,5 +1,5 @@
-const db = require('../config/firebase');
-const Produto = require('./Produto');
+import { db } from '../config/firebase';
+import { setDoc, doc, getDoc, updateDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
 
 class Estoque {
   constructor(id, quantidade, tipo_unitario, produto_id, projeto_id) {
@@ -11,26 +11,20 @@ class Estoque {
   }
 
   static async create(estoqueData) {
-    const docRef = db.collection('estoques').doc();
-    const novoEstoque = new Estoque(
-      docRef.id,
-      estoqueData.quantidade,
-      estoqueData.tipo_unitario,
-      estoqueData.produto_id,
-      estoqueData.projeto_id
-    );
-    await docRef.set(novoEstoque);
-    return novoEstoque;
+    const docRef = doc(collection(db, 'estoques')); // Cria referência para um novo documento
+    await setDoc(docRef, { ...estoqueData, id: docRef.id }); // Salva os dados do estoque
+    return { id: docRef.id, ...estoqueData }; // Retorna os dados com o novo ID
   }
 
   static async getById(id) {
-    const doc = await db.collection('estoques').doc(id).get();
-    if (!doc.exists) {
+    const docRef = doc(db, 'estoques', id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
       throw new Error('Estoque não encontrado');
     }
-    const data = doc.data();
+    const data = docSnap.data();
     return new Estoque(
-      doc.id,
+      docSnap.id,
       data.quantidade,
       data.tipo_unitario,
       data.produto_id,
@@ -39,12 +33,12 @@ class Estoque {
   }
 
   static async update(id, updateData) {
-    const docRef = db.collection('estoques').doc(id);
-    await docRef.update(updateData);
-    const doc = await docRef.get();
-    const data = doc.data();
+    const docRef = doc(db, 'estoques', id);
+    await updateDoc(docRef, updateData);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
     return new Estoque(
-      doc.id,
+      docSnap.id,
       data.quantidade,
       data.tipo_unitario,
       data.produto_id,
@@ -53,17 +47,18 @@ class Estoque {
   }
 
   static async delete(id) {
-    await db.collection('estoques').doc(id).delete();
+    const docRef = doc(db, 'estoques', id);
+    await deleteDoc(docRef);
     return { message: 'Estoque deletado com sucesso' };
   }
 
   static async getAll() {
-    const snapshot = await db.collection('estoques').get();
+    const snapshot = await getDocs(collection(db, 'estoques'));
     const estoques = [];
-    snapshot.forEach(doc => {
-      const data = doc.data();
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
       estoques.push(new Estoque(
-        doc.id,
+        docSnap.id,
         data.quantidade,
         data.tipo_unitario,
         data.produto_id,
@@ -74,4 +69,4 @@ class Estoque {
   }
 }
 
-module.exports = Estoque;
+export default Estoque;

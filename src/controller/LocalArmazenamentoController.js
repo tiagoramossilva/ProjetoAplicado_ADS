@@ -1,4 +1,4 @@
-const LocalArmazenamento = require('../models/localArmazenamento');
+const LocalArmazenamento = require('../models/LocalArmazenamento');
 
 class LocalArmazenamentoController {
   static async create(req, res) {

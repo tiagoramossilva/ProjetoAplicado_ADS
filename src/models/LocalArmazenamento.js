@@ -1,4 +1,5 @@
-const db = require('../config/firebase');
+import { db } from '../config/firebase';
+import { setDoc, doc, getDoc, updateDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
 
 class LocalArmazenamento {
   constructor(id, andar, sala, armario, id_produto) {
@@ -10,46 +11,62 @@ class LocalArmazenamento {
   }
 
   static async create(localData) {
-    const docRef = db.collection('locaisArmazenamento').doc();
-    const novoLocal = new LocalArmazenamento(
-      docRef.id,
-      localData.andar,
-      localData.sala,
-      localData.armario,
-      localData.id_produto 
-    );
-    await docRef.set(novoLocal);
-    return novoLocal;
+    const docRef = doc(collection(db, 'locaisArmazenamento')); // Cria referência para um novo documento
+    await setDoc(docRef, { ...localData, id: docRef.id }); // Salva os dados do local de armazenamento
+    return { id: docRef.id, ...localData }; // Retorna os dados com o novo ID
   }
 
   static async getById(id) {
-    const doc = await db.collection('locaisArmazenamento').doc(id).get();
-    if (!doc.exists) {
+    const docRef = doc(db, 'locaisArmazenamento', id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
       throw new Error('Local de Armazenamento não encontrado');
     }
-    return new LocalArmazenamento(doc.id, ...Object.values(doc.data()));
+    const data = docSnap.data();
+    return new LocalArmazenamento(
+      docSnap.id,
+      data.andar,
+      data.sala,
+      data.armario,
+      data.id_produto
+    );
   }
 
   static async update(id, updateData) {
-    const docRef = db.collection('locaisArmazenamento').doc(id);
-    await docRef.update(updateData);
-    const doc = await docRef.get();
-    return new LocalArmazenamento(doc.id, ...Object.values(doc.data()));
+    const docRef = doc(db, 'locaisArmazenamento', id);
+    await updateDoc(docRef, updateData);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    return new LocalArmazenamento(
+      docSnap.id,
+      data.andar,
+      data.sala,
+      data.armario,
+      data.id_produto
+    );
   }
 
   static async delete(id) {
-    await db.collection('locaisArmazenamento').doc(id).delete();
+    const docRef = doc(db, 'locaisArmazenamento', id);
+    await deleteDoc(docRef);
     return { message: 'Local de Armazenamento deletado com sucesso' };
   }
 
   static async getAll() {
-    const snapshot = await db.collection('locaisArmazenamento').get();
+    const snapshot = await getDocs(collection(db, 'locaisArmazenamento'));
     const locais = [];
-    snapshot.forEach(doc => {
-      locais.push(new LocalArmazenamento(doc.id, ...Object.values(doc.data())));
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      locais.push(new LocalArmazenamento(
+        docSnap.id,
+        data.andar,
+        data.sala,
+        data.armario,
+        data.id_produto
+      ));
     });
     return locais;
   }
 }
 
-module.exports = LocalArmazenamento;
+export default LocalArmazenamento;

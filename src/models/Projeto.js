@@ -1,4 +1,5 @@
-const db = require('../config/firebase');
+import { db } from '../config/firebase';
+import { setDoc, doc, getDoc, updateDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
 
 class Projeto {
   constructor(id, nome_projeto, responsavel_tecnico, gerente_projeto, cliente_id) {
@@ -10,26 +11,20 @@ class Projeto {
   }
 
   static async create(projetoData) {
-    const docRef = db.collection('projetos').doc();
-    const novoProjeto = new Projeto(
-      docRef.id,
-      projetoData.nome_projeto,
-      projetoData.responsavel_tecnico,
-      projetoData.gerente_projeto,
-      projetoData.cliente_id
-    );
-    await docRef.set(novoProjeto);
-    return novoProjeto;
+    const docRef = doc(collection(db, 'projetos')); 
+    await setDoc(docRef, { ...projetoData, id: docRef.id }); 
+    return { id: docRef.id, ...projetoData }; 
   }
 
   static async getById(id) {
-    const doc = await db.collection('projetos').doc(id).get();
-    if (!doc.exists) {
+    const docRef = doc(db, 'projetos', id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
       throw new Error('Projeto não encontrado');
     }
-    const data = doc.data();
+    const data = docSnap.data();
     return new Projeto(
-      doc.id,
+      docSnap.id,
       data.nome_projeto,
       data.responsavel_tecnico,
       data.gerente_projeto,
@@ -38,12 +33,12 @@ class Projeto {
   }
 
   static async update(id, updateData) {
-    const docRef = db.collection('projetos').doc(id);
-    await docRef.update(updateData);
-    const doc = await docRef.get();
-    const data = doc.data();
+    const docRef = doc(db, 'projetos', id);
+    await updateDoc(docRef, updateData);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
     return new Projeto(
-      doc.id,
+      docSnap.id,
       data.nome_projeto,
       data.responsavel_tecnico,
       data.gerente_projeto,
@@ -52,17 +47,18 @@ class Projeto {
   }
 
   static async delete(id) {
-    await db.collection('projetos').doc(id).delete();
+    const docRef = doc(db, 'projetos', id);
+    await deleteDoc(docRef);
     return { message: 'Projeto deletado com sucesso' };
   }
 
   static async getAll() {
-    const snapshot = await db.collection('projetos').get();
+    const snapshot = await getDocs(collection(db, 'projetos'));
     const projetos = [];
-    snapshot.forEach(doc => {
-      const data = doc.data();
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
       projetos.push(new Projeto(
-        doc.id,
+        docSnap.id,
         data.nome_projeto,
         data.responsavel_tecnico,
         data.gerente_projeto,
@@ -73,4 +69,4 @@ class Projeto {
   }
 }
 
-module.exports = Projeto;
+export default Projeto;

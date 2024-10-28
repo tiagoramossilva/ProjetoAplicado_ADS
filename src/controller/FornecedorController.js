@@ -1,67 +1,60 @@
-const Fornecedor = require('../models/Fornecedor');
-const RazaoSocial = require('../models/RazaoSocial');
+const Fornecedor = require('../models/Fornecedor'); // Ajuste o caminho conforme necessário
 
 class FornecedorController {
-  async create(req, res) {
+  // Criar um novo fornecedor
+  static async create(req, res) {
     try {
-      const { razao_social_id } = req.body;
-
-      const razaoSocial = await RazaoSocial.getById(razao_social_id);
-      if (!razaoSocial) {
-        return res.status(400).json({ error: 'Razão Social inválida' });
-      }
-
-      const fornecedor = await Fornecedor.create({ razao_social_id });
-      res.status(201).json(fornecedor);
+      const fornecedorData = req.body;
+      const novoFornecedor = await Fornecedor.create(fornecedorData);
+      return res.status(201).json(novoFornecedor);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   }
 
-  async getById(req, res) {
+  // Obter um fornecedor por ID
+  static async getById(req, res) {
     try {
-      const fornecedor = await Fornecedor.getById(req.params.id);
-      res.status(200).json(fornecedor);
+      const { id } = req.params;
+      const fornecedor = await Fornecedor.getById(id);
+      return res.status(200).json(fornecedor);
     } catch (error) {
-      res.status(404).json({ error: error.message });
+      return res.status(404).json({ message: error.message });
     }
   }
 
-  async update(req, res) {
+  // Atualizar um fornecedor
+  static async update(req, res) {
     try {
-      const { razao_social_id } = req.body;
-
-      if (razao_social_id) {
-        const razaoSocial = await RazaoSocial.getById(razao_social_id);
-        if (!razaoSocial) {
-          return res.status(400).json({ error: 'Razão Social inválida' });
-        }
-      }
-
-      const fornecedor = await Fornecedor.update(req.params.id, req.body);
-      res.status(200).json(fornecedor);
+      const { id } = req.params;
+      const updateData = req.body;
+      const fornecedorAtualizado = await Fornecedor.update(id, updateData);
+      return res.status(200).json(fornecedorAtualizado);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   }
 
-  async delete(req, res) {
+  // Deletar um fornecedor
+  static async delete(req, res) {
     try {
-      const response = await Fornecedor.delete(req.params.id);
-      res.status(200).json(response);
+      const { id } = req.params;
+      const response = await Fornecedor.delete(id);
+      return res.status(200).json(response);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      return res.status(404).json({ message: error.message });
     }
   }
 
-  async getAll(req, res) {
+  // Obter todos os fornecedores
+  static async getAll(req, res) {
     try {
       const fornecedores = await Fornecedor.getAll();
-      res.status(200).json(fornecedores);
+      return res.status(200).json(fornecedores);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 }
 
-module.exports = new FornecedorController();
+module.exports = FornecedorController;

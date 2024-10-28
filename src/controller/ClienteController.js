@@ -1,49 +1,58 @@
-const Cliente = require('../models/Cliente');
+const Cliente = require('../models/Cliente'); // Ajuste o caminho conforme necessário
 
 class ClienteController {
+  // Criar um novo cliente
   static async create(req, res) {
     try {
       const clienteData = req.body;
       const novoCliente = await Cliente.create(clienteData);
-      res.status(201).json(novoCliente);
+      return res.status(201).json(novoCliente);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   }
 
+  // Obter um cliente por ID
   static async getById(req, res) {
     try {
-      const cliente = await Cliente.getById(req.params.id);
-      res.status(200).json(cliente);
+      const { id } = req.params;
+      const cliente = await Cliente.getById(id);
+      return res.status(200).json(cliente);
     } catch (error) {
-      res.status(404).json({ error: error.message });
+      return res.status(404).json({ message: error.message });
     }
   }
 
+  // Atualizar um cliente
   static async update(req, res) {
     try {
-      const clienteAtualizado = await Cliente.update(req.params.id, req.body);
-      res.status(200).json(clienteAtualizado);
+      const { id } = req.params;
+      const updateData = req.body;
+      const clienteAtualizado = await Cliente.update(id, updateData);
+      return res.status(200).json(clienteAtualizado);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   }
 
+  // Deletar um cliente
   static async delete(req, res) {
     try {
-      const response = await Cliente.delete(req.params.id);
-      res.status(200).json(response);
+      const { id } = req.params;
+      const response = await Cliente.delete(id);
+      return res.status(200).json(response);
     } catch (error) {
-      res.status(404).json({ error: error.message });
+      return res.status(404).json({ message: error.message });
     }
   }
 
+  // Obter todos os clientes
   static async getAll(req, res) {
     try {
       const clientes = await Cliente.getAll();
-      res.status(200).json(clientes);
+      return res.status(200).json(clientes);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 }
