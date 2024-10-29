@@ -7,8 +7,7 @@ class Produto {
     this.nome = nome;
     this.numero_serie = numero_serie;
     this.fabricante = fabricante;
-    this.descricao = descricao;   
-    this.id_local_armazenamento = id_local_armazenamento;           
+    this.descricao = descricao;           
   }
 
   static async create(produtoData) {
@@ -30,7 +29,6 @@ class Produto {
       data.numero_serie,
       data.fabricante,
       data.descricao,
-      data.id_local_armazenamento
     );
   }
 
@@ -45,7 +43,6 @@ class Produto {
       data.numero_serie,
       data.fabricante,
       data.descricao,
-      data.id_local_armazenamento
     );
   }
 
@@ -66,7 +63,6 @@ class Produto {
         data.numero_serie,
         data.fabricante,
         data.descricao,
-        data.id_local_armazenamento
       ));
     });
     return produtos;

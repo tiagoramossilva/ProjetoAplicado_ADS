@@ -2,12 +2,11 @@ import { db } from '../config/firebase';
 import { setDoc, doc, getDoc, updateDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
 
 class Projeto {
-  constructor(id, nome_projeto, responsavel_tecnico, gerente_projeto, cliente_id) {
+  constructor(id, nome_projeto, responsavel_tecnico, gerente_projeto) {
     this.id = id;
     this.nome_projeto = nome_projeto;
     this.responsavel_tecnico = responsavel_tecnico;
     this.gerente_projeto = gerente_projeto;
-    this.cliente_id = cliente_id;
   }
 
   static async create(projetoData) {
@@ -28,7 +27,6 @@ class Projeto {
       data.nome_projeto,
       data.responsavel_tecnico,
       data.gerente_projeto,
-      data.cliente_id
     );
   }
 
@@ -42,7 +40,6 @@ class Projeto {
       data.nome_projeto,
       data.responsavel_tecnico,
       data.gerente_projeto,
-      data.cliente_id
     );
   }
 
@@ -62,7 +59,6 @@ class Projeto {
         data.nome_projeto,
         data.responsavel_tecnico,
         data.gerente_projeto,
-        data.cliente_id
       ));
     });
     return projetos;

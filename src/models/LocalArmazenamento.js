@@ -7,7 +7,6 @@ class LocalArmazenamento {
     this.andar = andar;
     this.sala = sala;
     this.armario = armario;
-    this.id_produto = id_produto; 
   }
 
   static async create(localData) {
@@ -28,7 +27,6 @@ class LocalArmazenamento {
       data.andar,
       data.sala,
       data.armario,
-      data.id_produto
     );
   }
 
@@ -42,7 +40,6 @@ class LocalArmazenamento {
       data.andar,
       data.sala,
       data.armario,
-      data.id_produto
     );
   }
 
@@ -62,7 +59,6 @@ class LocalArmazenamento {
         data.andar,
         data.sala,
         data.armario,
-        data.id_produto
       ));
     });
     return locais;

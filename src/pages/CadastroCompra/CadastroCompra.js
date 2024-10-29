@@ -7,6 +7,8 @@ import Produto from "../../models/Produto";
 import Estoque from "../../models/Estoque";
 import LocalArmazenamento from "../../models/LocalArmazenamento";
 import Compra from "../../models/Compra";
+import Usuario from "../../models/Usuario";
+import Projeto from "../../models/Projeto";
 
 function CadastroCompra() {
   const navigate = useNavigate();
@@ -58,7 +60,6 @@ function CadastroCompra() {
       nome_projeto: "",
       responsavel_tecnico: "",
       gerente_projeto: "",
-      cliente: "",
     },
     adicionais: {
       usuario: "",
@@ -115,56 +116,71 @@ function CadastroCompra() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const fornecedorId = await Fornecedor.create(formData.fornecedor);
-      const clienteId = await Cliente.create(formData.cliente);
+        // Criação do Fornecedor
+        const fornecedorId = await Fornecedor.create(formData.fornecedor);
 
-      const produtosRefs = await Promise.all(
-        produtos.map(async (produto) => {
-          const {
-            andar,
-            sala,
-            armario,
-            tipo_unitario,
-            quantidade,
-            ...produtoInfo
-          } = produto;
+        // Criação do Cliente
+        const clienteId = await Cliente.create(formData.cliente);
 
-          // Verifique se os campos obrigatórios estão preenchidos
-          if (!produtoInfo.nome || !produtoInfo.fabricante) {
-            throw new Error("Nome e Fabricante do produto são obrigatórios.");
-          }
+        // Criação da Compra (sem referências ao Cliente e Fornecedor)
+        const compraId = await Compra.create(formData.compra);
 
-          const produtoId = await Produto.create(produtoInfo);
-          await Estoque.create({ tipo_unitario, quantidade, produtoId });
-          await LocalArmazenamento.create({ andar, sala, armario, produtoId });
+        // Criação dos produtos e suas referências
+        const produtosRefs = await Promise.all(
+            produtos.map(async (produto) => {
+                const {
+                    andar,
+                    sala,
+                    armario,
+                    tipo_unitario,
+                    quantidade,
+                    ...produtoInfo
+                } = produto;
 
-          return produtoId;
-        })
-      );
+                // Validação dos campos obrigatórios
+                if (!produtoInfo.nome || !produtoInfo.fabricante) {
+                    throw new Error("Nome e Fabricante do produto são obrigatórios.");
+                }
 
-      const compraData = {
-        clienteId,
-        fornecedorId,
-        produtosIds: produtosRefs,
-        ...formData.compra,
-        projeto: formData.projeto,
-        adicionais: formData.adicionais,
-        timestamp: new Date(),
-      };
+                // Criação do Produto
+                const produtoId = await Produto.create(produtoInfo);
 
-      const compraId = await Compra.create(compraData);
-      console.log("Compra registrada com sucesso, ID: ", compraId);
-      alert("Compra cadastrada com sucesso!");
-      navigate(-1);
+                // Criação do Estoque
+                await Estoque.create({
+                    tipo_unitario,
+                    quantidade,
+                    produtoId, // Referência ao Produto
+                });
+
+                // Criação do Local de Armazenamento
+                await LocalArmazenamento.create({
+                    andar,
+                    sala,
+                    armario,
+                    produtoId, // Referência ao Produto
+                });
+
+                return produtoId;
+            })
+        );
+
+        // Criação do Projeto
+        const projetoId = await Projeto.create(formData.projeto);
+
+        // Criação das informações adicionais do Usuário
+        const infoAdicionaisId = await Usuario.infoAdicionais(formData.adicionais);
+
+        alert("Compra cadastrada com sucesso!");
     } catch (error) {
-      console.error("Erro ao cadastrar a compra: ", error.message || error);
-      alert(
-        `Erro ao cadastrar a compra. Tente novamente. Detalhes: ${
-          error.message || error
-        }`
-      );
+        console.error("Erro ao cadastrar a compra: ", error.message || error);
+        alert(
+            `Erro ao cadastrar a compra. Tente novamente. Detalhes: ${
+                error.message || error
+            }`
+        );
     }
-  };
+};
+
 
   return (
     <div className="form-container">

@@ -6,8 +6,6 @@ class Estoque {
     this.id = id;
     this.quantidade = quantidade;
     this.tipo_unitario = tipo_unitario;
-    this.produto_id = produto_id;
-    this.projeto_id = projeto_id;
   }
 
   static async create(estoqueData) {
@@ -27,8 +25,6 @@ class Estoque {
       docSnap.id,
       data.quantidade,
       data.tipo_unitario,
-      data.produto_id,
-      data.projeto_id
     );
   }
 
@@ -41,8 +37,6 @@ class Estoque {
       docSnap.id,
       data.quantidade,
       data.tipo_unitario,
-      data.produto_id,
-      data.projeto_id
     );
   }
 
@@ -61,8 +55,6 @@ class Estoque {
         docSnap.id,
         data.quantidade,
         data.tipo_unitario,
-        data.produto_id,
-        data.projeto_id
       ));
     });
     return estoques;

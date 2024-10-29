@@ -1,4 +1,5 @@
 import { db } from '../config/firebase';
+import { setDoc, doc, getDoc, updateDoc, deleteDoc, collection, getDocs, query, where } from 'firebase/firestore';
 
 class Usuario {
   constructor(id, nome, email, funcao, permissao, usuario, senha) {
@@ -12,63 +13,100 @@ class Usuario {
   }
 
   static async create(usuarioData) {
-    const docRef = db.collection('usuarios').doc();
-    const novoUsuario = new Usuario(
-      docRef.id,
-      usuarioData.nome,
-      usuarioData.email,
-      usuarioData.funcao,
-      usuarioData.permissao,
-      usuarioData.usuario,
-      usuarioData.senha
-    );
-    await docRef.set(novoUsuario);
-    return novoUsuario;
+    const docRef = doc(collection(db, 'usuarios')); // Gera um novo ID automaticamente
+    await setDoc(docRef, { ...usuarioData, id: docRef.id }); // Salva o usuário no Firestore
+    return { id: docRef.id, ...usuarioData }; // Retorna o ID e os dados armazenados
   }
 
   static async getById(id) {
-    const doc = await db.collection('usuarios').doc(id).get();
-    if (!doc.exists) {
+    const docRef = doc(db, 'usuarios', id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
       throw new Error('Usuário não encontrado');
     }
-    const data = doc.data();
-    return new Usuario(doc.id, data.nome, data.email, data.funcao, data.permissao, data.usuario, data.senha);
+    const data = docSnap.data();
+    return new Usuario(
+      docSnap.id,
+      data.nome,
+      data.email,
+      data.funcao,
+      data.permissao,
+      data.usuario,
+      data.senha
+    );
   }
 
   static async update(id, updateData) {
-    const docRef = db.collection('usuarios').doc(id);
-    await docRef.update(updateData);
-    const doc = await docRef.get();
-    const data = doc.data();
-    return new Usuario(doc.id, data.nome, data.email, data.funcao, data.permissao, data.usuario, data.senha);
+    const docRef = doc(db, 'usuarios', id);
+    await updateDoc(docRef, updateData);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    return new Usuario(
+      docSnap.id,
+      data.nome,
+      data.email,
+      data.funcao,
+      data.permissao,
+      data.usuario,
+      data.senha
+    );
   }
 
   static async delete(id) {
-    await db.collection('usuarios').doc(id).delete();
+    const docRef = doc(db, 'usuarios', id);
+    await deleteDoc(docRef);
     return { message: 'Usuário deletado com sucesso' };
   }
 
   static async getAll() {
-    const snapshot = await db.collection('usuarios').get();
+    const snapshot = await getDocs(collection(db, 'usuarios'));
     const usuarios = [];
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      usuarios.push(new Usuario(doc.id, data.nome, data.email, data.funcao, data.permissao, data.usuario, data.senha));
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      usuarios.push(new Usuario(
+        docSnap.id,
+        data.nome,
+        data.email,
+        data.funcao,
+        data.permissao,
+        data.usuario,
+        data.senha
+      ));
     });
     return usuarios;
   }
 
   static async findByUsuario(usuario) {
-    const snapshot = await db.collection('usuarios').where('usuario', '==', usuario).get();
+    const q = query(collection(db, 'usuarios'), where('usuario', '==', usuario)); // Usando query
+    const snapshot = await getDocs(q);
     if (snapshot.empty) {
       return null;
     }
-    const doc = snapshot.docs[0];
-    const data = doc.data();
-    return new Usuario(doc.id, data.nome, data.email, data.funcao, data.permissao, data.usuario, data.senha);
+    const docSnap = snapshot.docs[0];
+    const data = docSnap.data();
+    return new Usuario(
+      docSnap.id,
+      data.nome,
+      data.email,
+      data.funcao,
+      data.permissao,
+      data.usuario,
+      data.senha
+    );
   }
 
+  // Função para enviar informações adicionais para o Firestore
+  static async infoAdicionais(usuario, observacoes) {
+    const docRef = doc(collection(db, 'infoAdicionais')); // Gera um novo ID automaticamente
+    const infoAdicionais = {
+      usuario,
+      ...observacoes, // Desestrutura as informações adicionais recebidas
+      createdAt: new Date(), // Adiciona um timestamp de criação
+    };
 
+    await setDoc(docRef, infoAdicionais); // Salva as informações adicionais no Firestore
+    return { id: docRef.id, ...infoAdicionais }; // Retorna o ID e os dados armazenados
+  }
 }
 
 export default Usuario;
