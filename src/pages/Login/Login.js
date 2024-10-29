@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { Link } from "react-router-dom";
-import logo from './StockMaster.png';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -39,13 +38,7 @@ function Login() {
 
   return (
     <div className="login-page">
-      <div className="welcome-section">
-        <img src={logo} alt="Logo" className="logo" />
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.
-        </p>
-      </div>
-      <div className="login-section">
+        <div className="login-section">
         <h2>Seja Bem Vindo!</h2>
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         {successMessage && <div className="success-message">{successMessage}</div>}
@@ -68,6 +61,19 @@ function Login() {
         {/* <button className="login-btn" onClick={handleLogin}>LOGIN</button> */}
         <Link className="login-btn" to="/home">LOGIN</Link>
       </div>
+      <div className="welcome-section">
+        <div className='containetTexts'>
+        <p className='MArcalogin'>
+         StockMaster
+        </p>
+        <p className='textlogin'>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.
+        </p>
+      </div>
+        </div>
+      
+       
+    
     </div>
   );
 }

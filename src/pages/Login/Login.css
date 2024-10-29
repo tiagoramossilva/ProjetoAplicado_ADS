@@ -13,45 +13,56 @@
     display: flex;
     height: 100vh;
 
-    background-color: #3b3b3b;
     color: white;
 
-    background-image: url('./wpp.png');
+    background-image: url('./StockMaster01.png');
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
   }
   
   .welcome-section {
-    background-color: #3b3b3b;
     color: white;
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Alinhamento à esquerda */
+    justify-content: flex-start; /* Alinhamento ao topo */
     padding: 40px;
-  }
+}
 
-  .logo {
-    width: 300px; 
-    height: auto;
-    margin-bottom: 20px; 
-  } 
+.containetTexts{
+  margin-top: 100px;
+  width: 50%;
+}
+
+.MArcalogin {
+    font-size: 45px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #898989;
+}
+
+.textlogin {
+    font-size: 16px;
+    color: #898989;
+
+}
+ 
   
   .welcome-section h1 {
     font-size: 36px;
     margin-bottom: 20px;
   }
   
-  .welcome-section p {
-    font-size: 20px;
-    text-align: center;
+  .textlogin {
+    font-size: 18px;
   }
   
 
   
   .login-section {
+    background-color: #000000;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -63,7 +74,7 @@
   .login-section h2 {
     font-size: 28px;
     margin-bottom: 20px;
-    color: #333;
+    color: #b9b9b9;
   }
   
   .input-container {
@@ -74,16 +85,18 @@
   
   input {
     width: 100%;
-    padding: 15px; 
-    border: 1px solid #ccc;
+    background: #000;
+    padding: 15px;
+    border: 2px solid #939393;
     border-radius: 10px;
     font-size: 18px;
-  }
+}
+  
   
   .login-btn {
     padding: 15px; 
-    background-color: #3b3b3b;
-    color: white;
+    background-color: #6b6b6b;
+    color: rgb(0, 0, 0);
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -95,5 +108,5 @@
   }
   
   .login-btn:hover {
-    background-color: #636363;
+    background-color: #838383;
   }
