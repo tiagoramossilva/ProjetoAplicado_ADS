@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import './Estoque.css';
 import { FiRefreshCcw } from "react-icons/fi";
 import { IoTrashBin, IoSearchOutline } from "react-icons/io5";
-import Estoque from '../../models/Estoque'; // Altere para o caminho correto
-import LocalArmazenamento from '../../models/LocalArmazenamento'; // Altere para o caminho correto
-import Projeto from '../../models/Projeto'; // Altere para o caminho correto
-import Produto from '../../models/Produto'; // Altere para o caminho correto
+import Estoque from '../../models/Estoque';
+import LocalArmazenamento from '../../models/LocalArmazenamento';
+import Projeto from '../../models/Projeto';
+import Produto from '../../models/Produto';
 
 function EstoquePage() {
     const navigate = useNavigate();
@@ -14,13 +14,12 @@ function EstoquePage() {
     const [locaisArmazenamento, setLocaisArmazenamento] = useState([]);
     const [projetos, setProjetos] = useState([]);
     const [produtos, setProdutos] = useState([]);
-    
+    const [combined, setCombined] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(12); // Número de itens por página
-
-    // Estado para o modal de atualização
-    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    const [itemsPerPage] = useState(12);
+    const [isEditing, setIsEditing] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
+    const [updatedData, setUpdatedData] = useState({}); // Armazena os dados atualizados
 
     const handleBackClick = () => {
         navigate('/home');
@@ -30,7 +29,6 @@ function EstoquePage() {
         navigate('/cadastrar-armazenamento');
     };
 
-    // Funções para buscar dados
     const fetchData = async () => {
         try {
             const [estoquesData, locaisArmazenamentoData, projetosData, produtosData] = await Promise.all([
@@ -39,10 +37,20 @@ function EstoquePage() {
                 Projeto.getAll(),
                 Produto.getAll(),
             ]);
+
             setEstoques(estoquesData);
             setLocaisArmazenamento(locaisArmazenamentoData);
             setProjetos(projetosData);
             setProdutos(produtosData);
+
+            const combinedData = [
+                ...estoquesData.map(item => ({ ...item, type: 'estoque' })),
+                ...locaisArmazenamentoData.map(item => ({ ...item, type: 'local' })),
+                ...projetosData.map(item => ({ ...item, type: 'projeto' })),
+                ...produtosData.map(item => ({ ...item, type: 'produto' })),
+            ];
+
+            setCombined(combinedData);
         } catch (error) {
             console.error('Erro ao buscar dados:', error);
         }
@@ -52,22 +60,34 @@ function EstoquePage() {
         fetchData();
     }, []);
 
-    // Lógica para paginar os estoques
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = estoques.slice(indexOfFirstItem, indexOfLastItem);
-    const totalPages = Math.ceil(estoques.length / itemsPerPage);
+    const currentItems = combined.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(combined.length / itemsPerPage);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
     // Função para deletar um item
-    const handleDelete = async (id) => {
+    const handleDelete = async (id, type) => {
         if (window.confirm("Tem certeza que deseja deletar este item?")) {
             try {
-                await Estoque.delete(id);
-                setEstoques(estoques.filter(item => item.id !== id));
+                if (type === 'estoque') {
+                    await Estoque.delete(id);
+                    setEstoques(estoques.filter(item => item.id !== id));
+                } else if (type === 'local') {
+                    await LocalArmazenamento.delete(id);
+                    setLocaisArmazenamento(locaisArmazenamento.filter(item => item.id !== id));
+                } else if (type === 'projeto') {
+                    await Projeto.delete(id);
+                    setProjetos(projetos.filter(item => item.id !== id));
+                } else if (type === 'produto') {
+                    await Produto.delete(id);
+                    setProdutos(produtos.filter(item => item.id !== id));
+                }
+
+                setCombined(combined.filter(item => item.id !== id || item.type !== type));
                 alert("Item deletado com sucesso!");
             } catch (error) {
                 console.error('Erro ao deletar item:', error);
@@ -75,20 +95,42 @@ function EstoquePage() {
         }
     };
 
-    // Função para abrir o modal de atualização
+    // Função para atualizar um item
     const handleUpdate = (item) => {
+        setIsEditing(true);
         setCurrentItem(item);
-        setIsUpdateModalOpen(true);
+        setUpdatedData({
+            nome: item.nome,
+            quantidade: item.quantidade,
+            tipo_unitario: item.tipo_unitario,
+            andar: item.andar,
+            sala: item.sala,
+            armario: item.armario,
+            nome_projeto: item.nome_projeto,
+        });
     };
 
-    // Função para enviar as atualizações
-    const handleUpdateSubmit = async (updatedItem) => {
+    const handleSaveUpdate = async () => {
         try {
-            await Estoque.update(updatedItem.id, updatedItem);
-            setEstoques(estoques.map(item => item.id === updatedItem.id ? updatedItem : item));
+            if (currentItem.type === 'estoque') {
+                await Estoque.update(currentItem.id, updatedData);
+                setEstoques(estoques.map(item => (item.id === currentItem.id ? { ...item, ...updatedData } : item)));
+            } else if (currentItem.type === 'local') {
+                await LocalArmazenamento.update(currentItem.id, updatedData);
+                setLocaisArmazenamento(locaisArmazenamento.map(item => (item.id === currentItem.id ? { ...item, ...updatedData } : item)));
+            } else if (currentItem.type === 'projeto') {
+                await Projeto.update(currentItem.id, updatedData);
+                setProjetos(projetos.map(item => (item.id === currentItem.id ? { ...item, ...updatedData } : item)));
+            } else if (currentItem.type === 'produto') {
+                await Produto.update(currentItem.id, updatedData);
+                setProdutos(produtos.map(item => (item.id === currentItem.id ? { ...item, ...updatedData } : item)));
+            }
+
+            setCombined(combined.map(item => (item.id === currentItem.id ? { ...item, ...updatedData } : item)));
             alert("Item atualizado com sucesso!");
-            setIsUpdateModalOpen(false);
+            setIsEditing(false);
             setCurrentItem(null);
+            setUpdatedData({});
         } catch (error) {
             console.error('Erro ao atualizar item:', error);
         }
@@ -97,7 +139,7 @@ function EstoquePage() {
     return (
         <div className="estoque-container">
             <h1 className="estoque-title">Estoque</h1>
-
+            
             <div className="search-bar">
                 <input className="search-input" type="text" placeholder="Item" />
                 <button className="search-button">
@@ -118,6 +160,23 @@ function EstoquePage() {
                 <input className="search-input" type="text" placeholder="Projeto" />
             </div>
 
+            {isEditing && (
+                <div className="edit-container">
+                    <h2>Atualizar Item</h2>
+                    {Object.keys(updatedData).map((key) => (
+                        <input
+                            key={key}
+                            type="text"
+                            placeholder={key}
+                            value={updatedData[key]}
+                            onChange={(e) => setUpdatedData({ ...updatedData, [key]: e.target.value })}
+                        />
+                    ))}
+                    <button onClick={handleSaveUpdate}>Salvar Atualização</button>
+                    <button onClick={() => setIsEditing(false)}>Cancelar</button>
+                </div>
+            )}
+
             <table className="estoque-table">
                 <thead>
                     <tr className="table-header-row">
@@ -132,74 +191,43 @@ function EstoquePage() {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentItems.map((item) => {
-                        const produto = produtos.find(prod => prod.id === item.produtoId);
-                        const local = locaisArmazenamento.find(loc => loc.id === item.localId);
-                        const projeto = projetos.find(proj => proj.id === item.projetoId);
-
-                        return (
-                            <tr className="table-row" key={item.id}>
-                                <td className="table-data">{produto ? produto.nome : 'N/A'}</td>
-                                <td className="table-data">{item.quantidade}</td>
-                                <td className="table-data">{item.tipo_unitario}</td>
-                                <td className="table-data">{local ? local.andar : 'N/A'}</td>
-                                <td className="table-data">{local ? local.sala : 'N/A'}</td>
-                                <td className="table-data">{local ? local.armario : 'N/A'}</td>
-                                <td className="table-data">{projeto ? projeto.nome_projeto : 'N/A'}</td>
-                                <td className="table-actions">
-                                    <button className="action-button update-button" onClick={() => handleUpdate(item)}>
-                                        <FiRefreshCcw />
-                                    </button>
-                                    <button className="action-button delete-button" onClick={() => handleDelete(item.id)}>
-                                        <IoTrashBin />
-                                    </button>
-                                </td>
-                            </tr>
-                        );
-                    })}
+                    {currentItems.map((item) => (
+                        <tr className="table-row" key={`${item.id}-${item.type}`}>
+                            <td className="table-data">{item.nome || 'N/A'}</td>
+                            <td className="table-data">{item.quantidade || 'N/A'}</td>
+                            <td className="table-data">{item.tipo_unitario || 'N/A'}</td>
+                            <td className="table-data">{item.andar || 'N/A'}</td>
+                            <td className="table-data">{item.sala || 'N/A'}</td>
+                            <td className="table-data">{item.armario || 'N/A'}</td>
+                            <td className="table-data">{item.nome_projeto || 'N/A'}</td>
+                            <td className="table-actions">
+                                <button className="action-button update-button" onClick={() => handleUpdate(item)}>
+                                    <FiRefreshCcw />
+                                </button>
+                                <button className="action-button delete-button" onClick={() => handleDelete(item.id, item.type)}>
+                                    <IoTrashBin />
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
 
             <div className="pagination">
-                {[...Array(totalPages)].map((_, index) => (
+                {Array.from({ length: totalPages }, (_, index) => (
                     <button
-                        key={index}
-                        className={`pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
+                        key={index + 1}
                         onClick={() => handlePageChange(index + 1)}
+                        className={`pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
                     >
                         {index + 1}
                     </button>
                 ))}
             </div>
 
-            <div className="button-container">
-                <button className="estoque-button" onClick={handleCadastrarArmazenamentoClick}>Cadastrar local de armazenamento</button>
-                <button className="estoque-button">Cadastrar Item</button>
-                <button className="estoque-button" onClick={handleBackClick}>Voltar</button>
-            </div>
-
-            {/* Modal de Atualização */}
-            {isUpdateModalOpen && (
-                <div className="update-modal">
-                    <h2>Atualizar Item</h2>
-                    <form onSubmit={(e) => {
-                        e.preventDefault();
-                        handleUpdateSubmit(currentItem); // Envie os dados atualizados
-                    }}>
-                        <label>
-                            Quantidade:
-                            <input type="number" value={currentItem.quantidade} onChange={(e) => setCurrentItem({ ...currentItem, quantidade: e.target.value })} />
-                        </label>
-                        <label>
-                            Tipo Unitário:
-                            <input type="text" value={currentItem.tipo_unitario} onChange={(e) => setCurrentItem({ ...currentItem, tipo_unitario: e.target.value })} />
-                        </label>
-                        {/* Adicione mais campos conforme necessário */}
-                        <button type="submit">Salvar</button>
-                        <button type="button" onClick={() => setIsUpdateModalOpen(false)}>Fechar</button>
-                    </form>
-                </div>
-            )}
+            <button className="add-storage-button" onClick={handleCadastrarArmazenamentoClick}>Cadastrar Local de Armazenamento</button>
+            <button className="add-item-button" onClick={() => navigate('/cadastrar-item')}>Cadastrar Item</button>
+            <button className="back-button" onClick={handleBackClick}>Voltar</button>
         </div>
     );
 }
