@@ -19,7 +19,7 @@ function EstoquePage() {
     const [itemsPerPage] = useState(12);
     const [isEditing, setIsEditing] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
-    const [updatedData, setUpdatedData] = useState({}); // Armazena os dados atualizados
+    const [updatedData, setUpdatedData] = useState({}); 
 
     const handleBackClick = () => {
         navigate('/home');
@@ -69,7 +69,6 @@ function EstoquePage() {
         setCurrentPage(pageNumber);
     };
 
-    // Função para deletar um item
     const handleDelete = async (id, type) => {
         if (window.confirm("Tem certeza que deseja deletar este item?")) {
             try {
@@ -95,7 +94,6 @@ function EstoquePage() {
         }
     };
 
-    // Função para atualizar um item
     const handleUpdate = (item) => {
         setIsEditing(true);
         setCurrentItem(item);

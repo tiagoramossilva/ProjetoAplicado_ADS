@@ -13,9 +13,9 @@ class Usuario {
   }
 
   static async create(usuarioData) {
-    const docRef = doc(collection(db, 'usuarios')); // Gera um novo ID automaticamente
-    await setDoc(docRef, { ...usuarioData, id: docRef.id }); // Salva o usuário no Firestore
-    return { id: docRef.id, ...usuarioData }; // Retorna o ID e os dados armazenados
+    const docRef = doc(collection(db, 'usuarios')); 
+    await setDoc(docRef, { ...usuarioData, id: docRef.id }); 
+    return { id: docRef.id, ...usuarioData }; 
   }
 
   static async getById(id) {

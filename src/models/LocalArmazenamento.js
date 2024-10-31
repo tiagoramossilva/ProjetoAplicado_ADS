@@ -10,9 +10,9 @@ class LocalArmazenamento {
   }
 
   static async create(localData) {
-    const docRef = doc(collection(db, 'locaisArmazenamento')); // Cria referência para um novo documento
-    await setDoc(docRef, { ...localData, id: docRef.id }); // Salva os dados do local de armazenamento
-    return { id: docRef.id, ...localData }; // Retorna os dados com o novo ID
+    const docRef = doc(collection(db, 'locaisArmazenamento')); 
+    await setDoc(docRef, { ...localData, id: docRef.id }); 
+    return { id: docRef.id, ...localData }; 
   }
 
   static async getById(id) {

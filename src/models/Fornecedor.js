@@ -1,4 +1,3 @@
-// src/models/Fornecedor.js
 import { db } from '../config/firebase';
 import { setDoc, doc, getDoc, updateDoc, deleteDoc, getDocs, collection } from 'firebase/firestore';
 
@@ -17,9 +16,9 @@ class Fornecedor {
   }
 
   static async create(fornecedorData) {
-    const docRef = doc(collection(db, 'fornecedores')); // Gera automaticamente um ID único
-    await setDoc(docRef, { ...fornecedorData, id: docRef.id }); // Usa setDoc para salvar os dados
-    return new Fornecedor(docRef.id, ...Object.values(fornecedorData)); // Retorna uma nova instância
+    const docRef = doc(collection(db, 'fornecedores')); 
+    await setDoc(docRef, { ...fornecedorData, id: docRef.id }); 
+    return new Fornecedor(docRef.id, ...Object.values(fornecedorData)); 
   }
 
   static async getById(id) {
@@ -36,7 +35,7 @@ class Fornecedor {
   static async update(id, updateData) {
     const docRef = doc(db, 'fornecedores', id);
     await updateDoc(docRef, updateData);
-    return await this.getById(id); // Retorna o fornecedor atualizado
+    return await this.getById(id); 
   }
 
   static async delete(id) {
@@ -56,4 +55,4 @@ class Fornecedor {
   }
 }
 
-export default Fornecedor; // Exporta a classe como padrão
+export default Fornecedor; 

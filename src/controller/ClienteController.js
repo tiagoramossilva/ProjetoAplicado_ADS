@@ -1,7 +1,6 @@
 const Cliente = require('../models/Cliente'); // Ajuste o caminho conforme necessário
 
 class ClienteController {
-  // Criar um novo cliente
   static async create(req, res) {
     try {
       const clienteData = req.body;
@@ -12,7 +11,6 @@ class ClienteController {
     }
   }
 
-  // Obter um cliente por ID
   static async getById(req, res) {
     try {
       const { id } = req.params;
@@ -23,7 +21,6 @@ class ClienteController {
     }
   }
 
-  // Atualizar um cliente
   static async update(req, res) {
     try {
       const { id } = req.params;
@@ -35,7 +32,6 @@ class ClienteController {
     }
   }
 
-  // Deletar um cliente
   static async delete(req, res) {
     try {
       const { id } = req.params;
@@ -46,7 +42,6 @@ class ClienteController {
     }
   }
 
-  // Obter todos os clientes
   static async getAll(req, res) {
     try {
       const clientes = await Cliente.getAll();

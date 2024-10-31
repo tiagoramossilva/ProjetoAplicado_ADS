@@ -1,16 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './HistoricoCompras.css';
 import { useNavigate } from 'react-router-dom';
 import { FiRefreshCcw } from "react-icons/fi";
-import { IoTrashBin} from "react-icons/io5";
+import { IoTrashBin } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
+import Fornecedor from '../../models/Fornecedor'; 
+import Projeto from '../../models/Projeto'; 
+import Compra from '../../models/Compra'; 
 
 function HistoricoCompras() {
   const navigate = useNavigate();
+  const [combinedData, setCombinedData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const handleBackClick = () => {
     navigate('/home');
   };
+
+  const fetchData = async () => {
+    try {
+      const [fornecedorData, projetoData, compraData] = await Promise.all([
+        Fornecedor.getAll(),
+        Projeto.getAll(),
+        Compra.getAll(),
+      ]);
+
+      const combined = [
+        ...fornecedorData.map(item => ({ ...item, type: 'fornecedor' })),
+        ...compraData.map(item => ({ ...item, type: 'compra' })),
+        ...projetoData.map(item => ({ ...item, type: 'projeto' })),
+      ];
+
+      setCombinedData(combined);
+    } catch (error) {
+      console.error("Erro ao buscar dados:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = combinedData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(combinedData.length / itemsPerPage);
 
   return (
     <div className="historico-container">
@@ -31,24 +66,22 @@ function HistoricoCompras() {
       <table className="historico-table">
         <thead>
           <tr className="table-header-row">
-            <th className="table-header">Código</th>
             <th className="table-header">Fornecedor</th>
             <th className="table-header">Data da Compra</th>
             <th className="table-header">Valor Total</th>
             <th className="table-header">Projeto</th>
-            <th className="table-header">GP</th>
+            <th className="table-header">Gerente de Projeto</th>
             <th className="table-header">Ações</th>
           </tr>
         </thead>
         <tbody>
-          {[...Array(10)].map((_, index) => (
-            <tr className="table-row" key={index}>
-              <td className="table-data">{index + 1}</td>
-              <td className="table-data">Fornecedor {index + 1}</td>
-              <td className="table-data">01/10/2024</td>
-              <td className="table-data">R$ 1000</td>
-              <td className="table-data">Projeto {index + 1}</td>
-              <td className="table-data">GP {index + 1}</td>
+          {currentItems.map((item) => (
+            <tr className="table-row" key={`${item.id}-${item.type}`}>
+              <td className="table-data">{item.razao_social || 'N/A'}</td> 
+              <td className="table-data">{item.dataCompra || 'N/A'}</td>
+              <td className="table-data">R$ {item.valorTotal ? item.valorTotal.toFixed(2) : 'N/A'}</td>
+              <td className="table-data">{item.nome_projeto || 'N/A'}</td>
+              <td className="table-data">{item.gerente_projeto || 'N/A'}</td>
               <td className="table-actions">
                 <button className="action-button edit-button">
                   <FaEdit />
@@ -65,10 +98,17 @@ function HistoricoCompras() {
         </tbody>
       </table>
 
+      {/* Paginação */}
+      <div className="pagination">
+        <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}>Anterior</button>
+        <span>Página {currentPage} de {totalPages}</span>
+        <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}>Próxima</button>
+      </div>
+
       <div className="button-container">
         <button className="historico-button">Cadastrar projeto</button>
         <button className="historico-button">Cadastrar fornecedor</button>
-        <button className="historico-button voltar-button"onClick={handleBackClick} >Voltar</button>
+        <button className="historico-button voltar-button" onClick={handleBackClick}>Voltar</button>
       </div>
     </div>
   );

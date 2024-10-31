@@ -11,9 +11,9 @@ class Produto {
   }
 
   static async create(produtoData) {
-    const docRef = doc(collection(db, 'produtos')); // Cria referência para um novo documento
-    await setDoc(docRef, { ...produtoData, id: docRef.id }); // Salva os dados do produto
-    return { id: docRef.id, ...produtoData }; // Retorna os dados com o novo ID
+    const docRef = doc(collection(db, 'produtos')); 
+    await setDoc(docRef, { ...produtoData, id: docRef.id }); 
+    return { id: docRef.id, ...produtoData }; 
   }
 
   static async getById(id) {

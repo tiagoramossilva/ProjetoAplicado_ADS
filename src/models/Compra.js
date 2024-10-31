@@ -1,4 +1,3 @@
-// src/models/Compra.js
 import { db } from "../config/firebase";
 import {
   setDoc,

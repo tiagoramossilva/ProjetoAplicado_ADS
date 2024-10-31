@@ -9,9 +9,9 @@ class Estoque {
   }
 
   static async create(estoqueData) {
-    const docRef = doc(collection(db, 'estoques')); // Cria referência para um novo documento
-    await setDoc(docRef, { ...estoqueData, id: docRef.id }); // Salva os dados do estoque
-    return { id: docRef.id, ...estoqueData }; // Retorna os dados com o novo ID
+    const docRef = doc(collection(db, 'estoques')); 
+    await setDoc(docRef, { ...estoqueData, id: docRef.id }); 
+    return { id: docRef.id, ...estoqueData }; 
   }
 
   static async getById(id) {

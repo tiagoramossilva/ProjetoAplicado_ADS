@@ -16,9 +16,9 @@ class Cliente {
   }
 
   static async create(clienteData) {
-    const docRef = doc(collection(db, 'clientes')); // Cria referência para um novo documento
-    await setDoc(docRef, { ...clienteData, id: docRef.id }); // Salva os dados do cliente
-    return { id: docRef.id, ...clienteData }; // Retorna os dados com o novo ID
+    const docRef = doc(collection(db, 'clientes'));
+    await setDoc(docRef, { ...clienteData, id: docRef.id }); 
+    return { id: docRef.id, ...clienteData }; 
   }
 
   static async getById(id) {

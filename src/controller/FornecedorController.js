@@ -1,7 +1,6 @@
 const Fornecedor = require('../models/Fornecedor'); // Ajuste o caminho conforme necessário
 
 class FornecedorController {
-  // Criar um novo fornecedor
   static async create(req, res) {
     try {
       const fornecedorData = req.body;
@@ -12,7 +11,6 @@ class FornecedorController {
     }
   }
 
-  // Obter um fornecedor por ID
   static async getById(req, res) {
     try {
       const { id } = req.params;
@@ -23,7 +21,6 @@ class FornecedorController {
     }
   }
 
-  // Atualizar um fornecedor
   static async update(req, res) {
     try {
       const { id } = req.params;
@@ -35,7 +32,6 @@ class FornecedorController {
     }
   }
 
-  // Deletar um fornecedor
   static async delete(req, res) {
     try {
       const { id } = req.params;
@@ -46,7 +42,6 @@ class FornecedorController {
     }
   }
 
-  // Obter todos os fornecedores
   static async getAll(req, res) {
     try {
       const fornecedores = await Fornecedor.getAll();
