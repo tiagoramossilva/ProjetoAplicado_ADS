@@ -402,13 +402,17 @@ function CadastroCompra() {
             </div>
           </fieldset>
         ))}
-
-        <button type="button" onClick={handleAddProduct}>
+        <div className="containerButtonCadastro">  
+          <button type="button" onClick={handleAddProduct} className="btnCadastroCompraadd">
           Adicionar Produto
         </button>
-        <button type="button" onClick={handleRemoveProduct}>
+        <button type="button" onClick={handleRemoveProduct} className="btnCadastroCompra">
           Remover Produto
         </button>
+
+        </div>
+
+      
 
         {/* Informações do projeto e adicionais */}
         <fieldset className="form-section">
@@ -459,10 +463,14 @@ function CadastroCompra() {
           </div>
         </fieldset>
 
-        <button type="submit">Cadastrar Compra</button>
-        <button type="button" onClick={handleCancel}>
+        <div className="containerButtonCadastro2">
+        <button type="submit" className="btnCadastroCompraadd">Cadastrar Compra</button>
+        <button type="button" onClick={handleCancel}className="btnCadastroCompra">
           Cancelar
         </button>
+
+        </div>
+       
       </form>
     </div>
   );

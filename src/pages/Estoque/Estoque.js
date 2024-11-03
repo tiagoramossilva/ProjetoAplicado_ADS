@@ -212,20 +212,41 @@ function EstoquePage() {
             </table>
 
             <div className="pagination">
-                {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                        key={index + 1}
-                        onClick={() => handlePageChange(index + 1)}
-                        className={`pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
-            </div>
-
-            <button className="add-storage-button" onClick={handleCadastrarArmazenamentoClick}>Cadastrar Local de Armazenamento</button>
-            <button className="add-item-button" onClick={() => navigate('/cadastrar-item')}>Cadastrar Item</button>
-            <button className="back-button" onClick={handleBackClick}>Voltar</button>
+    <button
+        onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+        disabled={currentPage === 1}
+        className="pagination-arrow"
+    >
+        &lt;
+    </button>
+    {Array.from({ length: totalPages }, (_, index) => index + 1)
+        .filter(page =>
+            (page >= currentPage - 2 && page <= currentPage + 2) || 
+            (currentPage <= 3 && page <= 5) || 
+            (currentPage >= totalPages - 2 && page > totalPages - 5)
+        )
+        .map(page => (
+            <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`pagination-button ${currentPage === page ? 'active' : ''}`}
+            >
+                {page}
+            </button>
+        ))}
+    <button
+        onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
+        disabled={currentPage === totalPages}
+        className="pagination-arrow"
+    >
+        &gt;
+    </button>
+</div>
+<div className="containerButtonCadastroEstoque">
+            <button className="btnCadastroCompraadd" onClick={handleCadastrarArmazenamentoClick}>Cadastrar Local de Armazenamento</button>
+            <button className="btnCadastroCompraadd" onClick={() => navigate('/cadastrar-item')}>Cadastrar Item</button>
+            <button className="btnCadastroCompra" onClick={handleBackClick}>Voltar</button>
+</div>       
         </div>
     );
 }

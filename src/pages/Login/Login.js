@@ -43,7 +43,7 @@ function Login() {
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         {successMessage && <div className="success-message">{successMessage}</div>}
         <div className="input-container">
-          <input
+          <input className='InputLogin'
             type="email"
             placeholder="E-mail"
             value={email}
@@ -51,7 +51,7 @@ function Login() {
           />
         </div>
         <div className="input-container">
-          <input
+          <input className='InputLogin'
             type="password"
             placeholder="Senha"
             value={password}

@@ -59,7 +59,7 @@ input[type="number"] {
   gap: 10px;
 }
 
-button {
+.btnCadastroCompra {
   padding: 10px 15px;
   background-color: #3b3b3b;
   color: white;
@@ -67,11 +67,37 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
-
-button[type="button"] {
-  background-color: #dc3545;
+.btnCadastroCompraadd {
+  padding: 10px 15px;
+  background-color: #369857;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.pagination-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
+/* button[type="button"] {
+  background-color: #dc3545;
+} */
+
+.containerButtonCadastro{
+  display: flex;
+    width: 36%;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.containerButtonCadastro2{
+  display: flex;
+    width: 30%;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
 button:hover {
   opacity: 0.8;
 }
