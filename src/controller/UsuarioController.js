@@ -1,102 +1,86 @@
-const Usuario = require('../models/Usuario');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-class UsuarioController {
-  async create(req, res) {
+const usuarioController = {
+  create: async (req, res) => {
     try {
-      const { nome, email, funcao, permissao, usuario, senha } = req.body;
-
-      const existingUser = await Usuario.findByUsuario(usuario);
-      if (existingUser) {
-        return res.status(400).json({ error: 'Usuário já existe.' });
-      }
-
-      const existingEmail = await Usuario.findByEmail(email);
-      if (existingEmail) {
-        return res.status(400).json({ error: 'Email já está em uso.' });
-      }
-
-      const salt = await bcrypt.genSalt(10);
-      const hashedSenha = await bcrypt.hash(senha, salt);
-
-      const usuarioData = {
-        nome,
-        email,
-        funcao,
-        permissao,
-        usuario,
-        senha: hashedSenha
-      };
-
-      const novoUsuario = await Usuario.create(usuarioData);
-      res.status(201).json(novoUsuario);
+      const { nome, email, funcao, admin, usuario, senha } = req.body;
+      const usuarioCriado = await prisma.usuario.create({
+        data: { nome, email, funcao, admin, usuario, senha },
+      });
+      res.status(201).json(usuarioCriado);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error: 'Erro ao criar usuário' });
     }
-  }
+  },
 
-  async login(req, res) {
+  getAll: async (req, res) => {
     try {
-      const { usuario, senha } = req.body;
-
-      const usuarioObj = await Usuario.findByUsuario(usuario);
-      if (!usuarioObj) {
-        return res.status(400).json({ error: 'Usuário ou senha inválidos.' });
-      }
-
-      const isMatch = await bcrypt.compare(senha, usuarioObj.senha);
-      if (!isMatch) {
-        return res.status(400).json({ error: 'Usuário ou senha inválidos.' });
-      }
-
-      const token = jwt.sign(
-        { id: usuarioObj.id, nome: usuarioObj.nome },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-      );
-
-      res.status(200).json({ token });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-
-  async getById(req, res) {
-    try {
-      const usuario = await Usuario.getById(req.params.id);
-      res.status(200).json(usuario);
-    } catch (error) {
-      res.status(404).json({ error: error.message });
-    }
-  }
-
-  async update(req, res) {
-    try {
-      const usuario = await Usuario.update(req.params.id, req.body);
-      res.status(200).json(usuario);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-
-  async delete(req, res) {
-    try {
-      const response = await Usuario.delete(req.params.id);
-      res.status(200).json(response);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-
-  async getAll(req, res) {
-    try {
-      const usuarios = await Usuario.getAll();
+      const usuarios = await prisma.usuario.findMany();
       res.status(200).json(usuarios);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error: 'Erro ao buscar usuários' });
     }
-  }
-}
+  },
 
-module.exports = new UsuarioController();
+  getById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const usuario = await prisma.usuario.findUnique({ where: { id: Number(id) } });
+      if (!usuario) {
+        return res.status(404).json({ error: 'Usuário não encontrado' });
+      }
+      res.status(200).json(usuario);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao buscar usuário' });
+    }
+  },
+
+  update: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { nome, email, funcao, admin, usuario, senha } = req.body;
+      const usuarioAtualizado = await prisma.usuario.update({
+        where: { id: Number(id) },
+        data: { nome, email, funcao, admin, usuario, senha },
+      });
+      res.status(200).json(usuarioAtualizado);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao atualizar usuário' });
+    }
+  },
+
+  delete: async (req, res) => {
+    try {
+      const { id } = req.params;
+      await prisma.usuario.delete({ where: { id: Number(id) } });
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao deletar usuário' });
+    }
+  },
+
+  info_adicionais: async (req, res) => {
+    try {
+      const { id } = req.params; // O ID do usuário é passado como parâmetro
+      const { observacoes, usuario } = req.body; // Informações adicionais do corpo da requisição
+
+      // Atualiza as informações adicionais do usuário
+      const usuarioAtualizado = await prisma.usuario.update({
+        where: { id: Number(id) },
+        data: {
+          adicionais: { // Supondo que você tenha um campo 'adicionais' no seu modelo
+            observacoes: observacoes || undefined, // Mantém o valor antigo se não houver novo
+            usuario: usuario || undefined,
+          },
+        },
+      });
+
+      res.status(200).json({ message: 'Informações adicionais atualizadas com sucesso', usuario: usuarioAtualizado });
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao atualizar informações adicionais do usuário' });
+    }
+  },
+};
+
+module.exports = usuarioController;

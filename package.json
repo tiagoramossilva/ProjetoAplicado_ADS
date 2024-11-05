@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@prisma/client": "^5.21.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -19,6 +20,7 @@
     "node-polyfill-webpack-plugin": "^4.0.0",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
+    "prisma": "^5.21.1",
     "process": "^0.11.10",
     "querystring-es3": "^0.2.1",
     "react": "^18.3.1",
@@ -34,6 +36,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "seed": "node prisma/seed.js",
     "eslint": "eslint .",
     "start": "react-app-rewired start",
     "build": "react-scripts build",

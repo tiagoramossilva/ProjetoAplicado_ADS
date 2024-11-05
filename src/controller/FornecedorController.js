@@ -1,55 +1,75 @@
-const Fornecedor = require('../models/Fornecedor'); // Ajuste o caminho conforme necessário
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-class FornecedorController {
-  static async create(req, res) {
+const fornecedorController = {
+  create: async (req, res) => {
     try {
-      const fornecedorData = req.body;
-      const novoFornecedor = await Fornecedor.create(fornecedorData);
-      return res.status(201).json(novoFornecedor);
+      const { razao_social_fornecedor } = req.body;
+      const novoFornecedor = await prisma.fornecedor.create({
+        data: {
+          razao_social_fornecedor,
+        },
+      });
+      res.status(201).json(novoFornecedor);
     } catch (error) {
-      return res.status(400).json({ message: error.message });
+      res.status(500).json({ error: 'Erro ao criar fornecedor' });
     }
-  }
+  },
 
-  static async getById(req, res) {
+  getAll: async (req, res) => {
     try {
-      const { id } = req.params;
-      const fornecedor = await Fornecedor.getById(id);
-      return res.status(200).json(fornecedor);
+      const fornecedores = await prisma.fornecedor.findMany({
+        include: {
+          razao_social: true,
+          compras: true,
+        },
+      });
+      res.status(200).json(fornecedores);
     } catch (error) {
-      return res.status(404).json({ message: error.message });
+      res.status(500).json({ error: 'Erro ao buscar fornecedores' });
     }
-  }
+  },
 
-  static async update(req, res) {
-    try {
-      const { id } = req.params;
-      const updateData = req.body;
-      const fornecedorAtualizado = await Fornecedor.update(id, updateData);
-      return res.status(200).json(fornecedorAtualizado);
-    } catch (error) {
-      return res.status(400).json({ message: error.message });
-    }
-  }
-
-  static async delete(req, res) {
+  getById: async (req, res) => {
     try {
       const { id } = req.params;
-      const response = await Fornecedor.delete(id);
-      return res.status(200).json(response);
+      const fornecedor = await prisma.fornecedor.findUnique({
+        where: { id: Number(id) },
+        include: {
+          razao_social: true,
+          compras: true,
+        },
+      });
+      if (!fornecedor) return res.status(404).json({ error: 'Fornecedor não encontrado' });
+      res.status(200).json(fornecedor);
     } catch (error) {
-      return res.status(404).json({ message: error.message });
+      res.status(500).json({ error: 'Erro ao buscar fornecedor' });
     }
-  }
+  },
 
-  static async getAll(req, res) {
+  update: async (req, res) => {
     try {
-      const fornecedores = await Fornecedor.getAll();
-      return res.status(200).json(fornecedores);
+      const { id } = req.params;
+      const { razao_social_fornecedor } = req.body;
+      const fornecedorAtualizado = await prisma.fornecedor.update({
+        where: { id: Number(id) },
+        data: { razao_social_fornecedor },
+      });
+      res.status(200).json(fornecedorAtualizado);
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      res.status(500).json({ error: 'Erro ao atualizar fornecedor' });
     }
-  }
-}
+  },
 
-module.exports = FornecedorController;
+  delete: async (req, res) => {
+    try {
+      const { id } = req.params;
+      await prisma.fornecedor.delete({ where: { id: Number(id) } });
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao deletar fornecedor' });
+    }
+  },
+};
+
+module.exports = fornecedorController;

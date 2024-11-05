@@ -1,51 +1,64 @@
-const Produto = require('../models/Produto');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-class ProdutoController {
-  static async create(req, res) {
+const produtoController = {
+  create: async (req, res) => {
     try {
-      const produtoData = req.body; 
-      const novoProduto = await Produto.create(produtoData);
-      res.status(201).json(novoProduto);
+      const { nome, numero_serie, fabricante, descricao } = req.body;
+      const produtoCriado = await prisma.produto.create({
+        data: { nome, numero_serie, fabricante, descricao },
+      });
+      res.status(201).json(produtoCriado);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      res.status(500).json({ error: 'Erro ao criar produto' });
     }
-  }
+  },
 
-  static async getById(req, res) {
+  getAll: async (req, res) => {
     try {
-      const produto = await Produto.getById(req.params.id);
-      res.status(200).json(produto);
-    } catch (error) {
-      res.status(404).json({ error: error.message });
-    }
-  }
-
-  static async update(req, res) {
-    try {
-      const updatedProduto = await Produto.update(req.params.id, req.body);
-      res.status(200).json(updatedProduto);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
-  }
-
-  static async delete(req, res) {
-    try {
-      const result = await Produto.delete(req.params.id);
-      res.status(200).json(result);
-    } catch (error) {
-      res.status(404).json({ error: error.message });
-    }
-  }
-
-  static async getAll(req, res) {
-    try {
-      const produtos = await Produto.getAll();
+      const produtos = await prisma.produto.findMany();
       res.status(200).json(produtos);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error: 'Erro ao buscar produtos' });
     }
-  }
-}
+  },
 
-module.exports = ProdutoController;
+  getById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const produto = await prisma.produto.findUnique({ where: { id: Number(id) } });
+      if (!produto) {
+        return res.status(404).json({ error: 'Produto não encontrado' });
+      }
+      res.status(200).json(produto);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao buscar produto' });
+    }
+  },
+
+  update: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { nome, numero_serie, fabricante, descricao } = req.body;
+      const produtoAtualizado = await prisma.produto.update({
+        where: { id: Number(id) },
+        data: { nome, numero_serie, fabricante, descricao },
+      });
+      res.status(200).json(produtoAtualizado);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao atualizar produto' });
+    }
+  },
+
+  delete: async (req, res) => {
+    try {
+      const { id } = req.params;
+      await prisma.produto.delete({ where: { id: Number(id) } });
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao deletar produto' });
+    }
+  },
+};
+
+module.exports = produtoController;

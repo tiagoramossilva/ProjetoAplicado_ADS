@@ -1,51 +1,87 @@
-const Estoque = require('../models/Estoque');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-class EstoqueController {
-  static async create(req, res) {
+const estoqueController = {
+  create: async (req, res) => {
     try {
-      const estoqueData = req.body;
-      const novoEstoque = await Estoque.create(estoqueData);
+      const { quantidade, tipo_unitario, produto_id, projeto_id, local_armazenamento_id } = req.body;
+      const novoEstoque = await prisma.estoque.create({
+        data: {
+          quantidade,
+          tipo_unitario,
+          produto: { connect: { id: produto_id } },
+          projeto: { connect: { id: projeto_id } },
+          local_armazenamento: { connect: { id: local_armazenamento_id } },
+        },
+      });
       res.status(201).json(novoEstoque);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      res.status(500).json({ error: 'Erro ao criar estoque' });
     }
-  }
+  },
 
-  static async getById(req, res) {
+  getAll: async (req, res) => {
     try {
-      const estoque = await Estoque.getById(req.params.id);
-      res.status(200).json(estoque);
-    } catch (error) {
-      res.status(404).json({ error: error.message });
-    }
-  }
-
-  static async update(req, res) {
-    try {
-      const estoqueAtualizado = await Estoque.update(req.params.id, req.body);
-      res.status(200).json(estoqueAtualizado);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
-  }
-
-  static async delete(req, res) {
-    try {
-      const response = await Estoque.delete(req.params.id);
-      res.status(200).json(response);
-    } catch (error) {
-      res.status(404).json({ error: error.message });
-    }
-  }
-
-  static async getAll(req, res) {
-    try {
-      const estoques = await Estoque.getAll();
+      const estoques = await prisma.estoque.findMany({
+        include: {
+          produto: true,
+          projeto: true,
+          local_armazenamento: true,
+        },
+      });
       res.status(200).json(estoques);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error: 'Erro ao buscar estoques' });
     }
-  }
-}
+  },
 
-module.exports = EstoqueController;
+  getById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const estoque = await prisma.estoque.findUnique({
+        where: { id: Number(id) },
+        include: {
+          produto: true,
+          projeto: true,
+          local_armazenamento: true,
+        },
+      });
+      if (!estoque) return res.status(404).json({ error: 'Estoque não encontrado' });
+      res.status(200).json(estoque);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao buscar estoque' });
+    }
+  },
+
+  update: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { quantidade, tipo_unitario, produto_id, projeto_id, local_armazenamento_id } = req.body;
+      const estoqueAtualizado = await prisma.estoque.update({
+        where: { id: Number(id) },
+        data: {
+          quantidade,
+          tipo_unitario,
+          produto: { connect: { id: produto_id } },
+          projeto: { connect: { id: projeto_id } },
+          local_armazenamento: { connect: { id: local_armazenamento_id } },
+        },
+      });
+      res.status(200).json(estoqueAtualizado);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao atualizar estoque' });
+    }
+  },
+
+  delete: async (req, res) => {
+    try {
+      const { id } = req.params;
+      await prisma.estoque.delete({ where: { id: Number(id) } });
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao deletar estoque' });
+    }
+  },
+};
+
+module.exports = estoqueController;

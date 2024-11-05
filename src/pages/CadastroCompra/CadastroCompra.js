@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import "./CadastroCompra.css";
 import { useNavigate } from "react-router-dom";
-import Fornecedor from "../../models/Fornecedor"; // Ajuste a importação para usar a nova sintaxe
-import Cliente from "../../models/Cliente"; // Faça o mesmo para Cliente e outros modelos
-import Produto from "../../models/Produto";
-import Estoque from "../../models/Estoque";
-import LocalArmazenamento from "../../models/LocalArmazenamento";
-import Compra from "../../models/Compra";
-import Usuario from "../../models/Usuario";
-import Projeto from "../../models/Projeto";
+import FornecedorController from "../../controller/FornecedorController";
+import ClienteController from "../../controller/ClienteController";
+import ProdutoController from "../../controller/ProdutoController";
+import EstoqueController from "../../controller/EstoqueController";
+import LocalArmazenamentoController from "../../controller/LocalArmazenamentoController";
+import CompraController from "../../controller/CompraController";
+import UsuarioController from "../../controller/UsuarioController";
+import ProjetoController from "../../controller/ProjetoController";
+import RazaoSocialController from "../../controller/RazaoSocialController";
 
 function CadastroCompra() {
   const navigate = useNavigate();
@@ -28,27 +29,31 @@ function CadastroCompra() {
   ]);
 
   const [formData, setFormData] = useState({
-    fornecedor: {
-      razao_social: "",
-      cnpj: "",
-      inscricao_estadual: "",
-      endereco: "",
-      municipio: "",
-      cep: "",
-      bairro: "",
-      uf: "",
-      telefone: "",
-    },
     cliente: {
-      razao_social: "",
-      cnpj: "",
-      inscricao_estadual: "",
-      endereco: "",
-      municipio: "",
-      cep: "",
-      bairro: "",
-      uf: "",
-      telefone: "",
+      razao_social_cliente: "",
+      razao_social: {
+        CNPJ: "",
+        inscricao_estadual: "",
+        endereco: "",
+        bairro: "",
+        CEP: "",
+        municipio: "",
+        UF: "",
+        telefone: "",
+      },
+    },
+    fornecedor: {
+      razao_social_fornecedor: "",
+      razao_social: {
+        CNPJ: "",
+        inscricao_estadual: "",
+        endereco: "",
+        bairro: "",
+        CEP: "",
+        municipio: "",
+        UF: "",
+        telefone: "",
+      },
     },
     compra: {
       data_compra: "",
@@ -115,71 +120,108 @@ function CadastroCompra() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
-        // Criação do Fornecedor
-        const fornecedorId = await Fornecedor.create(formData.fornecedor);
+      // Criação da Razão Social do Fornecedor
+      const razaoSocialFornecedorId = await RazaoSocialController.create(
+        formData.fornecedor.razao_social
+      );
 
-        // Criação do Cliente
-        const clienteId = await Cliente.create(formData.cliente);
+      const fornecedorData = {
+        ...formData.fornecedor,
+        razao_social_id: razaoSocialFornecedorId,
+      };
+      const fornecedorId = await FornecedorController.create(fornecedorData);
 
-        // Criação da Compra (sem referências ao Cliente e Fornecedor)
-        const compraId = await Compra.create(formData.compra);
+      // Criação da Razão Social do Cliente
+      const razaoSocialClienteId = await RazaoSocialController.create(
+        formData.cliente.razao_social
+      );
 
-        // Criação dos produtos e suas referências
-        const produtosRefs = await Promise.all(
-            produtos.map(async (produto) => {
-                const {
-                    andar,
-                    sala,
-                    armario,
-                    tipo_unitario,
-                    quantidade,
-                    ...produtoInfo
-                } = produto;
+      const clienteData = {
+        ...formData.cliente,
+        razao_social_id: razaoSocialClienteId,
+      };
+      const clienteId = await ClienteController.create(clienteData);
 
-                // Validação dos campos obrigatórios
-                if (!produtoInfo.nome || !produtoInfo.fabricante) {
-                    throw new Error("Nome e Fabricante do produto são obrigatórios.");
-                }
+      // Criação da Compra
+      const compraId = await CompraController.create(formData.compra);
 
-                // Criação do Produto
-                const produtoId = await Produto.create(produtoInfo);
+      // Criação dos produtos e suas referências
+      const produtosRefs = await Promise.all(
+        produtos.map(async (produto) => {
+          const {
+            andar,
+            sala,
+            armario,
+            tipo_unitario,
+            quantidade,
+            ...produtoInfo
+          } = produto;
 
-                // Criação do Estoque
-                await Estoque.create({
-                    tipo_unitario,
-                    quantidade,
-                    produtoId, // Referência ao Produto
-                });
+          if (!produtoInfo.nome || !produtoInfo.fabricante) {
+            throw new Error("Nome e Fabricante do produto são obrigatórios.");
+          }
 
-                // Criação do Local de Armazenamento
-                await LocalArmazenamento.create({
-                    andar,
-                    sala,
-                    armario,
-                    produtoId, // Referência ao Produto
-                });
+          const produtoId = await ProdutoController.create(produtoInfo);
 
-                return produtoId;
-            })
+          await EstoqueController.create({
+            tipo_unitario,
+            quantidade,
+            produtoId,
+          });
+
+          await LocalArmazenamentoController.create({
+            andar,
+            sala,
+            armario,
+            produtoId,
+          });
+
+          return produtoId;
+        })
+      );
+
+      // Criação do Projeto
+      const projetoId = await ProjetoController.create(formData.projeto);
+
+      // Informações adicionais do Usuário
+      const infoAdicionaisId = await UsuarioController.info_adicionais(
+        formData.adicionais
+      );
+
+      const dataToSend = {
+        fornecedor: fornecedorData,
+        cliente: clienteData,
+        compra: formData.compra,
+        projeto: formData.projeto,
+        adicionais: formData.adicionais,
+        produtos: produtos,
+      };
+
+      const response = await fetch("http://localhost:3000/api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataToSend),
+      });
+
+      // Verifica a resposta da API e analisa o status
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({})); // Ler detalhes do erro, se houver
+        throw new Error(
+          `Falha no envio dos dados para a API: ${errorData.message || "Erro desconhecido"}`
         );
+      }
 
-        // Criação do Projeto
-        const projetoId = await Projeto.create(formData.projeto);
-
-        // Criação das informações adicionais do Usuário
-        const infoAdicionaisId = await Usuario.infoAdicionais(formData.adicionais);
-
-        alert("Compra cadastrada com sucesso!");
+      alert("Compra cadastrada com sucesso!");
     } catch (error) {
-        console.error("Erro ao cadastrar a compra: ", error.message || error);
-        alert(
-            `Erro ao cadastrar a compra. Tente novamente. Detalhes: ${
-                error.message || error
-            }`
-        );
+      console.error("Erro ao cadastrar a compra: ", error.message || error);
+      alert(`Erro ao cadastrar a compra. Tente novamente. Detalhes: ${error.message || error}`);
     }
-};
+  };
+
 
 
   return (
@@ -192,61 +234,25 @@ function CadastroCompra() {
           <legend>Informações do fornecedor</legend>
           <div className="form-group">
             <label>Razão Social:</label>
-            <input
-              type="text"
-              name="fornecedor.razao_social"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="fornecedor.razao_social_fornecedor" onChange={handleFormChange} />
             <label>CNPJ:</label>
-            <input
-              type="text"
-              name="fornecedor.cnpj"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="fornecedor.razao_social.cnpj" onChange={handleFormChange} />
             <label>Inscrição estadual:</label>
-            <input
-              type="text"
-              name="fornecedor.inscricao_estadual"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="fornecedor.razao_social.inscricao_estadual" onChange={handleFormChange} />
           </div>
           <div className="form-group">
             <label>Endereço:</label>
-            <input
-              type="text"
-              name="fornecedor.endereco"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="fornecedor.razao_social.endereco" onChange={handleFormChange} />
             <label>Município:</label>
-            <input
-              type="text"
-              name="fornecedor.municipio"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="fornecedor.razao_social.municipio" onChange={handleFormChange} />
             <label>UF:</label>
-            <input
-              type="text"
-              name="fornecedor.uf"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="fornecedor.razao_social.uf" onChange={handleFormChange} />
             <label>CEP:</label>
-            <input
-              type="text"
-              name="fornecedor.cep"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="fornecedor.razao_social.cep" onChange={handleFormChange} />
             <label>Bairro:</label>
-            <input
-              type="text"
-              name="fornecedor.bairro"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="fornecedor.razao_social.bairro" onChange={handleFormChange} />
             <label>Telefone:</label>
-            <input
-              type="text"
-              name="fornecedor.telefone"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="fornecedor.razao_social.telefone" onChange={handleFormChange} />
           </div>
         </fieldset>
 
@@ -255,53 +261,25 @@ function CadastroCompra() {
           <legend>Informações do cliente</legend>
           <div className="form-group">
             <label>Razão Social:</label>
-            <input
-              type="text"
-              name="cliente.razao_social"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="cliente.razao_social_cliente" onChange={handleFormChange} />
             <label>CNPJ:</label>
-            <input
-              type="text"
-              name="cliente.cnpj"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="cliente.razao_social.cnpj" onChange={handleFormChange} />
             <label>Inscrição estadual:</label>
-            <input
-              type="text"
-              name="cliente.inscricao_estadual"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="cliente.razao_social.inscricao_estadual" onChange={handleFormChange} />
           </div>
           <div className="form-group">
             <label>Endereço:</label>
-            <input
-              type="text"
-              name="cliente.endereco"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="cliente.razao_social.endereco" onChange={handleFormChange} />
             <label>Município:</label>
-            <input
-              type="text"
-              name="cliente.municipio"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="cliente.razao_social.municipio" onChange={handleFormChange} />
             <label>UF:</label>
-            <input type="text" name="cliente.uf" onChange={handleFormChange} />
+            <input type="text" name="cliente.razao_social.uf" onChange={handleFormChange} />
             <label>Telefone:</label>
-            <input
-              type="text"
-              name="cliente.telefone"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="cliente.razao_social.telefone" onChange={handleFormChange} />
             <label>CEP:</label>
-            <input type="text" name="cliente.cep" onChange={handleFormChange} />
+            <input type="text" name="cliente.razao_social.cep" onChange={handleFormChange} />
             <label>Bairro:</label>
-            <input
-              type="text"
-              name="cliente.bairro"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="cliente.razao_social.bairro" onChange={handleFormChange} />
           </div>
         </fieldset>
 
@@ -309,168 +287,74 @@ function CadastroCompra() {
         <fieldset className="form-section">
           <legend>Informações da compra</legend>
           <div className="form-group">
-            <label>Data da compra:</label>
-            <input
-              type="date"
-              name="compra.data_compra"
-              onChange={handleFormChange}
-            />
-            <label>Data da emissão:</label>
-            <input
-              type="date"
-              name="compra.data_emissao"
-              onChange={handleFormChange}
-            />
-            <label>Data do envio:</label>
-            <input
-              type="date"
-              name="compra.data_envio"
-              onChange={handleFormChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Valor total:</label>
-            <input
-              type="text"
-              name="compra.valor_total"
-              onChange={handleFormChange}
-            />
+            <label>Data da Compra:</label>
+            <input type="date" name="compra.data_compra" onChange={handleFormChange} />
+            <label>Data de Emissão:</label>
+            <input type="date" name="compra.data_emissao" onChange={handleFormChange} />
+            <label>Data de Envio:</label>
+            <input type="date" name="compra.data_envio" onChange={handleFormChange} />
+            <label>Valor Total:</label>
+            <input type="number" name="compra.valor_total" onChange={handleFormChange} />
           </div>
         </fieldset>
 
-        {/* Informações de produto e armazenamento */}
-        {produtos.map((produto, index) => (
-          <fieldset className="form-section" key={index}>
-            <legend>Produto {index + 1}</legend>
-            <div className="form-group">
-              <label>Nome:</label>
-              <input
-                type="text"
-                name="nome"
-                onChange={(event) => handleChange(index, event)}
-              />
-              <label>Número de série:</label>
-              <input
-                type="text"
-                name="numero_serie"
-                onChange={(event) => handleChange(index, event)}
-              />
-              <label>Fabricante:</label>
-              <input
-                type="text"
-                name="fabricante"
-                onChange={(event) => handleChange(index, event)}
-              />
-              <label>Descrição:</label>
-              <input
-                type="text"
-                name="descricao"
-                onChange={(event) => handleChange(index, event)}
-              />
-            </div>
-            <div className="form-group">
-              <label>Tipo Unitário:</label>
-              <input
-                type="text"
-                name="tipo_unitario"
-                onChange={(event) => handleChange(index, event)}
-              />
-              <label>Quantidade:</label>
-              <input
-                type="number"
-                name="quantidade"
-                onChange={(event) => handleChange(index, event)}
-              />
-              <label>Andar:</label>
-              <input
-                type="text"
-                name="andar"
-                onChange={(event) => handleChange(index, event)}
-              />
-              <label>Sala:</label>
-              <input
-                type="text"
-                name="sala"
-                onChange={(event) => handleChange(index, event)}
-              />
-              <label>Armário:</label>
-              <input
-                type="text"
-                name="armario"
-                onChange={(event) => handleChange(index, event)}
-              />
-            </div>
-          </fieldset>
-        ))}
-        <div className="containerButtonCadastro">  
-          <button type="button" onClick={handleAddProduct} className="btnCadastroCompraadd">
-          Adicionar Produto
-        </button>
-        <button type="button" onClick={handleRemoveProduct} className="btnCadastroCompra">
-          Remover Produto
-        </button>
-
-        </div>
-
-      
-
-        {/* Informações do projeto e adicionais */}
+        {/* Produtos */}
         <fieldset className="form-section">
-          <legend>Informações do Projeto</legend>
+          <legend>Produtos</legend>
+          {produtos.map((produto, index) => (
+            <div key={index} className="form-group">
+              <label>Nome:</label>
+              <input type="text" name="nome" value={produto.nome} onChange={(e) => handleChange(index, e)} />
+              <label>Número de Série:</label>
+              <input type="text" name="numero_serie" value={produto.numero_serie} onChange={(e) => handleChange(index, e)} />
+              <label>Fabricante:</label>
+              <input type="text" name="fabricante" value={produto.fabricante} onChange={(e) => handleChange(index, e)} />
+              <label>Descrição:</label>
+              <input type="text" name="descricao" value={produto.descricao} onChange={(e) => handleChange(index, e)} />
+              <label>Tipo Unitário:</label>
+              <input type="text" name="tipo_unitario" value={produto.tipo_unitario} onChange={(e) => handleChange(index, e)} />
+              <label>Quantidade:</label>
+              <input type="number" name="quantidade" value={produto.quantidade} onChange={(e) => handleChange(index, e)} />
+              <label>Andar:</label>
+              <input type="text" name="andar" value={produto.andar} onChange={(e) => handleChange(index, e)} />
+              <label>Sala:</label>
+              <input type="text" name="sala" value={produto.sala} onChange={(e) => handleChange(index, e)} />
+              <label>Armário:</label>
+              <input type="text" name="armario" value={produto.armario} onChange={(e) => handleChange(index, e)} />
+            </div>
+          ))}
+          <button type="button" onClick={handleAddProduct}>Adicionar Produto</button>
+          <button type="button" onClick={handleRemoveProduct}>Remover Produto</button>
+        </fieldset>
+
+        {/* Informações do projeto */}
+        <fieldset className="form-section">
+          <legend>Informações do projeto</legend>
           <div className="form-group">
             <label>Nome do Projeto:</label>
-            <input
-              type="text"
-              name="projeto.nome_projeto"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="projeto.nome_projeto" onChange={handleFormChange} />
             <label>Responsável Técnico:</label>
-            <input
-              type="text"
-              name="projeto.responsavel_tecnico"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="projeto.responsavel_tecnico" onChange={handleFormChange} />
             <label>Gerente do Projeto:</label>
-            <input
-              type="text"
-              name="projeto.gerente_projeto"
-              onChange={handleFormChange}
-            />
-            <label>Cliente:</label>
-            <input
-              type="text"
-              name="projeto.cliente"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="projeto.gerente_projeto" onChange={handleFormChange} />
           </div>
         </fieldset>
 
+        {/* Informações adicionais */}
         <fieldset className="form-section">
-          <legend>Adicionais</legend>
+          <legend>Informações Adicionais</legend>
           <div className="form-group">
             <label>Usuário:</label>
-            <input
-              type="text"
-              name="adicionais.usuario"
-              onChange={handleFormChange}
-            />
+            <input type="text" name="adicionais.usuario" onChange={handleFormChange} />
             <label>Observações:</label>
-            <input
-              type="text"
-              name="adicionais.observacoes"
-              onChange={handleFormChange}
-            />
+            <textarea name="adicionais.observacoes" onChange={handleFormChange}></textarea>
           </div>
         </fieldset>
 
-        <div className="containerButtonCadastro2">
-        <button type="submit" className="btnCadastroCompraadd">Cadastrar Compra</button>
-        <button type="button" onClick={handleCancel}className="btnCadastroCompra">
-          Cancelar
-        </button>
-
+        <div className="button-group">
+          <button type="submit">Cadastrar Compra</button>
+          <button type="button" onClick={handleCancel}>Cancelar</button>
         </div>
-       
       </form>
     </div>
   );

@@ -1,55 +1,77 @@
-const Cliente = require('../models/Cliente'); // Ajuste o caminho conforme necessário
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-class ClienteController {
-  static async create(req, res) {
+const clienteController = {
+  create: async (req, res) => {
     try {
-      const clienteData = req.body;
-      const novoCliente = await Cliente.create(clienteData);
-      return res.status(201).json(novoCliente);
+      const { razao_social_cliente } = req.body;
+      const novoCliente = await prisma.cliente.create({
+        data: {
+          razao_social_cliente,
+        },
+      });
+      res.status(201).json(novoCliente);
     } catch (error) {
-      return res.status(400).json({ message: error.message });
+      res.status(500).json({ error: 'Erro ao criar cliente' });
     }
-  }
+  },
 
-  static async getById(req, res) {
+  getAll: async (req, res) => {
+    try {
+      const clientes = await prisma.cliente.findMany({
+        include: {
+          razao_social: true,
+          projetos: true,
+          compras: true,
+        },
+      });
+      res.status(200).json(clientes);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao buscar clientes' });
+    }
+  },
+
+  getById: async (req, res) => {
     try {
       const { id } = req.params;
-      const cliente = await Cliente.getById(id);
-      return res.status(200).json(cliente);
+      const cliente = await prisma.cliente.findUnique({
+        where: { id: Number(id) },
+        include: {
+          razao_social: true,
+          projetos: true,
+          compras: true,
+        },
+      });
+      if (!cliente) return res.status(404).json({ error: 'Cliente não encontrado' });
+      res.status(200).json(cliente);
     } catch (error) {
-      return res.status(404).json({ message: error.message });
+      res.status(500).json({ error: 'Erro ao buscar cliente' });
     }
-  }
+  },
 
-  static async update(req, res) {
+  update: async (req, res) => {
     try {
       const { id } = req.params;
-      const updateData = req.body;
-      const clienteAtualizado = await Cliente.update(id, updateData);
-      return res.status(200).json(clienteAtualizado);
+      const { razao_social_cliente } = req.body;
+      const clienteAtualizado = await prisma.cliente.update({
+        where: { id: Number(id) },
+        data: { razao_social_cliente },
+      });
+      res.status(200).json(clienteAtualizado);
     } catch (error) {
-      return res.status(400).json({ message: error.message });
+      res.status(500).json({ error: 'Erro ao atualizar cliente' });
     }
-  }
+  },
 
-  static async delete(req, res) {
+  delete: async (req, res) => {
     try {
       const { id } = req.params;
-      const response = await Cliente.delete(id);
-      return res.status(200).json(response);
+      await prisma.cliente.delete({ where: { id: Number(id) } });
+      res.status(204).send();
     } catch (error) {
-      return res.status(404).json({ message: error.message });
+      res.status(500).json({ error: 'Erro ao deletar cliente' });
     }
-  }
+  },
+};
 
-  static async getAll(req, res) {
-    try {
-      const clientes = await Cliente.getAll();
-      return res.status(200).json(clientes);
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
-  }
-}
-
-module.exports = ClienteController;
+module.exports = clienteController;

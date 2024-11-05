@@ -1,50 +1,81 @@
-const Projeto = require('../models/Projeto');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-class ProjetoController {
-  static async create(req, res) {
+const ProjetoController = {
+  async createProjeto(req, res) {
+    const { nome_projeto, responsavel_tecnico, gerente_projeto, cliente_id } = req.body;
     try {
-      const projeto = await Projeto.create(req.body);
-      res.status(201).json(projeto);
+      const projeto = await prisma.projeto.create({
+        data: {
+          nome_projeto,
+          responsavel_tecnico,
+          gerente_projeto,
+          cliente: { connect: { id: cliente_id } },
+        },
+      });
+      return res.status(201).json(projeto);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error(error);
+      return res.status(500).json({ error: 'Erro ao criar projeto' });
     }
-  }
+  },
 
-  static async getById(req, res) {
+  async getAllProjetos(req, res) {
     try {
-      const projeto = await Projeto.getById(req.params.id);
-      res.status(200).json(projeto);
+      const projetos = await prisma.projeto.findMany();
+      return res.json(projetos);
     } catch (error) {
-      res.status(404).json({ error: error.message });
+      console.error(error);
+      return res.status(500).json({ error: 'Erro ao buscar projetos' });
     }
-  }
+  },
 
-  static async update(req, res) {
+  async getProjetoById(req, res) {
+    const { id } = req.params;
     try {
-      const projeto = await Projeto.update(req.params.id, req.body);
-      res.status(200).json(projeto);
+      const projeto = await prisma.projeto.findUnique({
+        where: { id: Number(id) },
+      });
+      if (!projeto) return res.status(404).json({ error: 'Projeto não encontrado' });
+      return res.json(projeto);
     } catch (error) {
-      res.status(404).json({ error: error.message });
+      console.error(error);
+      return res.status(500).json({ error: 'Erro ao buscar projeto' });
     }
-  }
+  },
 
-  static async delete(req, res) {
+  async updateProjeto(req, res) {
+    const { id } = req.params;
+    const { nome_projeto, responsavel_tecnico, gerente_projeto, cliente_id } = req.body;
     try {
-      const message = await Projeto.delete(req.params.id);
-      res.status(200).json(message);
+      const projeto = await prisma.projeto.update({
+        where: { id: Number(id) },
+        data: {
+          nome_projeto,
+          responsavel_tecnico,
+          gerente_projeto,
+          cliente: { connect: { id: cliente_id } },
+        },
+      });
+      return res.json(projeto);
     } catch (error) {
-      res.status(404).json({ error: error.message });
+      console.error(error);
+      return res.status(500).json({ error: 'Erro ao atualizar projeto' });
     }
-  }
+  },
 
-  static async getAll(req, res) {
+  async deleteProjeto(req, res) {
+    const { id } = req.params;
     try {
-      const projetos = await Projeto.getAll();
-      res.status(200).json(projetos);
+      await prisma.projeto.delete({
+        where: { id: Number(id) },
+      });
+      return res.status(204).send();
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error(error);
+      return res.status(500).json({ error: 'Erro ao deletar projeto' });
     }
-  }
-}
+  },
+};
 
 module.exports = ProjetoController;

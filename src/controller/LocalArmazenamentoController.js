@@ -1,54 +1,71 @@
-const LocalArmazenamento = require('../models/LocalArmazenamento');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-class LocalArmazenamentoController {
-  static async create(req, res) {
+const localArmazenamentoController = {
+  create: async (req, res) => {
     try {
-      const localData = req.body;
-      const novoLocal = await LocalArmazenamento.create(localData);
+      const { andar, sala, armario } = req.body;
+      const novoLocal = await prisma.localArmazenamento.create({
+        data: { andar, sala, armario },
+      });
       res.status(201).json(novoLocal);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error: 'Erro ao criar local de armazenamento' });
     }
-  }
+  },
 
-  static async getById(req, res) {
+  getAll: async (req, res) => {
     try {
-      const { id } = req.params;
-      const local = await LocalArmazenamento.getById(id);
-      res.status(200).json(local);
-    } catch (error) {
-      res.status(404).json({ error: error.message });
-    }
-  }
-
-  static async update(req, res) {
-    try {
-      const { id } = req.params;
-      const updatedLocal = await LocalArmazenamento.update(id, req.body);
-      res.status(200).json(updatedLocal);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-
-  static async delete(req, res) {
-    try {
-      const { id } = req.params;
-      await LocalArmazenamento.delete(id);
-      res.status(200).json({ message: 'Local de Armazenamento deletado com sucesso' });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-
-  static async getAll(req, res) {
-    try {
-      const locais = await LocalArmazenamento.getAll();
+      const locais = await prisma.localArmazenamento.findMany({
+        include: {
+          estoques: true,
+        },
+      });
       res.status(200).json(locais);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error: 'Erro ao buscar locais de armazenamento' });
     }
-  }
-}
+  },
 
-module.exports = LocalArmazenamentoController;
+  getById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const local = await prisma.localArmazenamento.findUnique({
+        where: { id: Number(id) },
+        include: {
+          estoques: true,
+        },
+      });
+      if (!local) return res.status(404).json({ error: 'Local de armazenamento não encontrado' });
+      res.status(200).json(local);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao buscar local de armazenamento' });
+    }
+  },
+
+  update: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { andar, sala, armario } = req.body;
+      const localAtualizado = await prisma.localArmazenamento.update({
+        where: { id: Number(id) },
+        data: { andar, sala, armario },
+      });
+      res.status(200).json(localAtualizado);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao atualizar local de armazenamento' });
+    }
+  },
+
+  delete: async (req, res) => {
+    try {
+      const { id } = req.params;
+      await prisma.localArmazenamento.delete({ where: { id: Number(id) } });
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao deletar local de armazenamento' });
+    }
+  },
+};
+
+module.exports = localArmazenamentoController;
