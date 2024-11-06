@@ -3,7 +3,6 @@ const router = express.Router();
 
 const { loginUser } = require("../controller/authController");
 const usuarioController = require("../controller/UsuarioController");
-const razaoSocialController = require("../controller/RazaoSocialController");
 const projetoController = require("../controller/ProjetoController");
 const produtoController = require("../controller/ProdutoController");
 const localArmazenamentoController = require("../controller/LocalArmazenamentoController");
@@ -56,13 +55,6 @@ router.get("/fornecedores", fornecedorController.getAll);
 router.get("/fornecedores/:id", fornecedorController.getById);
 router.put("/fornecedores/:id", fornecedorController.update);
 router.delete("/fornecedores/:id", fornecedorController.delete);
-
-// Rotas de Razão Social
-router.post("/razao-sociais", razaoSocialController.create);
-router.get("/razao-sociais", razaoSocialController.getAll);
-router.get("/razao-sociais/:id", razaoSocialController.getById);
-router.put("/razao-sociais/:id", razaoSocialController.update);
-router.delete("/razao-sociais/:id", razaoSocialController.delete);
 
 // Rotas de Estoque
 router.post("/estoques", estoqueController.create);

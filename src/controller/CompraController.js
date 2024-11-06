@@ -8,11 +8,6 @@ const CompraController = {
       data_emissao,
       data_envio,
       valor_total,
-      usuarioData,   // Dados completos para criar usuário, se ainda não existir
-      produtoData,   // Dados completos para criar produto
-      projetoData,   // Dados completos para criar projeto
-      fornecedorData, // Dados completos para criar fornecedor
-      clienteData,   // Dados completos para criar cliente
     } = req.body;
     
     try {
@@ -22,11 +17,6 @@ const CompraController = {
           data_emissao,
           data_envio,
           valor_total,
-          usuario: usuarioData ? { create: usuarioData } : undefined,
-          produto: produtoData ? { create: produtoData } : undefined,
-          projeto: projetoData ? { create: projetoData } : undefined,
-          fornecedor: fornecedorData ? { create: fornecedorData } : undefined,
-          cliente: clienteData ? { create: clienteData } : undefined,
         },
       });
       return res.status(201).json(compra);
@@ -69,11 +59,6 @@ const CompraController = {
       data_emissao,
       data_envio,
       valor_total,
-      usuarioData,
-      produtoData,
-      projetoData,
-      fornecedorData,
-      clienteData,
     } = req.body;
 
     try {
@@ -84,11 +69,6 @@ const CompraController = {
           data_emissao,
           data_envio,
           valor_total,
-          usuario: usuarioData ? { create: usuarioData } : undefined,
-          produto: produtoData ? { create: produtoData } : undefined,
-          projeto: projetoData ? { create: projetoData } : undefined,
-          fornecedor: fornecedorData ? { create: fornecedorData } : undefined,
-          cliente: clienteData ? { create: clienteData } : undefined,
         },
       });
       return res.json(compra);

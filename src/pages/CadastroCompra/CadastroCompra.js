@@ -7,9 +7,7 @@ import ProdutoController from "../../controller/ProdutoController";
 import EstoqueController from "../../controller/EstoqueController";
 import LocalArmazenamentoController from "../../controller/LocalArmazenamentoController";
 import CompraController from "../../controller/CompraController";
-import UsuarioController from "../../controller/UsuarioController";
 import ProjetoController from "../../controller/ProjetoController";
-import RazaoSocialController from "../../controller/RazaoSocialController";
 import AdicionaisController from "../../controller/AdicionaisController";
 
 function CadastroCompra() {
@@ -32,29 +30,25 @@ function CadastroCompra() {
   const [formData, setFormData] = useState({
     cliente: {
       razao_social_cliente: "",
-      razao_social: {
-        CNPJ: "",
-        inscricao_estadual: "",
-        endereco: "",
-        bairro: "",
-        CEP: "",
-        municipio: "",
-        UF: "",
-        telefone: "",
-      },
+      CNPJ: "",
+      inscricao_estadual: "",
+      endereco: "",
+      bairro: "",
+      CEP: "",
+      municipio: "",
+      UF: "",
+      telefone: "",
     },
     fornecedor: {
       razao_social_fornecedor: "",
-      razao_social: {
-        CNPJ: "",
-        inscricao_estadual: "",
-        endereco: "",
-        bairro: "",
-        CEP: "",
-        municipio: "",
-        UF: "",
-        telefone: "",
-      },
+      CNPJ: "",
+      inscricao_estadual: "",
+      endereco: "",
+      bairro: "",
+      CEP: "",
+      municipio: "",
+      UF: "",
+      telefone: "",
     },
     compra: {
       data_compra: "",
@@ -99,7 +93,7 @@ function CadastroCompra() {
       const newProdutos = [...prevProdutos];
       newProdutos[index] = {
         ...newProdutos[index],
-        [name]: value, // atualiza o campo específico
+        [name]: value,
       };
       return newProdutos;
     });
@@ -115,63 +109,28 @@ function CadastroCompra() {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    const nameParts = name.split("."); // Divide o nome no ponto para acessar a chave aninhada
-
-    setFormData((prevData) => {
-      // Cria uma cópia do estado atual para evitar a mutação direta
-      let updatedData = { ...prevData };
-
-      // Navega nas partes do nome e atualiza o valor da chave
-      nameParts.reduce((acc, part, index) => {
-        if (index === nameParts.length - 1) {
-          acc[part] = value; // Atualiza o valor da última parte
-        } else {
-          acc[part] = acc[part] || {}; // Cria o objeto se não existir
-        }
-        return acc[part];
-      }, updatedData);
-
-      return updatedData; // Retorna o estado atualizado
+    setFormData((prevState) => {
+      const [section, field] = name.split(".");
+      return {
+        ...prevState,
+        [section]: {
+          ...prevState[section],
+          [field]: value,
+        },
+      };
     });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validações
-    if (
-      !formData.cliente.razao_social.CNPJ ||
-      !formData.fornecedor.razao_social.CNPJ
-    ) {
-      alert("É necessário preencher os CNPJs de cliente e fornecedor.");
-      return;
-    }
-
     try {
-      // Criação da Razão Social do Fornecedor
-      const razaoSocialFornecedorId = await RazaoSocialController.create(
-        formData.fornecedor.razao_social
+      const fornecedorId = await FornecedorController.create(
+        formData.fornecedor
       );
-      const fornecedorData = {
-        ...formData.fornecedor,
-        razao_social_id: razaoSocialFornecedorId,
-      };
-      const fornecedorId = await FornecedorController.create(fornecedorData);
-
-      // Criação da Razão Social do Cliente
-      const razaoSocialClienteId = await RazaoSocialController.create(
-        formData.cliente.razao_social
-      );
-      const clienteData = {
-        ...formData.cliente,
-        razao_social_id: razaoSocialClienteId,
-      };
-      const clienteId = await ClienteController.create(clienteData);
-
-      // Criação da Compra
+      const clienteId = await ClienteController.create(formData.cliente);
       const compraId = await CompraController.create(formData.compra);
 
-      // Criação dos produtos
       const produtosRefs = await Promise.all(
         produtos.map(async (produto) => {
           const {
@@ -183,7 +142,6 @@ function CadastroCompra() {
             ...produtoInfo
           } = produto;
 
-          // Validação de nome e fabricante
           if (!produtoInfo.nome || !produtoInfo.fabricante) {
             throw new Error("Nome e Fabricante do produto são obrigatórios.");
           }
@@ -205,18 +163,16 @@ function CadastroCompra() {
         })
       );
 
-      // Criação do Projeto
       const projetoId = await ProjetoController.create(formData.projeto);
 
-      // Informações adicionais do Usuário
       const infoAdicionaisId = await AdicionaisController.createAdicional(
         formData.adicionais
       );
 
       // Dados a enviar para a API
       const dataToSend = {
-        fornecedor: fornecedorData,
-        cliente: clienteData,
+        fornecedor: formData.fornecedor,
+        cliente: formData.cliente,
         compra: formData.compra,
         projeto: formData.projeto,
         adicionais: formData.adicionais,
@@ -224,29 +180,29 @@ function CadastroCompra() {
       };
       console.log("Data to send:", JSON.stringify(dataToSend)); // Verifique o conteúdo aqui
 
-      const response = await fetch("http://localhost:3000/api/compra", {
+      const response = await fetch("http://localhost:3000/api", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataToSend),
       });
 
-      // Verifica a resposta da API
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({})); // Ler detalhes do erro, se houver
+        const errorData = await response.json().catch(() => ({}));
         throw new Error(
-          `Falha no envio dos dados para a API: ${
-            errorData.message || "Erro desconhecido"
-          }`
+          `Erro na API: ${errorData.message || response.statusText}`
         );
       }
 
-      alert("Compra cadastrada com sucesso!");
+      const responseData = await response.json();
+      if (!responseData.status) {
+        throw new Error("Compra não cadastrada: " + responseData.error);
+      }
+
+      // ...
     } catch (error) {
-      console.error("Erro ao cadastrar a compra: ", error.message || error);
+      console.error("Erro ao cadastrar a compra: ", error);
       alert(
-        `Erro ao cadastrar a compra. Tente novamente. Detalhes: ${
-          error.message || error
-        }`
+        `Erro ao cadastrar a compra. Tente novamente. Detalhes: ${error.message}`
       );
     }
   };
@@ -264,21 +220,18 @@ function CadastroCompra() {
             <input
               type="text"
               name="fornecedor.razao_social_fornecedor"
-              value={formData.fornecedor.razao_social_fornecedor}
               onChange={handleFormChange}
             />
             <label>CNPJ:</label>
             <input
               type="text"
-              name="fornecedor.razao_social.CNPJ"
-              value={formData.fornecedor.razao_social.CNPJ}
+              name="fornecedor.CNPJ"
               onChange={handleFormChange}
             />
             <label>Inscrição Estadual:</label>
             <input
               type="text"
-              name="fornecedor.razao_social.inscricao_estadual"
-              value={formData.fornecedor.razao_social.inscricao_estadual}
+              name="fornecedor.inscricao_estadual"
               onChange={handleFormChange}
             />
           </div>
@@ -286,43 +239,37 @@ function CadastroCompra() {
             <label>Endereço:</label>
             <input
               type="text"
-              name="fornecedor.razao_social.endereco"
-              value={formData.fornecedor.razao_social.endereco}
+              name="fornecedor.endereco"
               onChange={handleFormChange}
             />
             <label>Município:</label>
             <input
               type="text"
-              name="fornecedor.razao_social.municipio"
-              value={formData.fornecedor.razao_social.municipio}
+              name="fornecedor.municipio"
               onChange={handleFormChange}
             />
             <label>UF:</label>
             <input
               type="text"
-              name="fornecedor.razao_social.UF"
-              value={formData.fornecedor.razao_social.UF}
+              name="fornecedor.UF"
               onChange={handleFormChange}
             />
             <label>CEP:</label>
             <input
               type="text"
-              name="fornecedor.razao_social.CEP"
-              value={formData.fornecedor.razao_social.CEP}
+              name="fornecedor.CEP"
               onChange={handleFormChange}
             />
             <label>Bairro:</label>
             <input
               type="text"
-              name="fornecedor.razao_social.bairro"
-              value={formData.fornecedor.razao_social.bairro}
+              name="fornecedor.bairro"
               onChange={handleFormChange}
             />
             <label>Telefone:</label>
             <input
               type="text"
-              name="fornecedor.razao_social.telefone"
-              value={formData.fornecedor.razao_social.telefone}
+              name="fornecedor.telefone"
               onChange={handleFormChange}
             />
           </div>
@@ -336,21 +283,18 @@ function CadastroCompra() {
             <input
               type="text"
               name="cliente.razao_social_cliente"
-              value={formData.cliente.razao_social_cliente}
               onChange={handleFormChange}
             />
             <label>CNPJ:</label>
             <input
               type="text"
-              name="cliente.razao_social.CNPJ"
-              value={formData.cliente.razao_social.CNPJ}
+              name="cliente.CNPJ"
               onChange={handleFormChange}
             />
             <label>Inscrição Estadual:</label>
             <input
               type="text"
-              name="cliente.razao_social.inscricao_estadual"
-              value={formData.cliente.razao_social.inscricao_estadual}
+              name="cliente.inscricao_estadual"
               onChange={handleFormChange}
             />
           </div>
@@ -358,43 +302,29 @@ function CadastroCompra() {
             <label>Endereço:</label>
             <input
               type="text"
-              name="cliente.razao_social.endereco"
-              value={formData.cliente.razao_social.endereco}
+              name="cliente.endereco"
               onChange={handleFormChange}
             />
             <label>Município:</label>
             <input
               type="text"
-              name="cliente.razao_social.municipio"
-              value={formData.cliente.razao_social.municipio}
+              name="cliente.municipio"
               onChange={handleFormChange}
             />
             <label>UF:</label>
-            <input
-              type="text"
-              name="cliente.razao_social.UF"
-              value={formData.cliente.razao_social.UF}
-              onChange={handleFormChange}
-            />
+            <input type="text" name="cliente.UF" onChange={handleFormChange} />
             <label>Telefone:</label>
             <input
               type="text"
-              name="cliente.razao_social.telefone"
-              value={formData.cliente.razao_social.telefone}
+              name="cliente.telefone"
               onChange={handleFormChange}
             />
             <label>CEP:</label>
-            <input
-              type="text"
-              name="cliente.razao_social.CEP"
-              value={formData.cliente.razao_social.CEP}
-              onChange={handleFormChange}
-            />
+            <input type="text" name="cliente.CEP" onChange={handleFormChange} />
             <label>Bairro:</label>
             <input
               type="text"
-              name="cliente.razao_social.bairro"
-              value={formData.cliente.razao_social.bairro}
+              name="cliente.bairro"
               onChange={handleFormChange}
             />
           </div>

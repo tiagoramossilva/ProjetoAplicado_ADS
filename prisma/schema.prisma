@@ -46,7 +46,7 @@ model Compra {
   fornecedor    Fornecedor? @relation(fields: [fornecedor_id], references: [id])
   cliente_id    Int?
   cliente       Cliente?    @relation(fields: [cliente_id], references: [id])
-  Adicionais Adicionais[]
+  Adicionais    Adicionais[]
 }
 
 model Projeto {
@@ -80,35 +80,33 @@ model Local_Armazenamento {
   estoques Estoque[]
 }
 
-model Razao_Social {
-  id                 Int         @id @default(autoincrement())
-  CNPJ               String      @unique
-  inscricao_estadual String
-  endereco           String
-  bairro             String
-  CEP                Int
-  municipio          String
-  UF                 String
-  telefone           String
-  clienteId          Int?
-  fornecedorId       Int?
-  cliente            Cliente?    @relation(fields: [clienteId], references: [id])
-  fornecedor         Fornecedor? @relation(fields: [fornecedorId], references: [id])
-}
-
 model Cliente {
-  id                   Int            @id @default(autoincrement())
-  razao_social_cliente String
-  razao_social         Razao_Social[]
-  projetos             Projeto[]
-  compras              Compra[]
+  id                      Int          @id @default(autoincrement())
+  razao_social_cliente     String
+  CNPJ                     String      @unique
+  inscricao_estadual       String
+  endereco                 String
+  bairro                   String
+  CEP                      Int
+  municipio                String
+  UF                       String
+  telefone                 String
+  projetos                 Projeto[]
+  compras                  Compra[]
 }
 
 model Fornecedor {
-  id                      Int            @id @default(autoincrement())
-  razao_social_fornecedor String
-  razao_social            Razao_Social[]
-  compras                 Compra[]
+  id                        Int          @id @default(autoincrement())
+  razao_social_fornecedor   String
+  CNPJ                       String      @unique
+  inscricao_estadual        String
+  endereco                  String
+  bairro                    String
+  CEP                       Int
+  municipio                 String
+  UF                        String
+  telefone                  String
+  compras                   Compra[]
 }
 
 model Adicionais {

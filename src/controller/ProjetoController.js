@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const ProjetoController = {
   create: async (req, res) => {
     try {
-      const { nome_projeto, responsavel_tecnico, gerente_projeto, clienteData } = req.body;
+      const { nome_projeto, responsavel_tecnico, gerente_projeto } = req.body;
 
       // Criação do projeto com criação do cliente associado, se clienteData for fornecido
       const projeto = await prisma.projeto.create({
@@ -12,7 +12,6 @@ const ProjetoController = {
           nome_projeto,
           responsavel_tecnico,
           gerente_projeto,
-          cliente: clienteData ? { create: clienteData } : undefined,
         },
       });
 
@@ -26,7 +25,7 @@ const ProjetoController = {
   update: async (req, res) => {
     try {
       const { id } = req.params;
-      const { nome_projeto, responsavel_tecnico, gerente_projeto, clienteData, cliente_id } = req.body;
+      const { nome_projeto, responsavel_tecnico, gerente_projeto, clienteData } = req.body;
 
       const projetoAtualizado = await prisma.projeto.update({
         where: { id: Number(id) },
@@ -34,8 +33,6 @@ const ProjetoController = {
           nome_projeto,
           responsavel_tecnico,
           gerente_projeto,
-          // Se clienteData for fornecido, criamos o cliente
-          cliente: clienteData ? { create: clienteData } : cliente_id ? { connect: { id: cliente_id } } : undefined,
         },
       });
 
@@ -59,10 +56,9 @@ const ProjetoController = {
 
   getAll: async (req, res) => {
     try {
+      const { id } = req.params;
       const projetos = await prisma.projeto.findMany({
-        include: {
-          cliente: true, // Inclui o cliente nas respostas
-        },
+        where: { id: Number(id) },
       });
       res.status(200).json(projetos);
     } catch (error) {
@@ -76,9 +72,6 @@ const ProjetoController = {
       const { id } = req.params;
       const projeto = await prisma.projeto.findUnique({
         where: { id: Number(id) },
-        include: {
-          cliente: true, // Inclui o cliente nas respostas
-        },
       });
 
       if (!projeto) return res.status(404).json({ error: 'Projeto não encontrado' });

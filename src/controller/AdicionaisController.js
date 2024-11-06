@@ -3,18 +3,12 @@ const prisma = new PrismaClient();
 
 const AdicionaisController = {
   async createAdicional(req, res) {
-    const { usuario_id, compra_id, observacoes } = req.body;
+    const { observacoes } = req.body;
 
     try {
       const adicional = await prisma.adicionais.create({
         data: {
-          observacoes,
-          usuario: {
-            connect: { id: usuario_id },
-          },
-          compra: {
-            connect: { id: compra_id },
-          },
+          observacoes
         },
       });
 

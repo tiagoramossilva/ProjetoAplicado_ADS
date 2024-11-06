@@ -4,15 +4,12 @@ const prisma = new PrismaClient();
 const estoqueController = {
   create: async (req, res) => {
     try {
-      const { quantidade, tipo_unitario, produtoData, projetoData, localArmazenamentoData } = req.body;
+      const { quantidade, tipo_unitario } = req.body;
 
       const novoEstoque = await prisma.estoque.create({
         data: {
           quantidade,
           tipo_unitario,
-          produto: produtoData ? { create: produtoData } : undefined,
-          projeto: projetoData ? { create: projetoData } : undefined,
-          local_armazenamento: localArmazenamentoData ? { create: localArmazenamentoData } : undefined,
         },
       });
       res.status(201).json(novoEstoque);
@@ -43,11 +40,6 @@ const estoqueController = {
       const { id } = req.params;
       const estoque = await prisma.estoque.findUnique({
         where: { id: Number(id) },
-        include: {
-          produto: true,
-          projeto: true,
-          local_armazenamento: true,
-        },
       });
       if (!estoque) return res.status(404).json({ error: 'Estoque não encontrado' });
       res.status(200).json(estoque);
@@ -60,16 +52,13 @@ const estoqueController = {
   update: async (req, res) => {
     try {
       const { id } = req.params;
-      const { quantidade, tipo_unitario, produtoData, projetoData, localArmazenamentoData } = req.body;
+      const { quantidade, tipo_unitario } = req.body;
 
       const estoqueAtualizado = await prisma.estoque.update({
         where: { id: Number(id) },
         data: {
           quantidade,
           tipo_unitario,
-          produto: produtoData ? { create: produtoData } : undefined,
-          projeto: projetoData ? { create: projetoData } : undefined,
-          local_armazenamento: localArmazenamentoData ? { create: localArmazenamentoData } : undefined,
         },
       });
       res.status(200).json(estoqueAtualizado);

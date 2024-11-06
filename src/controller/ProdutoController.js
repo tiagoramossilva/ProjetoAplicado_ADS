@@ -11,7 +11,7 @@ const produtoController = {
       res.status(201).json(produtoCriado);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao criar produto' });
-    }
+    } 
   },
 
   getAll: async (req, res) => {
