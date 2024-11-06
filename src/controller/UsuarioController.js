@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const usuarioController = {
@@ -10,7 +10,7 @@ const usuarioController = {
       });
       res.status(201).json(usuarioCriado);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao criar usuário' });
+      res.status(500).json({ error: "Erro ao criar usuário" });
     }
   },
 
@@ -19,20 +19,22 @@ const usuarioController = {
       const usuarios = await prisma.usuario.findMany();
       res.status(200).json(usuarios);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao buscar usuários' });
+      res.status(500).json({ error: "Erro ao buscar usuários" });
     }
   },
 
   getById: async (req, res) => {
     try {
       const { id } = req.params;
-      const usuario = await prisma.usuario.findUnique({ where: { id: Number(id) } });
+      const usuario = await prisma.usuario.findUnique({
+        where: { id: Number(id) },
+      });
       if (!usuario) {
-        return res.status(404).json({ error: 'Usuário não encontrado' });
+        return res.status(404).json({ error: "Usuário não encontrado" });
       }
       res.status(200).json(usuario);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao buscar usuário' });
+      res.status(500).json({ error: "Erro ao buscar usuário" });
     }
   },
 
@@ -46,7 +48,7 @@ const usuarioController = {
       });
       res.status(200).json(usuarioAtualizado);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao atualizar usuário' });
+      res.status(500).json({ error: "Erro ao atualizar usuário" });
     }
   },
 
@@ -56,29 +58,7 @@ const usuarioController = {
       await prisma.usuario.delete({ where: { id: Number(id) } });
       res.status(204).send();
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao deletar usuário' });
-    }
-  },
-
-  info_adicionais: async (req, res) => {
-    try {
-      const { id } = req.params; // O ID do usuário é passado como parâmetro
-      const { observacoes, usuario } = req.body; // Informações adicionais do corpo da requisição
-
-      // Atualiza as informações adicionais do usuário
-      const usuarioAtualizado = await prisma.usuario.update({
-        where: { id: Number(id) },
-        data: {
-          adicionais: { // Supondo que você tenha um campo 'adicionais' no seu modelo
-            observacoes: observacoes || undefined, // Mantém o valor antigo se não houver novo
-            usuario: usuario || undefined,
-          },
-        },
-      });
-
-      res.status(200).json({ message: 'Informações adicionais atualizadas com sucesso', usuario: usuarioAtualizado });
-    } catch (error) {
-      res.status(500).json({ error: 'Erro ao atualizar informações adicionais do usuário' });
+      res.status(500).json({ error: "Erro ao deletar usuário" });
     }
   },
 };

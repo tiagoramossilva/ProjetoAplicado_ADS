@@ -1,23 +1,23 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const razaoSocialController = {
-  create: async (req, res) => {
-    try {
-      const {
-        CNPJ,
-        inscricao_estadual,
-        endereco,
-        bairro,
-        CEP,
-        municipio,
-        UF,
-        telefone,
-        clienteId,
-        fornecedorId,
-      } = req.body;
+const RazaoSocialController = {
+  async create(req, res) {
+    const {
+      CNPJ,
+      inscricao_estadual,
+      endereco,
+      bairro,
+      CEP,
+      municipio,
+      UF,
+      telefone,
+      clienteData,    // Dados completos para criar cliente
+      fornecedorData, // Dados completos para criar fornecedor
+    } = req.body;
 
-      const novaRazaoSocial = await prisma.razao_Social.create({
+    try {
+      const razaoSocial = await prisma.razao_Social.create({
         data: {
           CNPJ,
           inscricao_estadual,
@@ -27,93 +27,104 @@ const razaoSocialController = {
           municipio,
           UF,
           telefone,
-          cliente: clienteId ? { connect: { id: clienteId } } : undefined,
-          fornecedor: fornecedorId ? { connect: { id: fornecedorId } } : undefined,
+          cliente: clienteData ? { create: clienteData } : undefined,
+          fornecedor: fornecedorData ? { create: fornecedorData } : undefined,
         },
       });
-      res.status(201).json(novaRazaoSocial);
+
+      res.status(201).json(razaoSocial);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao criar razão social' });
+      console.error("Erro ao criar razão social:", error.message || error);
+      res.status(500).json({ error: 'Erro ao criar razão social', detalhes: error.message });
     }
   },
 
-  getAll: async (req, res) => {
+  async update(req, res) {
+    const { id } = req.params;
+    const {
+      CNPJ,
+      inscricao_estadual,
+      endereco,
+      bairro,
+      CEP,
+      municipio,
+      UF,
+      telefone,
+      clienteData,    // Dados completos para criar cliente
+      fornecedorData, // Dados completos para criar fornecedor
+    } = req.body;
+
+    try {
+      const razaoSocial = await prisma.razao_Social.update({
+        where: { id: Number(id) },
+        data: {
+          CNPJ,
+          inscricao_estadual,
+          endereco,
+          bairro,
+          CEP,
+          municipio,
+          UF,
+          telefone,
+          cliente: clienteData ? { create: clienteData } : undefined,
+          fornecedor: fornecedorData ? { create: fornecedorData } : undefined,
+        },
+      });
+
+      res.status(200).json(razaoSocial);
+    } catch (error) {
+      console.error("Erro ao atualizar razão social:", error.message || error);
+      res.status(500).json({ error: 'Erro ao atualizar razão social', detalhes: error.message });
+    }
+  },
+
+  async delete(req, res) {
+    const { id } = req.params;
+    try {
+      await prisma.razao_Social.delete({ where: { id: Number(id) } });
+      res.status(204).send();
+    } catch (error) {
+      console.error("Erro ao deletar razão social:", error);
+      res.status(500).json({ error: 'Erro ao deletar razão social' });
+    }
+  },
+
+  async getAll(req, res) {
     try {
       const razoesSociais = await prisma.razao_Social.findMany({
         include: {
-          cliente: true,
-          fornecedor: true,
+          cliente: true,  // Inclui cliente nas respostas
+          fornecedor: true, // Inclui fornecedor nas respostas
         },
       });
       res.status(200).json(razoesSociais);
     } catch (error) {
+      console.error("Erro ao buscar razões sociais:", error);
       res.status(500).json({ error: 'Erro ao buscar razões sociais' });
     }
   },
 
-  getById: async (req, res) => {
+  async getById(req, res) {
+    const { id } = req.params;
     try {
-      const { id } = req.params;
       const razaoSocial = await prisma.razao_Social.findUnique({
         where: { id: Number(id) },
         include: {
-          cliente: true,
-          fornecedor: true,
+          cliente: true,  // Inclui cliente nas respostas
+          fornecedor: true, // Inclui fornecedor nas respostas
         },
       });
-      if (!razaoSocial) return res.status(404).json({ error: 'Razão social não encontrada' });
+
+      if (!razaoSocial) {
+        return res.status(404).json({ error: 'Razão social não encontrada' });
+      }
+
       res.status(200).json(razaoSocial);
     } catch (error) {
+      console.error("Erro ao buscar razão social:", error);
       res.status(500).json({ error: 'Erro ao buscar razão social' });
-    }
-  },
-
-  update: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const {
-        CNPJ,
-        inscricao_estadual,
-        endereco,
-        bairro,
-        CEP,
-        municipio,
-        UF,
-        telefone,
-        clienteId,
-        fornecedorId,
-      } = req.body;
-
-      const razaoSocialAtualizada = await prisma.razao_Social.update({
-        where: { id: Number(id) },
-        data: {
-          CNPJ,
-          inscricao_estadual,
-          endereco,
-          bairro,
-          CEP,
-          municipio,
-          UF,
-          telefone,
-          cliente: clienteId ? { connect: { id: clienteId } } : undefined,
-          fornecedor: fornecedorId ? { connect: { id: fornecedorId } } : undefined,
-        },
-      });
-      res.status(200).json(razaoSocialAtualizada);
-    } catch (error) {
-      res.status(500).json({ error: 'Erro ao atualizar razão social' });
-    }
-  },
-
-  delete: async (req, res) => {
-    try {
-      const { id } = req.params;
-      await prisma.razao_Social.delete({ where: { id: Number(id) } });
-      res.status(204).send();
-    } catch (error) {
-      res.status(500).json({ error: 'Erro ao deletar razão social' });
     }
   },
 };
 
-module.exports = razaoSocialController;
+module.exports = RazaoSocialController;

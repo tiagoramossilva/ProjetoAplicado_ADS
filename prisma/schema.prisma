@@ -8,21 +8,22 @@ datasource db {
 }
 
 model Usuario {
-  id         Int      @id @default(autoincrement())
-  nome       String
-  email      String
-  funcao     String
-  admin      Boolean
-  usuario    String   @unique
-  senha      String
-  observacoes String?  @default("")
-  compras    Compra[]
+  id           Int          @id @default(autoincrement())
+  nome         String
+  email        String
+  funcao       String
+  admin        Boolean
+  usuario      String       @unique
+  senha        String
+  observacoes  String?      @default("")
+  compras      Compra[]
+  adicionais   Adicionais[]
 }
 
 model Produto {
-  id           Int       @id @default(autoincrement())
+  id           Int          @id @default(autoincrement())
   nome         String
-  numero_serie Int       @unique
+  numero_serie Int          @unique
   fabricante   String
   descricao    String
   compras      Compra[]
@@ -45,15 +46,16 @@ model Compra {
   fornecedor    Fornecedor? @relation(fields: [fornecedor_id], references: [id])
   cliente_id    Int?
   cliente       Cliente?    @relation(fields: [cliente_id], references: [id])
+  Adicionais Adicionais[]
 }
 
 model Projeto {
-  id                  Int       @id @default(autoincrement())
+  id                  Int          @id @default(autoincrement())
   nome_projeto        String
   responsavel_tecnico String
   gerente_projeto     String
   cliente_id          Int?
-  cliente             Cliente?  @relation(fields: [cliente_id], references: [id])
+  cliente             Cliente?     @relation(fields: [cliente_id], references: [id])
   compras             Compra[]
   estoques            Estoque[]
 }
@@ -107,4 +109,13 @@ model Fornecedor {
   razao_social_fornecedor String
   razao_social            Razao_Social[]
   compras                 Compra[]
+}
+
+model Adicionais {
+  id           Int       @id @default(autoincrement())
+  observacoes  String
+  usuario_id   Int @unique
+  usuario      Usuario  @relation(fields: [usuario_id], references: [id])
+  compra_id    Int
+  compra       Compra   @relation(fields: [compra_id], references: [id])
 }
