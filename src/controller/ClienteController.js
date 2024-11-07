@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const clienteController = {
+  // Método original para criar um cliente (sem transação)
   create: async (req, res) => {
     try {
       const { 
@@ -33,6 +34,18 @@ const clienteController = {
       res.status(201).json(novoCliente);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao criar cliente' });
+    }
+  },
+
+  // Novo método para criar um cliente dentro de uma transação
+  async createWithTransaction(clienteData, prisma) {
+    try {
+      const novoCliente = await prisma.cliente.create({
+        data: clienteData, // Usamos os dados recebidos como parâmetro
+      });
+      return novoCliente; // Retorna o cliente criado
+    } catch (error) {
+      throw new Error('Erro ao criar cliente dentro da transação');
     }
   },
 

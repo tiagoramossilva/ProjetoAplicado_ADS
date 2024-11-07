@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import "./CadastroCompra.css";
 import { useNavigate } from "react-router-dom";
-import FornecedorController from "../../controller/FornecedorController";
-import ClienteController from "../../controller/ClienteController";
-import ProdutoController from "../../controller/ProdutoController";
-import EstoqueController from "../../controller/EstoqueController";
-import LocalArmazenamentoController from "../../controller/LocalArmazenamentoController";
-import CompraController from "../../controller/CompraController";
-import ProjetoController from "../../controller/ProjetoController";
-import AdicionaisController from "../../controller/AdicionaisController";
 
 function CadastroCompra() {
   const navigate = useNavigate();
@@ -89,14 +81,12 @@ function CadastroCompra() {
 
   const handleChange = (index, e) => {
     const { name, value } = e.target;
-    setProdutos((prevProdutos) => {
-      const newProdutos = [...prevProdutos];
-      newProdutos[index] = {
-        ...newProdutos[index],
-        [name]: value,
-      };
-      return newProdutos;
-    });
+    const newProdutos = [...produtos];
+    newProdutos[index][name] =
+      name === "numero_serie" || name === "quantidade"
+        ? parseInt(value, 10) 
+        : value;
+    setProdutos(newProdutos);
   };
 
   const handleRemoveProduct = () => {
@@ -115,7 +105,7 @@ function CadastroCompra() {
         ...prevState,
         [section]: {
           ...prevState[section],
-          [field]: value,
+          [field]: value.trim(), // Garantindo que o valor seja tratado como string
         },
       };
     });
@@ -125,85 +115,33 @@ function CadastroCompra() {
     event.preventDefault();
 
     try {
-      const fornecedorId = await FornecedorController.create(
-        formData.fornecedor
+      const response = await fetch(
+        "http://localhost:3000/api/cadastro-compra",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fornecedor: formData.fornecedor,
+            cliente: formData.cliente,
+            compra: formData.compra,
+            produtos: produtos.map((produto) => produto),
+            projeto: formData.projeto,
+            adicionais: formData.adicionais,
+          }),
+        }
       );
-      const clienteId = await ClienteController.create(formData.cliente);
-      const compraId = await CompraController.create(formData.compra);
-
-      const produtosRefs = await Promise.all(
-        produtos.map(async (produto) => {
-          const {
-            andar,
-            sala,
-            armario,
-            tipo_unitario,
-            quantidade,
-            ...produtoInfo
-          } = produto;
-
-          if (!produtoInfo.nome || !produtoInfo.fabricante) {
-            throw new Error("Nome e Fabricante do produto são obrigatórios.");
-          }
-
-          const produtoId = await ProdutoController.create(produtoInfo);
-          await EstoqueController.create({
-            tipo_unitario,
-            quantidade,
-            produtoId,
-          });
-          await LocalArmazenamentoController.create({
-            andar,
-            sala,
-            armario,
-            produtoId,
-          });
-
-          return produtoId;
-        })
-      );
-
-      const projetoId = await ProjetoController.create(formData.projeto);
-
-      const infoAdicionaisId = await AdicionaisController.createAdicional(
-        formData.adicionais
-      );
-
-      // Dados a enviar para a API
-      const dataToSend = {
-        fornecedor: formData.fornecedor,
-        cliente: formData.cliente,
-        compra: formData.compra,
-        projeto: formData.projeto,
-        adicionais: formData.adicionais,
-        produtos,
-      };
-      console.log("Data to send:", JSON.stringify(dataToSend)); // Verifique o conteúdo aqui
-
-      const response = await fetch("http://localhost:3000/api", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSend),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(
-          `Erro na API: ${errorData.message || response.statusText}`
-        );
-      }
 
       const responseData = await response.json();
-      if (!responseData.status) {
-        throw new Error("Compra não cadastrada: " + responseData.error);
+      console.log(responseData);
+
+      if (!response.ok) {
+        throw new Error(responseData.message || "Erro ao cadastrar a compra");
       }
 
-      // ...
+      alert("Compra registrada com sucesso!");
     } catch (error) {
-      console.error("Erro ao cadastrar a compra: ", error);
-      alert(
-        `Erro ao cadastrar a compra. Tente novamente. Detalhes: ${error.message}`
-      );
+      console.error("Erro:", error);
+      alert("Erro ao registrar a compra. Tente novamente.");
     }
   };
 
@@ -356,6 +294,7 @@ function CadastroCompra() {
             <input
               type="number"
               name="compra.valor_total"
+              step="0.01"
               onChange={handleFormChange}
             />
           </div>
@@ -375,7 +314,7 @@ function CadastroCompra() {
               />
               <label>Número de Série:</label>
               <input
-                type="text"
+                type="number"
                 name="numero_serie"
                 value={produto.numero_serie}
                 onChange={(e) => handleChange(index, e)}

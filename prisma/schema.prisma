@@ -8,27 +8,32 @@ datasource db {
 }
 
 model Usuario {
-  id           Int          @id @default(autoincrement())
-  nome         String
-  email        String
-  funcao       String
-  admin        Boolean
-  usuario      String       @unique
-  senha        String
-  observacoes  String?      @default("")
-  compras      Compra[]
-  adicionais   Adicionais[]
+  id          Int      @id @default(autoincrement())
+  nome        String
+  email       String
+  funcao      String
+  admin       Boolean
+  usuario     String   @unique
+  senha       String
+  observacoes String?  @default("")
+  compras     Compra[]
 }
 
 model Produto {
-  id           Int          @id @default(autoincrement())
-  nome         String
-  numero_serie Int          @unique
-  fabricante   String
-  descricao    String
-  compras      Compra[]
-  estoque      Estoque[]
+  id             Int      @id @default(autoincrement())
+  nome           String
+  numero_serie   Int
+  fabricante     String
+  descricao      String
+  tipo_unitario  String   // Tipo do produto, ex: unidade, caixa, etc.
+  quantidade     Int
+  andar          String
+  sala           String
+  armario        String
+  data_cadastro  DateTime @default(now()) 
+  compras Compra[]
 }
+
 
 model Compra {
   id            Int         @id @default(autoincrement())
@@ -46,74 +51,52 @@ model Compra {
   fornecedor    Fornecedor? @relation(fields: [fornecedor_id], references: [id])
   cliente_id    Int?
   cliente       Cliente?    @relation(fields: [cliente_id], references: [id])
-  Adicionais    Adicionais[]
+  adicionais_id Int?
+  adicionais    Adicionais? @relation(fields: [adicionais_id], references: [id])
 }
 
 model Projeto {
-  id                  Int          @id @default(autoincrement())
+  id                  Int       @id @default(autoincrement())
   nome_projeto        String
   responsavel_tecnico String
   gerente_projeto     String
   cliente_id          Int?
-  cliente             Cliente?     @relation(fields: [cliente_id], references: [id])
+  cliente             Cliente?  @relation(fields: [cliente_id], references: [id])
   compras             Compra[]
-  estoques            Estoque[]
 }
 
-model Estoque {
-  id                     Int                  @id @default(autoincrement())
-  quantidade             Int
-  tipo_unitario          Int
-  produto_id             Int?
-  produto                Produto?             @relation(fields: [produto_id], references: [id])
-  projeto_id             Int?
-  projeto                Projeto?             @relation(fields: [projeto_id], references: [id])
-  local_armazenamento_id Int?
-  local_armazenamento    Local_Armazenamento? @relation(fields: [local_armazenamento_id], references: [id])
-}
-
-model Local_Armazenamento {
-  id       Int       @id @default(autoincrement())
-  andar    String
-  sala     String
-  armario  String
-  estoques Estoque[]
-}
 
 model Cliente {
-  id                      Int          @id @default(autoincrement())
-  razao_social_cliente     String
-  CNPJ                     String      @unique
-  inscricao_estadual       String
-  endereco                 String
-  bairro                   String
-  CEP                      Int
-  municipio                String
-  UF                       String
-  telefone                 String
-  projetos                 Projeto[]
-  compras                  Compra[]
+  id                   Int       @id @default(autoincrement())
+  razao_social_cliente String
+  CNPJ                 String    @unique
+  inscricao_estadual   String
+  endereco             String
+  bairro               String
+  CEP                  String
+  municipio            String
+  UF                   String
+  telefone             String
+  projetos             Projeto[]
+  compras              Compra[]
 }
 
 model Fornecedor {
-  id                        Int          @id @default(autoincrement())
-  razao_social_fornecedor   String
-  CNPJ                       String      @unique
-  inscricao_estadual        String
-  endereco                  String
-  bairro                    String
-  CEP                       Int
-  municipio                 String
-  UF                        String
-  telefone                  String
-  compras                   Compra[]
+  id                      Int      @id @default(autoincrement())
+  razao_social_fornecedor String
+  CNPJ                    String   @unique
+  inscricao_estadual      String
+  endereco                String
+  bairro                  String
+  CEP                     String
+  municipio               String
+  UF                      String
+  telefone                String
+  compras                 Compra[]
 }
 
 model Adicionais {
-  id           Int       @id @default(autoincrement())
-  observacoes  String
-  usuario_id   Int @unique
-  usuario      Usuario  @relation(fields: [usuario_id], references: [id])
-  compra_id    Int
-  compra       Compra   @relation(fields: [compra_id], references: [id])
+  id          Int      @id @default(autoincrement())
+  observacoes String
+  compras     Compra[]
 }

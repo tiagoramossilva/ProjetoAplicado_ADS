@@ -2,14 +2,10 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const CompraController = {
+  // Método original para criar uma compra (sem transação)
   async create(req, res) {
-    const {
-      data_compra,
-      data_emissao,
-      data_envio,
-      valor_total,
-    } = req.body;
-    
+    const { data_compra, data_emissao, data_envio, valor_total } = req.body;
+
     try {
       const compra = await prisma.compra.create({
         data: {
@@ -22,7 +18,23 @@ const CompraController = {
       return res.status(201).json(compra);
     } catch (error) {
       console.error("Erro ao criar compra:", error.message || error);
-      return res.status(500).json({ error: "Erro ao criar compra", detalhes: error.message });
+      return res
+        .status(500)
+        .json({ error: "Erro ao criar compra", detalhes: error.message });
+    }
+  },
+
+  // Novo método para criar uma compra dentro de uma transação
+  async createWithTransaction(compraData, prisma) {
+    try {
+      console.log("Tentando criar compra com os dados:", compraData);
+      const compra = await prisma.compra.create({
+        data: compraData, // Usamos os dados recebidos como parâmetro
+      });
+      console.log("Compra criada com sucesso:", compra);
+      return compra; // Retorna a compra criada
+    } catch (error) {
+      throw new Error("Erro ao criar compra dentro da transação");
     }
   },
 
@@ -54,12 +66,7 @@ const CompraController = {
 
   async update(req, res) {
     const { id } = req.params;
-    const {
-      data_compra,
-      data_emissao,
-      data_envio,
-      valor_total,
-    } = req.body;
+    const { data_compra, data_emissao, data_envio, valor_total } = req.body;
 
     try {
       const compra = await prisma.compra.update({
@@ -74,7 +81,9 @@ const CompraController = {
       return res.json(compra);
     } catch (error) {
       console.error("Erro ao atualizar compra:", error);
-      return res.status(500).json({ error: "Erro ao atualizar compra", detalhes: error.message });
+      return res
+        .status(500)
+        .json({ error: "Erro ao atualizar compra", detalhes: error.message });
     }
   },
 
