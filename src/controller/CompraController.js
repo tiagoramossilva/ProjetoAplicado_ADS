@@ -24,16 +24,19 @@ const CompraController = {
     }
   },
 
-  // Novo método para criar uma compra dentro de uma transação
   async createWithTransaction(compraData, prisma) {
     try {
-      console.log("Tentando criar compra com os dados:", compraData);
       const compra = await prisma.compra.create({
-        data: compraData, // Usamos os dados recebidos como parâmetro
+        data: {
+          data_compra: new Date(compraData.data_compra),
+          data_emissao: new Date(compraData.data_emissao),
+          data_envio: new Date(compraData.data_envio),
+          valor_total: parseFloat(compraData.valor_total),
+        },
       });
-      console.log("Compra criada com sucesso:", compra);
-      return compra; // Retorna a compra criada
+      return compra;
     } catch (error) {
+      console.error("Erro ao criar compra:", error);
       throw new Error("Erro ao criar compra dentro da transação");
     }
   },
@@ -97,6 +100,71 @@ const CompraController = {
     } catch (error) {
       console.error("Erro ao deletar compra:", error);
       return res.status(500).json({ error: "Erro ao deletar compra" });
+    }
+  },
+
+  // No seu arquivo CompraController.js
+  async associarIds(
+    compraId,
+    produtoId,
+    projetoId,
+    fornecedorId,
+    clienteId,
+    adicionaisId,
+    prisma
+  ) {
+    // Validação para garantir que todos os IDs são válidos
+    if (
+      !compraId ||
+      !produtoId ||
+      !projetoId ||
+      !fornecedorId ||
+      !clienteId ||
+      !adicionaisId
+    ) {
+      console.error("Erro: Todos os IDs devem ser fornecidos.");
+      throw new Error("Todos os IDs devem ser fornecidos.");
+    }
+
+    try {
+      // Atualiza a compra associando os dados passados (produtos, projeto, fornecedor, etc.)
+      const compraAtualizada = await prisma.compra.update({
+        where: {
+          id: compraId, // Procurando pela compra usando o ID fornecido
+        },
+        data: {
+          produto: {
+            connect: {
+              id: produtoId, // Conectando o produto à compra
+            },
+          },
+          projeto: {
+            connect: {
+              id: projetoId, // Conectando o projeto à compra
+            },
+          },
+          fornecedor: {
+            connect: {
+              id: fornecedorId, // Conectando o fornecedor à compra
+            },
+          },
+          cliente: {
+            connect: {
+              id: clienteId, // Conectando o cliente à compra
+            },
+          },
+          adicionais: {
+            connect: {
+              id: adicionaisId, // Conectando os adicionais à compra
+            },
+          },
+        },
+      });
+
+      return compraAtualizada;
+    } catch (error) {
+      console.error("Erro ao associar dados com a compra:", error);
+      throw new Error("Erro ao associar produtos com compra");
     }
   },
 };

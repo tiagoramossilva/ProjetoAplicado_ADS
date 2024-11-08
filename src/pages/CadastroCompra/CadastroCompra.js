@@ -84,7 +84,7 @@ function CadastroCompra() {
     const newProdutos = [...produtos];
     newProdutos[index][name] =
       name === "numero_serie" || name === "quantidade"
-        ? parseInt(value, 10) 
+        ? parseInt(value, 10)
         : value;
     setProdutos(newProdutos);
   };
@@ -124,7 +124,7 @@ function CadastroCompra() {
             fornecedor: formData.fornecedor,
             cliente: formData.cliente,
             compra: formData.compra,
-            produtos: produtos.map((produto) => produto),
+            produtos: produtos,
             projeto: formData.projeto,
             adicionais: formData.adicionais,
           }),

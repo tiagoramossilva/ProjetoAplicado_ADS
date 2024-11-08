@@ -16,24 +16,21 @@ model Usuario {
   usuario     String   @unique
   senha       String
   observacoes String?  @default("")
-  compras     Compra[]
 }
 
 model Produto {
-  id             Int      @id @default(autoincrement())
-  nome           String
-  numero_serie   Int
-  fabricante     String
-  descricao      String
-  tipo_unitario  String   // Tipo do produto, ex: unidade, caixa, etc.
-  quantidade     Int
-  andar          String
-  sala           String
-  armario        String
-  data_cadastro  DateTime @default(now()) 
-  compras Compra[]
+  id            Int      @id @default(autoincrement())
+  nome          String
+  numero_serie  Int
+  fabricante    String
+  descricao     String
+  tipo_unitario String
+  quantidade    Int
+  andar         String
+  sala          String
+  armario       String
+  compras       Compra[]
 }
-
 
 model Compra {
   id            Int         @id @default(autoincrement())
@@ -41,8 +38,6 @@ model Compra {
   data_emissao  DateTime
   data_envio    DateTime
   valor_total   Float
-  usuario_id    Int?
-  usuario       Usuario?    @relation(fields: [usuario_id], references: [id])
   produto_id    Int?
   produto       Produto?    @relation(fields: [produto_id], references: [id])
   projeto_id    Int?
@@ -56,15 +51,14 @@ model Compra {
 }
 
 model Projeto {
-  id                  Int       @id @default(autoincrement())
+  id                  Int      @id @default(autoincrement())
   nome_projeto        String
   responsavel_tecnico String
   gerente_projeto     String
   cliente_id          Int?
-  cliente             Cliente?  @relation(fields: [cliente_id], references: [id])
+  cliente             Cliente? @relation(fields: [cliente_id], references: [id])
   compras             Compra[]
 }
-
 
 model Cliente {
   id                   Int       @id @default(autoincrement())

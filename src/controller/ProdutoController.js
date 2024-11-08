@@ -5,9 +5,29 @@ const produtoController = {
   // Método original para criar um produto (sem transação)
   create: async (req, res) => {
     try {
-      const { nome, numero_serie, fabricante, descricao, tipo_unitario, quantidade, andar, sala, armario } = req.body;
+      const {
+        nome,
+        numero_serie,
+        fabricante,
+        descricao,
+        tipo_unitario,
+        quantidade,
+        andar,
+        sala,
+        armario,
+      } = req.body;
       const produtoCriado = await prisma.produto.create({
-        data: { nome, numero_serie, fabricante, descricao, tipo_unitario, quantidade, andar, sala, armario },
+        data: {
+          nome,
+          numero_serie,
+          fabricante,
+          descricao,
+          tipo_unitario,
+          quantidade,
+          andar,
+          sala,
+          armario,
+        },
       });
       res.status(201).json(produtoCriado);
     } catch (error) {
@@ -15,20 +35,19 @@ const produtoController = {
     }
   },
 
-  // Método para criar um produto dentro de uma transação simplificada
-  async createWithTransaction(produtoData) {
+  async createWithTransaction(produtoData, prisma) {
     try {
-      const transaction = await prisma.$transaction(async (prisma) => {
-        console.log("Iniciando criação do produto...");
+      const produtosCriados = []; // Array para armazenar os produtos criados
+      for (const produto of produtoData) {
         const produtoCriado = await prisma.produto.create({
-          data: produtoData,
+          data: produto,
         });
-        console.log("Produto criado:", produtoCriado);
-        return produtoCriado;
-      });
-      return transaction;
+        produtosCriados.push(produtoCriado); // Adiciona o produto criado ao array
+      }
+      return produtosCriados;
+      // Retorna todos os produtos criados
     } catch (error) {
-      console.error("Erro dentro da transação:", error);
+      console.error("Erro ao criar produto dentro da transação:", error);
       throw new Error("Erro ao criar produto dentro da transação");
     }
   },
@@ -60,10 +79,30 @@ const produtoController = {
   update: async (req, res) => {
     try {
       const { id } = req.params;
-      const { nome, numero_serie, fabricante, descricao, tipo_unitario, quantidade, andar, sala, armario } = req.body;
+      const {
+        nome,
+        numero_serie,
+        fabricante,
+        descricao,
+        tipo_unitario,
+        quantidade,
+        andar,
+        sala,
+        armario,
+      } = req.body;
       const produtoAtualizado = await prisma.produto.update({
         where: { id: Number(id) },
-        data: { nome, numero_serie, fabricante, descricao, tipo_unitario, quantidade, andar, sala, armario },
+        data: {
+          nome,
+          numero_serie,
+          fabricante,
+          descricao,
+          tipo_unitario,
+          quantidade,
+          andar,
+          sala,
+          armario,
+        },
       });
       res.status(200).json(produtoAtualizado);
     } catch (error) {
