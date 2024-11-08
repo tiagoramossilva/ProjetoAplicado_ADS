@@ -2,6 +2,18 @@ const webpack = require("webpack");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 module.exports = function override(config, env) {
+  // Desativa os source maps
+  config.devtool = false;
+
+  // Lidar com o source map do Prisma e outros warnings
+  config.module.rules.push({
+    test: /\.js$/,
+    use: ['source-map-loader'],
+    enforce: 'pre',
+    exclude: [/node_modules/],
+  });
+
+  // Habilita plugins e resolve para polifilamento
   config.plugins.push(new NodePolyfillPlugin());
   config.mode = "development";
   config.resolve.fallback = {
