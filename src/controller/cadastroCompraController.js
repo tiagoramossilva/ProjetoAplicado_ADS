@@ -1,9 +1,9 @@
-const fornecedorController = require("./FornecedorController");
-const clienteController = require("./ClienteController");
-const produtoController = require("./ProdutoController");
-const compraController = require("./CompraController");
-const projetoController = require("./ProjetoController");
-const adicionaisController = require("./AdicionaisController");
+const fornecedorController = require("../repositories/Fornecedor");
+const clienteController = require("../repositories/Cliente");
+const produtoController = require("../repositories/Produto");
+const compraController = require("../repositories/Compra");
+const projetoController = require("../repositories/Projeto");
+const adicionaisController = require("../repositories/Adicionais");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 

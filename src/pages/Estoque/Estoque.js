@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Estoque.css";
 import { FiRefreshCcw } from "react-icons/fi";
 import { IoTrashBin, IoSearchOutline } from "react-icons/io5";
-import Produto from "../../repositories/ProdutoController"; // Importando o modelo de Produto
+import Produto from "../../repositories/Produto"; // Importando o modelo de Produto
 
 function EstoquePage() {
   const navigate = useNavigate();
