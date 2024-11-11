@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const { loginUser } = require("../controller/authController");
-const usuarioController = require("../controller/UsuarioController");
-const projetoController = require("../controller/ProjetoController");
-const produtoController = require("../controller/ProdutoController");
-const fornecedorController = require("../controller/FornecedorController");
-const compraController = require("../controller/CompraController");
-const clienteController = require("../controller/ClienteController");
-const AdicionaisController = require("../controller/AdicionaisController");
-const cadastroCompraController = require('../controller/cadastroCompraController');
+const usuarioController = require("../repositories/UsuarioController");
+const projetoController = require("../repositories/ProjetoController");
+const produtoController = require("../repositories/ProdutoController");
+const fornecedorController = require("../repositories/FornecedorController");
+const compraController = require("../repositories/CompraController");
+const clienteController = require("../repositories/ClienteController");
+const AdicionaisController = require("../repositories/AdicionaisController");
+const cadastroCompraController = require("../controller/cadastroCompraController");
 
 router.post("/cadastro-compra", cadastroCompraController.create);
 
