@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@prisma/client": "^5.21.1",
+    "@prisma/client": "^5.22.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,6 +11,7 @@
     "bcrypt": "^5.1.1",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
+    "client": "^0.0.1",
     "cors": "^2.8.5",
     "crypto-browserify": "^3.12.0",
     "events": "^3.3.0",
@@ -65,7 +66,7 @@
   "devDependencies": {
     "eslint": "^8.57.1",
     "nodemon": "^3.1.6",
-    "prisma": "^5.21.1",
+    "prisma": "^5.22.0",
     "react-app-rewired": "^2.2.1"
   }
 }

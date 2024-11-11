@@ -15,7 +15,7 @@
 
     color: white;
 
-    background-image: url('./StockMaster01.png');
+    background-image: url('./StockMaster2.png');
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
@@ -95,7 +95,7 @@
   
   .login-btn {
     padding: 15px; 
-    background-color: #6b6b6b;
+    background-color: #9d9d9d;
     color: rgb(0, 0, 0);
     border: none;
     border-radius: 10px;

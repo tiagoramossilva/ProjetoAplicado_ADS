@@ -370,10 +370,10 @@ function CadastroCompra() {
               />
             </div>
           ))}
-          <button type="button" onClick={handleAddProduct}>
+          <button type="button" onClick={handleAddProduct} className="ButtonAdd">
             Adicionar Produto
           </button>
-          <button type="button" onClick={handleRemoveProduct}>
+          <button type="button" onClick={handleRemoveProduct} className="ButtonCancel">
             Remover Produto
           </button>
         </fieldset>
@@ -419,8 +419,8 @@ function CadastroCompra() {
         </fieldset>
 
         <div className="button-group">
-          <button type="submit">Cadastrar Compra</button>
-          <button type="button" onClick={handleCancel}>
+          <button type="submit" className="ButtonAdd">Cadastrar Compra</button>
+          <button type="button" onClick={handleCancel} className="ButtonCancel">
             Cancelar
           </button>
         </div>
