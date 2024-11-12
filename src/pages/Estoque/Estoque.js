@@ -27,7 +27,11 @@ function EstoquePage() {
 
   const fetchData = async () => {
     try {
-      const produtosData = await Produto.getAll(); // Buscando todos os produtos
+      const resposta = await fetch("http://localhost:3000/api/produto", {
+        method: "GET",
+      });
+      const produtosData = await resposta.json(); // Buscando todos os produtos
+      console.log("aquiiiiii", produtosData);
       setProdutos(produtosData);
     } catch (error) {
       console.error("Erro ao buscar dados:", error);
