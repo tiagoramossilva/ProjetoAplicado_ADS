@@ -119,6 +119,29 @@ const produtoController = {
       res.status(500).json({ error: "Erro ao deletar produto" });
     }
   },
+
+  getProdutosComProjetos: async (req, res) => {
+    // Adaptado para receber req e res
+    try {
+      const produtos = await prisma.produto.findMany({
+        include: {
+          compras: {
+            include: {
+              projeto: {
+                select: {
+                  nome_projeto: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      res.status(200).json(produtos); // Retorna os produtos com o status 200
+    } catch (error) {
+      console.error("Erro ao buscar produtos com projetos:", error);
+      res.status(500).json({ error: "Erro ao buscar produtos com projetos" });
+    }
+  },
 };
 
 module.exports = produtoController;

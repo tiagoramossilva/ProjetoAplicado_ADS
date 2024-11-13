@@ -1,204 +1,577 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
-  // Criação de Usuários
-  const usuario1 = await prisma.usuario.create({
-    data: {
-      nome: "João Silva",
-      email: "joao@exemplo.com",
-      funcao: "Administrador",
-      admin: true,
-      usuario: "joao123",
-      senha: "senha123",
-      observacoes: "Observação do João",
-    },
-  });
-
-  const usuario2 = await prisma.usuario.create({
-    data: {
-      nome: "Maria Oliveira",
-      email: "maria@exemplo.com",
-      funcao: "Gerente",
-      admin: false,
-      usuario: "maria456",
-      senha: "senha456",
-      observacoes: "Observação da Maria",
-    },
-  });
-
-  // Criação de Produtos
-  const produto1 = await prisma.produto.create({
-    data: {
-      nome: "Produto A",
-      numero_serie: 12345,
-      fabricante: "Fabricante A",
-      descricao: "Descrição do Produto A",
-      tipo_unitario: "Unidade",
-      quantidade: 100,
-      andar: "1",
-      sala: "101",
-      armario: "A1",
-    },
-  });
-
-  const produto2 = await prisma.produto.create({
-    data: {
-      nome: "Produto B",
-      numero_serie: 67890,
-      fabricante: "Fabricante B",
-      descricao: "Descrição do Produto B",
-      tipo_unitario: "Caixa",
-      quantidade: 50,
-      andar: "2",
-      sala: "202",
-      armario: "B2",
-    },
-  });
-
-  // Criação de Clientes
-  const cliente1 = await prisma.cliente.create({
-    data: {
-      razao_social_cliente: "Cliente A Ltda",
-      CNPJ: "00.000.000/0001-00",
-      inscricao_estadual: "1234567890",
-      endereco: "Rua A, 123",
-      bairro: "Centro",
-      CEP: "12345-678",
-      municipio: "Florianópolis",
-      UF: "SC",
-      telefone: "(48) 1234-5678",
-    },
-  });
-
-  const cliente2 = await prisma.cliente.create({
-    data: {
-      razao_social_cliente: "Cliente B Ltda",
-      CNPJ: "11.111.111/0001-11",
-      inscricao_estadual: "9876543210",
-      endereco: "Rua B, 456",
-      bairro: "Centro",
-      CEP: "23456-789",
-      municipio: "Florianópolis",
-      UF: "SC",
-      telefone: "(48) 8765-4321",
-    },
-  });
-
-  // Criação de Fornecedores
-  const fornecedor1 = await prisma.fornecedor.create({
-    data: {
-      razao_social_fornecedor: "Fornecedor A Ltda",
-      CNPJ: "22.222.222/0001-22",
-      inscricao_estadual: "1122334455",
-      endereco: "Rua C, 789",
-      bairro: "Industrial",
-      CEP: "34567-890",
-      municipio: "Florianópolis",
-      UF: "SC",
-      telefone: "(48) 9876-5432",
-    },
-  });
-
-  const fornecedor2 = await prisma.fornecedor.create({
-    data: {
-      razao_social_fornecedor: "Fornecedor B Ltda",
-      CNPJ: "33.333.333/0001-33",
-      inscricao_estadual: "9988776655",
-      endereco: "Rua D, 1011",
-      bairro: "Industrial",
-      CEP: "45678-901",
-      municipio: "Florianópolis",
-      UF: "SC",
-      telefone: "(48) 5432-1098",
-    },
-  });
-
-  // Criação de Projetos
-  const projeto1 = await prisma.projeto.create({
-    data: {
-      nome_projeto: "Projeto A",
-      responsavel_tecnico: "Eng. João Silva",
-      gerente_projeto: "Maria Oliveira",
-      cliente_id: cliente1.id,
-    },
-  });
-
-  const projeto2 = await prisma.projeto.create({
-    data: {
-      nome_projeto: "Projeto B",
-      responsavel_tecnico: "Eng. Carlos Souza",
-      gerente_projeto: "Ana Costa",
-      cliente_id: cliente2.id,
-    },
-  });
-
-  // Criação de Compras
-  const compra1 = await prisma.compra.create({
-    data: {
-      data_compra: new Date("2024-11-08T17:04:44.670Z"),
-      data_emissao: new Date("2024-11-08T17:04:44.670Z"),
-      data_envio: new Date("2024-11-08T17:04:44.670Z"),
-      valor_total: 2500,
-      produto: {
-        connect: {
-          id: produto1.id,
-        },
+  // Populando a tabela Usuario
+  await prisma.usuario.createMany({
+    data: [
+      {
+        nome: "João Silva",
+        email: "joao@exemplo.com",
+        funcao: "Analista",
+        admin: true,
+        usuario: "joao.silva",
+        senha: "senha123",
       },
-      projeto: {
-        connect: {
-          id: projeto1.id,
-        },
+      {
+        nome: "Maria Souza",
+        email: "maria@exemplo.com",
+        funcao: "Assistente",
+        admin: false,
+        usuario: "maria.souza",
+        senha: "senha123",
       },
-      fornecedor: {
-        connect: {
-          id: fornecedor1.id,
-        },
+      {
+        nome: "Pedro Oliveira",
+        email: "pedro@exemplo.com",
+        funcao: "Gerente",
+        admin: true,
+        usuario: "pedro.oliveira",
+        senha: "senha123",
       },
-      cliente: {
-        connect: {
-          id: cliente1.id,
-        },
+      {
+        nome: "Ana Santos",
+        email: "ana@exemplo.com",
+        funcao: "Coordenadora",
+        admin: false,
+        usuario: "ana.santos",
+        senha: "senha123",
       },
-    },
+      {
+        nome: "Lucas Lima",
+        email: "lucas@exemplo.com",
+        funcao: "Técnico",
+        admin: false,
+        usuario: "lucas.lima",
+        senha: "senha123",
+      },
+      {
+        nome: "Fernanda Rocha",
+        email: "fernanda@exemplo.com",
+        funcao: "Desenvolvedora",
+        admin: true,
+        usuario: "fernanda.rocha",
+        senha: "senha123",
+      },
+      {
+        nome: "Gustavo Costa",
+        email: "gustavo@exemplo.com",
+        funcao: "Analista",
+        admin: false,
+        usuario: "gustavo.costa",
+        senha: "senha123",
+      },
+      {
+        nome: "Camila Martins",
+        email: "camila@exemplo.com",
+        funcao: "Assistente",
+        admin: false,
+        usuario: "camila.martins",
+        senha: "senha123",
+      },
+      {
+        nome: "Ricardo Lopes",
+        email: "ricardo@exemplo.com",
+        funcao: "Supervisor",
+        admin: true,
+        usuario: "ricardo.lopes",
+        senha: "senha123",
+      },
+      {
+        nome: "Juliana Almeida",
+        email: "juliana@exemplo.com",
+        funcao: "Gerente",
+        admin: false,
+        usuario: "juliana.almeida",
+        senha: "senha123",
+      },
+    ],
   });
 
-  const compra2 = await prisma.compra.create({
-    data: {
-      data_compra: new Date("2024-11-09T18:10:15.670Z"),
-      data_emissao: new Date("2024-11-09T18:10:15.670Z"),
-      data_envio: new Date("2024-11-09T18:10:15.670Z"),
-      valor_total: 3500,
-      produto: {
-        connect: {
-          id: produto2.id,
-        },
+  // Populando a tabela Produto com componentes eletrônicos realistas
+  await prisma.produto.createMany({
+    data: [
+      {
+        nome: "Resistor 220 Ohm",
+        numero_serie: 1234501,
+        fabricante: "EletroComp",
+        descricao: "Resistor de precisão 1%",
+        tipo_unitario: "Unidade",
+        quantidade: 1000,
+        andar: "1",
+        sala: "101",
+        armario: "A1",
       },
-      projeto: {
-        connect: {
-          id: projeto2.id,
-        },
+      {
+        nome: "Capacitor Cerâmico 100nF",
+        numero_serie: 1234502,
+        fabricante: "Eletronix",
+        descricao: "Capacitor de cerâmica para circuitos AC/DC",
+        tipo_unitario: "Unidade",
+        quantidade: 500,
+        andar: "1",
+        sala: "102",
+        armario: "A2",
       },
-      fornecedor: {
-        connect: {
-          id: fornecedor2.id,
-        },
+      {
+        nome: "Transistor NPN BC547",
+        numero_serie: 1234503,
+        fabricante: "SemiTek",
+        descricao: "Transistor de uso geral",
+        tipo_unitario: "Unidade",
+        quantidade: 750,
+        andar: "2",
+        sala: "201",
+        armario: "B1",
       },
-      cliente: {
-        connect: {
-          id: cliente2.id,
-        },
+      {
+        nome: "Microcontrolador ATmega328P",
+        numero_serie: 1234504,
+        fabricante: "MicroChip",
+        descricao: "Microcontrolador usado em Arduino",
+        tipo_unitario: "Unidade",
+        quantidade: 200,
+        andar: "2",
+        sala: "202",
+        armario: "B2",
       },
-    },
+      {
+        nome: "Indutor 10uH",
+        numero_serie: 1234505,
+        fabricante: "MagComp",
+        descricao: "Indutor de potência",
+        tipo_unitario: "Unidade",
+        quantidade: 300,
+        andar: "3",
+        sala: "301",
+        armario: "C1",
+      },
+      {
+        nome: "Sensor de Temperatura LM35",
+        numero_serie: 1234506,
+        fabricante: "SensTech",
+        descricao: "Sensor de temperatura de precisão",
+        tipo_unitario: "Unidade",
+        quantidade: 150,
+        andar: "3",
+        sala: "302",
+        armario: "C2",
+      },
+      {
+        nome: "Oscilador Cristalino 16MHz",
+        numero_serie: 1234507,
+        fabricante: "OscilComp",
+        descricao: "Cristal oscilador para circuitos de relógio",
+        tipo_unitario: "Unidade",
+        quantidade: 100,
+        andar: "4",
+        sala: "401",
+        armario: "D1",
+      },
+      {
+        nome: "Amplificador LM358",
+        numero_serie: 1234508,
+        fabricante: "AudioTech",
+        descricao: "Amplificador operacional dual",
+        tipo_unitario: "Unidade",
+        quantidade: 400,
+        andar: "4",
+        sala: "402",
+        armario: "D2",
+      },
+      {
+        nome: "Diodo Zener 5V1",
+        numero_serie: 1234509,
+        fabricante: "Diodix",
+        descricao: "Diodo regulador de tensão 5V",
+        tipo_unitario: "Unidade",
+        quantidade: 600,
+        andar: "5",
+        sala: "501",
+        armario: "E1",
+      },
+      {
+        nome: "Relé de Potência 5V",
+        numero_serie: 1234510,
+        fabricante: "PowerRelays",
+        descricao: "Relé de acionamento com bobina de 5V",
+        tipo_unitario: "Unidade",
+        quantidade: 250,
+        andar: "5",
+        sala: "502",
+        armario: "E2",
+      },
+    ],
   });
 
-  console.log("Seed executado com sucesso!");
+  // Populando a tabela Cliente com nomes de empresas fictícias
+  await prisma.cliente.createMany({
+    data: [
+      {
+        razao_social_cliente: "TecnoSolution Ltda",
+        CNPJ: "12345678000191",
+        inscricao_estadual: "1234567891",
+        endereco: "Av. Central, 123",
+        bairro: "Centro",
+        CEP: "12345000",
+        municipio: "TecnoCity",
+        UF: "TC",
+        telefone: "(11) 1111-1111",
+      },
+      {
+        razao_social_cliente: "EletronPlus SA",
+        CNPJ: "12345678000192",
+        inscricao_estadual: "1234567892",
+        endereco: "Rua das Indústrias, 45",
+        bairro: "Industrial",
+        CEP: "23456000",
+        municipio: "EletronTown",
+        UF: "ET",
+        telefone: "(21) 2222-2222",
+      },
+      {
+        razao_social_cliente: "MicroComp Comércio",
+        CNPJ: "12345678000193",
+        inscricao_estadual: "1234567893",
+        endereco: "Av. Digital, 98",
+        bairro: "Comércio",
+        CEP: "34567000",
+        municipio: "MicroCity",
+        UF: "MC",
+        telefone: "(31) 3333-3333",
+      },
+      {
+        razao_social_cliente: "PowerSolutions LTDA",
+        CNPJ: "12345678000194",
+        inscricao_estadual: "1234567894",
+        endereco: "Estrada das Energias, 150",
+        bairro: "Energia",
+        CEP: "45678000",
+        municipio: "PowerCity",
+        UF: "PC",
+        telefone: "(41) 4444-4444",
+      },
+      {
+        razao_social_cliente: "DataSystems Ltda",
+        CNPJ: "12345678000195",
+        inscricao_estadual: "1234567895",
+        endereco: "Alameda Dados, 200",
+        bairro: "Tecnologia",
+        CEP: "56789000",
+        municipio: "DataVille",
+        UF: "DV",
+        telefone: "(51) 5555-5555",
+      },
+      {
+        razao_social_cliente: "InfoTech Solutions",
+        CNPJ: "12345678000196",
+        inscricao_estadual: "1234567896",
+        endereco: "Rua Tecnologia, 500",
+        bairro: "Inovações",
+        CEP: "67891000",
+        municipio: "InfoTown",
+        UF: "IT",
+        telefone: "(61) 6666-6666",
+      },
+      {
+        razao_social_cliente: "CompTec Comércio",
+        CNPJ: "12345678000197",
+        inscricao_estadual: "1234567897",
+        endereco: "Av. da Tecnologia, 120",
+        bairro: "Comercial",
+        CEP: "78912000",
+        municipio: "CompCity",
+        UF: "CC",
+        telefone: "(71) 7777-7777",
+      },
+      {
+        razao_social_cliente: "MegaElectro SA",
+        CNPJ: "12345678000198",
+        inscricao_estadual: "1234567898",
+        endereco: "Estrada Eletrônica, 45",
+        bairro: "Eletrônica",
+        CEP: "89123000",
+        municipio: "ElectroVille",
+        UF: "EV",
+        telefone: "(81) 8888-8888",
+      },
+      {
+        razao_social_cliente: "SmartDevices Ltda",
+        CNPJ: "12345678000199",
+        inscricao_estadual: "1234567899",
+        endereco: "Rua Inovação, 300",
+        bairro: "Industrial",
+        CEP: "91234000",
+        municipio: "DeviceCity",
+        UF: "DC",
+        telefone: "(91) 9999-9999",
+      },
+      {
+        razao_social_cliente: "Eletronic Corp",
+        CNPJ: "12345678000200",
+        inscricao_estadual: "1234567800",
+        endereco: "Av. Eletrônica, 100",
+        bairro: "Corporativo",
+        CEP: "10111200",
+        municipio: "EletronicCity",
+        UF: "EC",
+        telefone: "(71) 1234-5678",
+      },
+    ],
+  });
+
+  // Populando a tabela Fornecedor com nomes de empresas fictícias
+  await prisma.fornecedor.createMany({
+    data: [
+      {
+        razao_social_fornecedor: "CompDistribuidora Ltda",
+        CNPJ: "12345678000201",
+        inscricao_estadual: "2234567891",
+        endereco: "Av. Central, 456",
+        bairro: "Logística",
+        CEP: "10203000",
+        municipio: "DistribuVille",
+        UF: "DV",
+        telefone: "(11) 2134-5678",
+      },
+      {
+        razao_social_fornecedor: "Eletrônica Pro",
+        CNPJ: "12345678000202",
+        inscricao_estadual: "2234567892",
+        endereco: "Rua da Indústria, 89",
+        bairro: "Tecnologia",
+        CEP: "11213000",
+        municipio: "TecnoCenter",
+        UF: "TC",
+        telefone: "(21) 2345-6789",
+      },
+      {
+        razao_social_fornecedor: "TechSupplies Inc.",
+        CNPJ: "12345678000203",
+        inscricao_estadual: "2234567893",
+        endereco: "Rua Tech, 321",
+        bairro: "Fornecedores",
+        CEP: "21234000",
+        municipio: "SupplyTown",
+        UF: "ST",
+        telefone: "(31) 3456-7890",
+      },
+      {
+        razao_social_fornecedor: "MegaComponentes",
+        CNPJ: "12345678000204",
+        inscricao_estadual: "2234567894",
+        endereco: "Estrada dos Eletrônicos, 12",
+        bairro: "Componentes",
+        CEP: "32145000",
+        municipio: "CompCity",
+        UF: "CC",
+        telefone: "(41) 4567-8901",
+      },
+      {
+        razao_social_fornecedor: "ElectroHub",
+        CNPJ: "12345678000205",
+        inscricao_estadual: "2234567895",
+        endereco: "Alameda Eletrônica, 123",
+        bairro: "Eletrônicos",
+        CEP: "43256000",
+        municipio: "HubCity",
+        UF: "HC",
+        telefone: "(51) 5678-9012",
+      },
+      {
+        razao_social_fornecedor: "Distribuição Global",
+        CNPJ: "12345678000206",
+        inscricao_estadual: "2234567896",
+        endereco: "Av. Logística, 456",
+        bairro: "Logística",
+        CEP: "54367000",
+        municipio: "GlobalDistrib",
+        UF: "GD",
+        telefone: "(61) 6789-0123",
+      },
+      {
+        razao_social_fornecedor: "InovaCom",
+        CNPJ: "12345678000207",
+        inscricao_estadual: "2234567897",
+        endereco: "Rua Inovação, 98",
+        bairro: "Inovações",
+        CEP: "65478000",
+        municipio: "InovaCity",
+        UF: "IC",
+        telefone: "(71) 7890-1234",
+      },
+      {
+        razao_social_fornecedor: "Eletronix Parts",
+        CNPJ: "12345678000208",
+        inscricao_estadual: "2234567898",
+        endereco: "Estrada da Eletrônica, 67",
+        bairro: "Peças",
+        CEP: "76589000",
+        municipio: "PartsTown",
+        UF: "PT",
+        telefone: "(81) 8901-2345",
+      },
+      {
+        razao_social_fornecedor: "TecnoDistribuição",
+        CNPJ: "12345678000209",
+        inscricao_estadual: "2234567899",
+        endereco: "Rua Central, 11",
+        bairro: "Distribuição",
+        CEP: "87690000",
+        municipio: "TecnoDistrib",
+        UF: "TD",
+        telefone: "(91) 9012-3456",
+      },
+      {
+        razao_social_fornecedor: "Circuitos S/A",
+        CNPJ: "12345678000210",
+        inscricao_estadual: "2234567810",
+        endereco: "Av. dos Circuitos, 78",
+        bairro: "Circuitos",
+        CEP: "98701000",
+        municipio: "CircuitVille",
+        UF: "CV",
+        telefone: "(81) 3456-7890",
+      },
+    ],
+  });
+  await prisma.projeto.createMany({
+    data: [
+      {
+        nome_projeto: "Sistema de Monitoramento",
+        responsavel_tecnico: "João da Silva",
+        gerente_projeto: "Ana Clara",
+        cliente_id: 1,
+      },
+      {
+        nome_projeto: "Automação Residencial",
+        responsavel_tecnico: "Marcos Pereira",
+        gerente_projeto: "Carlos Lima",
+        cliente_id: 2,
+      },
+      {
+        nome_projeto: "Rede de Distribuição",
+        responsavel_tecnico: "Luciana Almeida",
+        gerente_projeto: "Pedro Fonseca",
+        cliente_id: 3,
+      },
+      {
+        nome_projeto: "Plataforma de E-commerce",
+        responsavel_tecnico: "Fernanda Torres",
+        gerente_projeto: "Gabriel Santos",
+        cliente_id: 4,
+      },
+      {
+        nome_projeto: "Sistema de Segurança",
+        responsavel_tecnico: "Juliana Araújo",
+        gerente_projeto: "Rafael Costa",
+        cliente_id: 5,
+      },
+      {
+        nome_projeto: "Gerenciamento de Estoque",
+        responsavel_tecnico: "Luis Martins",
+        gerente_projeto: "Mariana Gomes",
+        cliente_id: 6,
+      },
+      {
+        nome_projeto: "Controle de Acesso",
+        responsavel_tecnico: "Thiago Ramos",
+        gerente_projeto: "Lívia Nunes",
+        cliente_id: 7,
+      },
+      {
+        nome_projeto: "Sistema de Vendas",
+        responsavel_tecnico: "Carla Souza",
+        gerente_projeto: "Ricardo Lima",
+        cliente_id: 8,
+      },
+      {
+        nome_projeto: "Aplicativo Mobile",
+        responsavel_tecnico: "Bruno Marques",
+        gerente_projeto: "Sofia Mendes",
+        cliente_id: 9,
+      },
+      {
+        nome_projeto: "Integração de Sistemas",
+        responsavel_tecnico: "Paula Oliveira",
+        gerente_projeto: "André Silva",
+        cliente_id: 10,
+      },
+    ],
+  });
+
+  // Populando a tabela Compra
+  await prisma.compra.createMany({
+    data: [
+      {
+        data_compra: new Date("2024-01-15"),
+        data_emissao: new Date("2024-01-16"),
+        data_envio: new Date("2024-01-20"),
+        valor_total: 1200.5,
+      },
+      {
+        data_compra: new Date("2024-02-10"),
+        data_emissao: new Date("2024-02-11"),
+        data_envio: new Date("2024-02-15"),
+        valor_total: 3400.75,
+      },
+      {
+        data_compra: new Date("2024-03-05"),
+        data_emissao: new Date("2024-03-06"),
+        data_envio: new Date("2024-03-09"),
+        valor_total: 2100.2,
+      },
+      {
+        data_compra: new Date("2024-04-01"),
+        data_emissao: new Date("2024-04-02"),
+        data_envio: new Date("2024-04-07"),
+        valor_total: 5600.0,
+      },
+      {
+        data_compra: new Date("2024-04-20"),
+        data_emissao: new Date("2024-04-21"),
+        data_envio: new Date("2024-04-25"),
+        valor_total: 890.3,
+      },
+      {
+        data_compra: new Date("2024-05-10"),
+        data_emissao: new Date("2024-05-11"),
+        data_envio: new Date("2024-05-14"),
+        valor_total: 2750.0,
+      },
+      {
+        data_compra: new Date("2024-06-01"),
+        data_emissao: new Date("2024-06-02"),
+        data_envio: new Date("2024-06-05"),
+        valor_total: 1345.7,
+      },
+      {
+        data_compra: new Date("2024-06-15"),
+        data_emissao: new Date("2024-06-16"),
+        data_envio: new Date("2024-06-20"),
+        valor_total: 6500.0,
+      },
+      {
+        data_compra: new Date("2024-07-05"),
+        data_emissao: new Date("2024-07-06"),
+        data_envio: new Date("2024-07-10"),
+        valor_total: 300.25,
+      },
+      {
+        data_compra: new Date("2024-08-01"),
+        data_emissao: new Date("2024-08-02"),
+        data_envio: new Date("2024-08-06"),
+        valor_total: 980.6,
+      },
+    ],
+  });
+
+  console.log("Dados de Projeto e Compra populados com sucesso!");
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
-  })
+  .then(() => console.log("Dados populados com sucesso!"))
+  .catch((e) => console.error(e))
   .finally(async () => {
     await prisma.$disconnect();
   });

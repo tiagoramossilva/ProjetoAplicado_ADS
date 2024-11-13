@@ -103,6 +103,21 @@ const CompraController = {
     }
   },
 
+  getAllWithRelatedData: async (req, res) => {
+    try {
+      const compras = await prisma.compra.findMany({
+        include: {
+          fornecedor: true,
+          projeto: true,
+        },
+      });
+      res.status(200).json(compras);
+    } catch (error) {
+      console.error("Erro ao buscar compras com dados relacionados:", error);
+      res.status(500).json({ error: "Erro ao buscar compras" });
+    }
+  },
+
   // No seu arquivo CompraController.js
   async associarIds(
     compraId,

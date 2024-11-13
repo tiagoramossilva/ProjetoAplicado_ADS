@@ -139,6 +139,7 @@ function CadastroCompra() {
       }
 
       alert("Compra registrada com sucesso!");
+      navigate('/home')
     } catch (error) {
       console.error("Erro:", error);
       alert("Erro ao registrar a compra. Tente novamente.");

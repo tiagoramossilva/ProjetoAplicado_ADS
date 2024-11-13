@@ -20,18 +20,34 @@ function EstoquePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
   const [updatedData, setUpdatedData] = useState({});
+  const [filteredProdutos, setFilteredProdutos] = useState([]);
+  const editableFields = [
+    "nome",
+    "quantidade",
+    "tipo_unitario",
+    "andar",
+    "sala",
+    "armario",
+  ]; // Campos editáveis
 
   const handleBackClick = () => {
     navigate("/home");
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const fetchData = async () => {
     try {
-      const resposta = await fetch("http://localhost:3000/api/produto", {
-        method: "GET",
-      });
-      const produtosData = await resposta.json(); // Buscando todos os produtos
-      console.log("aquiiiiii", produtosData);
+      const resposta = await fetch(
+        "http://localhost:3000/api/produto-com-projeto",
+        {
+          // Nova rota
+          method: "GET",
+        }
+      );
+      const produtosData = await resposta.json();
       setProdutos(produtosData);
     } catch (error) {
       console.error("Erro ao buscar dados:", error);
@@ -39,28 +55,37 @@ function EstoquePage() {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    const filtered = produtos.filter((item) => {
+      for (const key in searchQuery) {
+        if (searchQuery[key]) {
+          // Verifica se o campo de busca não está vazio
+          let value = item[key];
 
-  // Filtragem dos produtos com base na busca
-  const filteredProdutos = produtos.filter((item) => {
-    return (
-      (searchQuery.nome === "" ||
-        item.nome.toLowerCase().includes(searchQuery.nome.toLowerCase())) &&
-      (searchQuery.andar === "" ||
-        item.andar.toLowerCase().includes(searchQuery.andar.toLowerCase())) &&
-      (searchQuery.sala === "" ||
-        item.sala.toLowerCase().includes(searchQuery.sala.toLowerCase())) &&
-      (searchQuery.armario === "" ||
-        item.armario
-          .toLowerCase()
-          .includes(searchQuery.armario.toLowerCase())) &&
-      (searchQuery.nome_projeto === "" ||
-        item.nome_projeto
-          .toLowerCase()
-          .includes(searchQuery.nome_projeto.toLowerCase()))
-    );
-  });
+          if (key === "nome_projeto") {
+            value =
+              item.compras && item.compras.length > 0 && item.compras[0].projeto
+                ? item.compras[0].projeto.nome_projeto
+                : null; // Define como null se não houver projeto
+          }
+
+          // Corrigido: Verifica se value é null ou undefined *antes* de chamar toString()
+          if (
+            value === null ||
+            value === undefined ||
+            !value
+              .toString()
+              .toLowerCase()
+              .includes(searchQuery[key].toLowerCase())
+          ) {
+            return false; // Remove o item se o valor não corresponder ou for nulo/indefinido
+          }
+        }
+      }
+      return true; // Mantém o item se todas as condições forem atendidas
+    });
+
+    setFilteredProdutos(filtered);
+  }, [produtos, searchQuery]);
 
   // Lógica de Paginação
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -71,18 +96,28 @@ function EstoquePage() {
   );
   const totalPages = Math.ceil(filteredProdutos.length / itemsPerPage);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
   const handleDelete = async (id) => {
     if (window.confirm("Tem certeza que deseja deletar este item?")) {
       try {
-        await Produto.delete(id); // Deletando o produto
-        setProdutos(produtos.filter((item) => item.id !== id)); // Atualizando o estado
-        alert("Item deletado com sucesso!");
+        const response = await fetch(
+          `http://localhost:3000/api/produto/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        if (response.ok) {
+          setProdutos(produtos.filter((item) => item.id !== id));
+          alert("Item deletado com sucesso!");
+        } else {
+          console.error("Erro ao deletar item:", response.status);
+          alert(
+            "Erro ao deletar item. Verifique o console para mais detalhes."
+          );
+        }
       } catch (error) {
         console.error("Erro ao deletar item:", error);
+        alert("Erro ao deletar item. Verifique o console para mais detalhes.");
       }
     }
   };
@@ -90,32 +125,56 @@ function EstoquePage() {
   const handleUpdate = (item) => {
     setIsEditing(true);
     setCurrentItem(item);
-    setUpdatedData({
-      nome: item.nome,
-      quantidade: item.quantidade,
-      tipo_unitario: item.tipo_unitario,
-      andar: item.andar,
-      sala: item.sala,
-      armario: item.armario,
-      nome_projeto: item.nome_projeto,
-    });
+    setUpdatedData(
+      editableFields.reduce(
+        (acc, field) => ({ ...acc, [field]: item[field] }),
+        {}
+      )
+    );
   };
 
   const handleSaveUpdate = async () => {
     try {
-      await Produto.update(currentItem.id, updatedData); // Atualizando o produto
-      setProdutos(
-        produtos.map((item) =>
-          item.id === currentItem.id ? { ...item, ...updatedData } : item
-        )
-      ); // Atualizando o estado
-      alert("Item atualizado com sucesso!");
-      setIsEditing(false);
-      setCurrentItem(null);
-      setUpdatedData({});
+      const response = await fetch(
+        `http://localhost:3000/api/produto/${currentItem.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(
+            editableFields.reduce(
+              (acc, field) => ({ ...acc, [field]: updatedData[field] }),
+              {}
+            )
+          ),
+        }
+      );
+
+      if (response.ok) {
+        setProdutos(
+          produtos.map((item) =>
+            item.id === currentItem.id ? updatedData : item
+          )
+        );
+        alert("Item atualizado com sucesso!");
+        setIsEditing(false);
+        setCurrentItem(null);
+        setUpdatedData({});
+      } else {
+        console.error("Erro ao atualizar item:", response.status);
+        alert(
+          "Erro ao atualizar item. Verifique o console para mais detalhes."
+        );
+      }
     } catch (error) {
       console.error("Erro ao atualizar item:", error);
+      alert("Erro ao atualizar item. Verifique o console para mais detalhes.");
     }
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
@@ -180,21 +239,27 @@ function EstoquePage() {
             setSearchQuery({ ...searchQuery, nome_projeto: e.target.value })
           }
         />
+        <button className="search-button">
+          <IoSearchOutline className="iconSearch" />
+        </button>
       </div>
 
       {isEditing && (
         <div className="edit-container">
           <h2>Atualizar Item</h2>
-          {Object.keys(updatedData).map((key) => (
-            <input
-              key={key}
-              type="text"
-              placeholder={key}
-              value={updatedData[key]}
-              onChange={(e) =>
-                setUpdatedData({ ...updatedData, [key]: e.target.value })
-              }
-            />
+          {editableFields.map((field) => (
+            <div key={field}>
+              <label htmlFor={field}>{field}:</label>
+              <input
+                type="text"
+                id={field}
+                name={field}
+                value={updatedData[field] || ""}
+                onChange={(e) =>
+                  setUpdatedData({ ...updatedData, [field]: e.target.value })
+                }
+              />
+            </div>
           ))}
           <button onClick={handleSaveUpdate}>Salvar Atualização</button>
           <button onClick={() => setIsEditing(false)}>Cancelar</button>
@@ -224,7 +289,13 @@ function EstoquePage() {
                 <td className="table-data">{item.andar || "N/A"}</td>
                 <td className="table-data">{item.sala || "N/A"}</td>
                 <td className="table-data">{item.armario || "N/A"}</td>
-                <td className="table-data">{item.nome_projeto || "N/A"}</td>
+                <td className="table-data">
+                  {item.compras &&
+                  item.compras.length > 0 &&
+                  item.compras[0].projeto
+                    ? item.compras[0].projeto.nome_projeto
+                    : "N/A"}
+                </td>
                 <td className="table-actions">
                   <button
                     className="action-button update-button"

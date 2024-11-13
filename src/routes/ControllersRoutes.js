@@ -20,12 +20,17 @@ router.get("/compra", compraController.getAll);
 router.get("/compra/:id", compraController.getById);
 router.put("/compra/:id", compraController.update);
 router.delete("/compra/:id", compraController.delete);
+router.get(
+  "/compras-com-relacionamentos",
+  compraController.getAllWithRelatedData
+);
 
 router.post("/produto", produtoController.create);
 router.get("/produto", produtoController.getAll);
 router.get("/produto/:id", produtoController.getById);
 router.put("/produto/:id", produtoController.update);
 router.delete("/produto/:id", produtoController.delete);
+router.get("/produto-com-projeto", produtoController.getProdutosComProjetos);
 
 router.post("/usuarios", usuarioController.create);
 router.get("/usuarios", usuarioController.getAll);
