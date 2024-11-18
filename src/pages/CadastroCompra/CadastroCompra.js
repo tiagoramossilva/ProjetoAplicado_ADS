@@ -147,8 +147,13 @@ function CadastroCompra() {
   };
 
   return (
+    <>
+      <div className="containertitle">
+        <div className="divtitle">
+          <h1>Cadastro de Compra</h1>
+        </div>        
+      </div>
     <div className="form-container">
-      <h1>Cadastro de Compra</h1>
 
       <form className="purchase-form" onSubmit={handleSubmit}>
         {/* Informações do fornecedor */}
@@ -427,6 +432,7 @@ function CadastroCompra() {
         </div>
       </form>
     </div>
+    </>
   );
 }
 
