@@ -27,18 +27,29 @@
     border-radius: 3px;
   }
   
-  .filter-button {
-    padding: 10px 20px;
-    background-color: #494949;
-    border: 1px solid #ccc;
-    cursor: pointer;
+  .filter-button{
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
     font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
   }
   
   .filter-button:hover {
-    background-color: #000000;
+    background-color: #555;
   }
   
+  .filter-button:hover {
+    background-color: #777;
+  }
+  
+  button[type="button"] {
+    margin-top: 10px;
+  }
+
   .historico-table {
     width: 100%;
     border-collapse: collapse;
@@ -72,6 +83,8 @@
     gap: 5px;
   }
   
+
+
   .action-button {
     color: black;
     border: none;
@@ -93,26 +106,50 @@
     margin-top: 20px;
   }
   
-  .historico-button {
-    padding: 10px 20px;
-  background-color: #494949;
-    cursor: pointer;
+  .historico-button{
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
     font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
   }
   
   .historico-button:hover {
-    background-color: #000000;
+    background-color: #555;
   }
   
-  .voltar-button {
-     border: 1px solid #ccc;
-    padding: 10px 20px;
-    cursor: pointer;
+  .historico-button:hover {
+    background-color: #777;
+  }
+  
+  button[type="button"] {
+    margin-top: 10px;
+  }
+
+  .voltar-button{
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
     font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
   }
   
   .voltar-button:hover {
-    background-color: #000000;
+    background-color: #555;
+  }
+  
+  .voltar-button:hover {
+    background-color: #777;
+  }
+  
+  button[type="button"] {
+    margin-top: 10px;
   }
   
 
