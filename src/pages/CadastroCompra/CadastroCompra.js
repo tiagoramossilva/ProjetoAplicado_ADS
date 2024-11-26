@@ -425,7 +425,7 @@ function CadastroCompra() {
         </fieldset>
 
         <div className="button-group">
-          <button type="submit" className="ButtonAdd">Cadastrar Compra</button>
+          <button type="submit" className="back-button">Cadastrar Compra</button>
           <button type="button" onClick={handleCancel} className="ButtonCancel">
             Cancelar
           </button>

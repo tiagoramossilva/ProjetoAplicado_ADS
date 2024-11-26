@@ -93,27 +93,15 @@
     margin-top: 20px;
   }
   
-  .historico-button {
-    padding: 10px 20px;
-  background-color: #494949;
-    cursor: pointer;
-    font-size: 14px;
+  .cadastrar-button{
+    font-size: 15px;
+    padding: 10px 30px;
+    border: 1px solid #c1c1c1;
+    color: #fff;
+    background-color: #73c351;
+    border-radius: 10px;
   }
-  
-  .historico-button:hover {
-    background-color: #000000;
-  }
-  
-  .voltar-button {
-     border: 1px solid #ccc;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .voltar-button:hover {
-    background-color: #000000;
-  }
+
   
 
   

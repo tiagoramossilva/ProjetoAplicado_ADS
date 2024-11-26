@@ -178,8 +178,13 @@ function EstoquePage() {
   };
 
   return (
+    <>
+     <div className="containertitle">
+        <div className="divtitle">
+          <h1>Estoque</h1>
+        </div>        
+      </div>
     <div className="estoque-container">
-      <h1 className="estoque-title">Estoque</h1>
 
       <div className="search-bar">
         <input
@@ -344,6 +349,7 @@ function EstoquePage() {
         Voltar
       </button>
     </div>
+    </>
   );
 }
 

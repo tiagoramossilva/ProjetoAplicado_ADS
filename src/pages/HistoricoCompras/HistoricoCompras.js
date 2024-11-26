@@ -40,8 +40,13 @@ function HistoricoCompras() {
   const totalPages = Math.ceil(compras.length / itemsPerPage); // Usa 'compras' diretamente
 
   return (
+    <>
+         <div className="containertitle">
+        <div className="divtitle">
+          <h1>Histórico de compras</h1>
+        </div>        
+      </div>
     <div className="historico-container">
-      <h1 className="historico-title">Histórico de compras</h1>
 
       <div className="search-bar">
         <input className="search-input" type="text" placeholder="Fornecedor" />
@@ -142,16 +147,17 @@ function HistoricoCompras() {
       </div>
 
       <div className="button-container">
-        <button className="historico-button">Cadastrar projeto</button>
-        <button className="historico-button">Cadastrar fornecedor</button>
+        <button className="cadastrar-button">Cadastrar projeto</button>
+        <button className="cadastrar-button">Cadastrar fornecedor</button>
         <button
-          className="historico-button voltar-button"
+          className="back-button"
           onClick={handleBackClick}
         >
           Voltar
         </button>
       </div>
     </div>
+    </>
   );
 }
 
