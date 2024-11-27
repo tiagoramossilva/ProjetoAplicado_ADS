@@ -53,8 +53,13 @@ function HistoricoCompras() {
   });
 
   return (
+    <>
+         <div className="containertitle">
+        <div className="divtitle">
+          <h1>Histórico de compras</h1>
+        </div>        
+      </div>
     <div className="historico-container">
-      <h1 className="historico-title">Histórico de compras</h1>
 
       <div className="search-bar">
         <input
@@ -132,16 +137,17 @@ function HistoricoCompras() {
       </table>
 
       <div className="button-container">
-        <button className="historico-button">Cadastrar projeto</button>
-        <button className="historico-button">Cadastrar fornecedor</button>
+        <button className="cadastrar-button">Cadastrar projeto</button>
+        <button className="cadastrar-button">Cadastrar fornecedor</button>
         <button
-          className="historico-button voltar-button"
+          className="back-button"
           onClick={handleBackClick}
         >
           Voltar
         </button>
       </div>
     </div>
+    </>
   );
 }
 

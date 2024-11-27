@@ -96,9 +96,6 @@
     cursor: pointer;
   }
   
-  .voltar-button {
-    background-color: #d9d9d9;
-  }
 
   .pagination{
     justify-content: space-between;
@@ -130,6 +127,15 @@
     width: 40%;
     justify-content: space-between;
     margin-bottom: 15px;
+}
+
+.back-button{
+  font-size: 15px;
+    padding: 10px 30px;
+    border: 1px solid #c1c1c1;
+    color: #fff;
+    background-color: #515151;
+    border-radius: 10px;
 }
 
   

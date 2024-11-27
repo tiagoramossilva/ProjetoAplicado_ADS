@@ -42,4 +42,81 @@
     transform: scale(1.05); 
     box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1); 
   }
+
+
+  .config-button {
+    position: absolute;
+    top: 40px; /* Ajuste a posição do botão */
+    right: 200px;
+    font-size: 20px;
+    color: #3b3b3b;;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 60px; /* Ajuste conforme necessário */
+    right: 20px;
+    background-color: #3b3b3b;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dropdown-menu p {
+    margin: 0;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu p:hover {
+    background-color: #505050; 
+  }
+
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background-color: #3b3b3b;
+    padding: 60px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  .modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .modal-buttons button {
+    background-color: #505050;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-buttons button:hover {
+    background-color: #6b6b6b;
+  }
+  
+
   
