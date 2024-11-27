@@ -12,45 +12,29 @@ function HistoricoCompras() {
     navigate("/home");
   };
 
-  // Dados simulados
-  const initialData = [...Array(10)].map((_, index) => ({
-    codigo: index + 1,
-    fornecedor: `Fornecedor ${index + 1}`,
-    dataCompra: "2024-10-01",
-    valorTotal: 1000 + index * 100,
-    projeto: `Projeto ${index + 1}`,
-    gp: `GP ${index + 1}`,
-  }));
-
-  // Estados
-  const [data, setData] = useState(initialData);
-  const [filters, setFilters] = useState({
-    fornecedor: "",
-    comprador: "",
-    dataCompra: "",
-    item: "",
-    valorMin: "",
-    valorMax: "",
-  });
-
-  // Função para atualizar os filtros
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const fetchData = async () => {
+    try {
+      const resposta = await fetch(
+        "http://localhost:3000/api/compras-com-relacionamentos",
+        {
+          method: "GET",
+        }
+      );
+      const comprasData = await resposta.json();
+      setCompras(comprasData);
+    } catch (error) {
+      console.error("Erro ao buscar dados:", error);
+    }
   };
 
-  // Função para filtrar os dados
-  const filteredData = data.filter((row) => {
-    return (
-      (!filters.fornecedor || row.fornecedor.toLowerCase().includes(filters.fornecedor.toLowerCase())) &&
-      (!filters.dataCompra || row.dataCompra === filters.dataCompra) &&
-      (!filters.valorMin || row.valorTotal >= parseFloat(filters.valorMin)) &&
-      (!filters.valorMax || row.valorTotal <= parseFloat(filters.valorMax))
-    );
-  });
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = compras.slice(indexOfFirstItem, indexOfLastItem); // Usa 'compras' diretamente
+  const totalPages = Math.ceil(compras.length / itemsPerPage); // Usa 'compras' diretamente
 
   return (
     <>
