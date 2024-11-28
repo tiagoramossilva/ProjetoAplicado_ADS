@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./CadastroCompra.css";
 import { useNavigate } from "react-router-dom";
+import Navigation from "../Navigation/Navigation";
 
 function CadastroCompra() {
   const navigate = useNavigate();
@@ -148,6 +149,7 @@ function CadastroCompra() {
 
   return (
     <>
+    <Navigation />
       <div className="containertitle">
         <div className="divtitle">
           <h1>Cadastro de Compra</h1>

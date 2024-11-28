@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Estoque.css";
 import { FiRefreshCcw } from "react-icons/fi";
 import { IoTrashBin, IoSearchOutline } from "react-icons/io5";
+import Navigation from "../Navigation/Navigation";
 import Produto from "../../repositories/Produto"; // Importando o modelo de Produto
 
 function EstoquePage() {
@@ -179,6 +180,7 @@ function EstoquePage() {
 
   return (
     <>
+    <Navigation />
      <div className="containertitle">
         <div className="divtitle">
           <h1>Estoque</h1>
@@ -328,7 +330,7 @@ function EstoquePage() {
       </table>
 
       <div className="pagination">
-        <button
+        <button className="buttonsPagination"
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -337,17 +339,20 @@ function EstoquePage() {
         <span>
           Página {currentPage} de {totalPages}
         </span>
-        <button
+        <button className="buttonsPagination"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
           Próxima
         </button>
       </div>
-
+      <div className="button-container">
       <button className="back-button" onClick={handleBackClick}>
         Voltar
       </button>
+      </div>
+
+    
     </div>
     </>
   );

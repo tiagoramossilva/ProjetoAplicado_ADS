@@ -100,53 +100,36 @@ button[type="button"] {
   color: blue;
 }
 
-.button-container {
+.button-containerHistorico {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 30px;
   margin-top: 20px;
 }
 
 .historico-button {
-  background-color: #333;
+  background-color: #70a24d;
   color: #fff;
   padding: 10px 15px;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .historico-button:hover {
-  background-color: #555;
+  background-color: #4c7032;
 }
 
-.historico-button:hover {
-  background-color: #777;
-}
+
 
 button[type="button"] {
   margin-top: 10px;
 }
 
-.voltar-button {
-  background-color: #333;
-  color: #fff;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
 
-.voltar-button:hover {
-  background-color: #555;
-}
 
-.voltar-button:hover {
-  background-color: #777;
-}
 
 button[type="button"] {
   margin-top: 10px;

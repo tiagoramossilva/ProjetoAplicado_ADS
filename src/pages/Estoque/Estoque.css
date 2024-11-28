@@ -104,6 +104,20 @@
     padding: 10px 0;
   }
 
+.buttonsPagination{
+  padding: 7px 15px ;
+  background-color: #515151;
+  color: #fff;
+  border:none;
+  border-radius: 10px;
+
+}
+.buttonsPagination:hover{
+  background-color: #727272;
+  cursor: pointer;
+
+}
+
   .pagination-arrow {
     background: none;
     border: none;
@@ -136,6 +150,11 @@
     color: #fff;
     background-color: #515151;
     border-radius: 10px;
+}
+
+.back-button:hover{
+  background-color: #000000;
+  cursor: pointer;
 }
 
   

@@ -5,6 +5,8 @@ import { FiRefreshCcw } from "react-icons/fi";
 import { IoTrashBin } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 
+import Navigation from "../Navigation/Navigation";
+
 function HistoricoCompras() {
   const navigate = useNavigate();
   const [compras, setCompras] = useState([]);
@@ -75,8 +77,14 @@ function HistoricoCompras() {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   return (
+    <>
+    <Navigation />
+    <div className="containertitle">
+        <div className="divtitle">
+          <h1>Histórico de compras</h1>
+        </div>        
+      </div>
     <div className="historico-container">
-      <h1 className="historico-title">Histórico de compras</h1>
 
       <div className="search-bar">
         <input
@@ -165,13 +173,13 @@ function HistoricoCompras() {
 
       {/* Paginação */}
       <div className="pagination">
-        <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}>
+        <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} className="buttonsPagination">
           Anterior
         </button>
         <span>
           Página {currentPage} de {totalPages}
         </span>
-        <button
+        <button className="buttonsPagination"
           onClick={() =>
             setCurrentPage((prev) => Math.min(prev + 1, totalPages))
           }
@@ -180,17 +188,18 @@ function HistoricoCompras() {
         </button>
       </div>
 
-      <div className="button-container">
+      <div className="button-containerHistorico">
         <button className="historico-button">Cadastrar projeto</button>
         <button className="historico-button">Cadastrar fornecedor</button>
         <button
-          className="historico-button voltar-button"
+          className="back-button"
           onClick={handleBackClick}
         >
           Voltar
         </button>
       </div>
     </div>
+    </>
   );
 }
 
