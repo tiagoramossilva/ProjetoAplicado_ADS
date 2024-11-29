@@ -1,6 +1,6 @@
 Sistema de Gerenciamento de Estoque e Controle de Compras
 
-Este repositório contém o desenvolvimento de um Sistema de Gerenciamento de Estoque e Controle de Compras de componentes eletrônicos, parte integrante da disciplina Projeto Aplicado 3 do curso de Tecnologia em Análise e Desenvolvimento de Sistemas no SENAI. O objetivo do sistema é otimizar o controle de aquisição de componentes, fornecer relatórios sobre compras passadas e facilitar a gestão do estoque interno.
+Este repositório contém o desenvolvimento de um Sistema de Gerenciamento de Estoque e Controle de Compras de componentes eletrônicos, parte integrante da disciplina Projeto Aplicado III do curso de Tecnologia em Análise e Desenvolvimento de Sistemas no SENAI. O objetivo do sistema é otimizar o controle de aquisição de componentes, fornecer relatórios sobre compras passadas e facilitar a gestão do estoque interno.
 
 Funcionalidades
 Controle de Estoque: Exibe a quantidade disponível de cada componente e o local de armazenamento, permitindo múltiplos locais para um mesmo item.
@@ -15,3 +15,13 @@ Backend: Node.js, Express
 Frontend: React.js
 Banco de Dados: Firebase
 Outras Tecnologias: ORM
+
+
+Como rodar?
+Npm start
+
+Em outro temrinal rode os seguintes comandos:
+cd src
+node server.js
+
+Prontinho :)

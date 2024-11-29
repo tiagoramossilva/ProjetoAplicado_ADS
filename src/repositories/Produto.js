@@ -137,6 +137,7 @@ const produtoController = {
         },
       });
       res.status(200).json(produtos); // Retorna os produtos com o status 200
+      console.log(produtos);
     } catch (error) {
       console.error("Erro ao buscar produtos com projetos:", error);
       res.status(500).json({ error: "Erro ao buscar produtos com projetos" });

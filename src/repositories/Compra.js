@@ -111,6 +111,7 @@ const CompraController = {
           projeto: true,
         },
       });
+      console.log(compras);
       res.status(200).json(compras);
     } catch (error) {
       console.error("Erro ao buscar compras com dados relacionados:", error);
