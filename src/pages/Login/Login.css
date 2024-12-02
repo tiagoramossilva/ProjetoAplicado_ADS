@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body, html {
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .login-page {
+    display: flex;
+    height: 100vh;
+
+    color: white;
+
+    background-image: url('./StockMaster2.png');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+  }
+  
+  .welcome-section {
+    color: white;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinhamento à esquerda */
+    justify-content: flex-start; /* Alinhamento ao topo */
+    padding: 40px;
+}
+
+.containetTexts{
+  margin-top: 100px;
+  width: 50%;
+}
+
+.MArcalogin {
+    font-size: 45px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #898989;
+}
+
+.textlogin {
+    font-size: 16px;
+    color: #898989;
+
+}
+ 
+  
+  .welcome-section h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .textlogin {
+    font-size: 18px;
+  }
+  
+
+  
+  .login-section {
+    background-color: #000000;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+  
+  .login-section h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #b9b9b9;
+  }
+  
+  .input-container {
+    margin-bottom: 20px; 
+    width: 100%;
+    max-width: 400px; 
+  }
+  
+ .InputLogin {
+    width: 100%;
+    background: #000;
+    padding: 15px;
+    border: 2px solid #939393;
+    border-radius: 10px;
+    font-size: 18px;
+}
+  
+  
+  .login-btn {
+    padding: 15px; 
+    background-color: #9d9d9d;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px; 
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .login-btn:hover {
+    background-color: #838383;
+  }

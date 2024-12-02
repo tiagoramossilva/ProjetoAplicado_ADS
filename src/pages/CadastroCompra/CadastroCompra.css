@@ -1,0 +1,102 @@
+/* Geral */
+
+.form-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 0;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.purchase-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Estilo para cada seção */
+.form-section {
+  flex: 1;
+  min-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #fdfdfd;
+}
+
+.form-section legend {
+  font-weight: bold;
+  padding: 0 5px;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  flex: 1 1 100%;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  flex: 1 1 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+textarea {
+  resize: none;
+  height: 80px;
+}
+
+/* Botões */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.ButtonAdd,
+.ButtonCancel {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.ButtonAdd:hover {
+  background-color: #555;
+}
+
+.ButtonCancel:hover {
+  background-color: #777;
+}
+
+button[type="button"] {
+  margin-top: 10px;
+}
+
+.containertitle{
+      font-size: 14px;
+      margin: 0 0 34px 0;
+      border-bottom: 1px solid #b3b3b35d;
+}
+
+.divtitle{
+  max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
