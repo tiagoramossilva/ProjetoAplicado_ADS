@@ -136,13 +136,13 @@ function CadastroCompra() {
       console.log(responseData);
 
       if (!response.ok) {
-        throw new Error(responseData.message || "Erro ao cadastrar a compra");
+        throw new Error(responseData.message || "Erro ao cadastrar a compra 111111");
       }
 
       alert("Compra registrada com sucesso!");
       navigate('/home')
     } catch (error) {
-      console.error("Erro:", error);
+      console.error("Erro: 1111", error);
       alert("Erro ao registrar a compra. Tente novamente.");
     }
   };
@@ -378,12 +378,15 @@ function CadastroCompra() {
               />
             </div>
           ))}
+          <div className="Container-buttons-cadastro">
           <button type="button" onClick={handleAddProduct} className="ButtonAdd">
             Adicionar Produto
           </button>
           <button type="button" onClick={handleRemoveProduct} className="ButtonCancel">
             Remover Produto
           </button>
+          </div>
+         
         </fieldset>
 
         {/* Informações do projeto */}
@@ -427,8 +430,8 @@ function CadastroCompra() {
         </fieldset>
 
         <div className="button-group">
-          <button type="submit" className="back-button">Cadastrar Compra</button>
-          <button type="button" onClick={handleCancel} className="ButtonCancel">
+          <button type="submit" className="back-button-cadastro">Cadastrar Compra</button>
+          <button type="button" onClick={handleCancel} className="back-button">
             Cancelar
           </button>
         </div>

@@ -59,19 +59,26 @@ textarea {
 
 /* Botões */
 .button-group {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 20px;
+  width: 100%;
+  text-align: right;
 }
 
-.ButtonAdd,
-.ButtonCancel {
-  background-color: #333;
+.ButtonAdd{
+  background-color: #2a2770;
   color: #fff;
   padding: 10px 15px;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.ButtonCancel {
+  background-color: #ad1c1c;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -79,6 +86,18 @@ textarea {
 
 .ButtonAdd:hover {
   background-color: #555;
+}
+
+.back-button-cadastro{
+  margin-right: 30px;
+  background-color: #70a24d;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .ButtonCancel:hover {
@@ -99,4 +118,9 @@ button[type="button"] {
   max-width: 1200px;
     margin: 0 auto;
     padding: 10px 0;
+}
+
+.Container-buttons-cadastro{
+  display: flex;
+  justify-content: space-around;
 }

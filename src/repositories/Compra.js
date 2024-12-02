@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const { log } = require("util");
 const prisma = new PrismaClient();
 
 const CompraController = {
@@ -35,6 +36,7 @@ const CompraController = {
         },
       });
       return compra;
+      console.log("ooierrrrr")
     } catch (error) {
       console.error("Erro ao criar compra:", error);
       throw new Error("Erro ao criar compra dentro da transação");
