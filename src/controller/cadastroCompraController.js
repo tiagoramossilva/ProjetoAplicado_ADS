@@ -31,23 +31,26 @@ const cadastroCompraController = {
         prisma
       );
 
-      // Agora, crie os produtos
+      // Criar o produto
       const novoProduto = await produtoController.createWithTransaction(
         produtos,
         prisma
       );
-      const novoProdutoId = novoProduto[0];
+      const novoProdutoId = novoProduto[0].id; // Obter o ID do primeiro produto
 
-      // Agora, crie a compra
+      // **Atualizar a compra com o produto_id**
       const novaCompra = await compraController.createWithTransaction(
-        compra,
+        {
+          ...compra, // Copiar os dados existentes da compra
+          produto_id: novoProdutoId, // Adicionar o produto_id
+        },
         prisma
       );
 
-      // Associar dados
+      // Associar outros IDs à compra
       await compraController.associarIds(
         novaCompra.id,
-        novoProdutoId.id,
+        novoProdutoId,
         novoProjeto.id,
         novoFornecedor.id,
         novoCliente.id,

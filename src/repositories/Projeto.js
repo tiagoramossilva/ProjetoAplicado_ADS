@@ -70,10 +70,7 @@ const ProjetoController = {
 
   getAll: async (req, res) => {
     try {
-      const { id } = req.params;
-      const projetos = await prisma.projeto.findMany({
-        where: { id: Number(id) },
-      });
+      const projetos = await prisma.projeto.findMany();
       res.status(200).json(projetos);
     } catch (error) {
       console.error("Erro ao buscar projetos:", error);

@@ -4,7 +4,6 @@ import "./Estoque.css";
 import { FiRefreshCcw } from "react-icons/fi";
 import { IoTrashBin, IoSearchOutline } from "react-icons/io5";
 import Navigation from "../Navigation/Navigation";
-import Produto from "../../repositories/Produto"; // Importando o modelo de Produto
 
 function EstoquePage() {
   const navigate = useNavigate();

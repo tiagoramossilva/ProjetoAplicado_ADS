@@ -19,6 +19,7 @@
     "firebase-admin": "^12.7.0",
     "https-browserify": "^1.0.0",
     "jsonwebtoken": "^9.0.2",
+    "jsx-ast-utils": "^3.3.5",
     "net": "^1.0.2",
     "node-polyfill-webpack-plugin": "^4.0.0",
     "os-browserify": "^0.3.0",
@@ -70,6 +71,6 @@
     "react-app-rewired": "^2.2.1"
   },
   "prisma": {
-  "seed": "node prisma/seed.js"
-}
+    "seed": "node prisma/seed.js"
+  }
 }
