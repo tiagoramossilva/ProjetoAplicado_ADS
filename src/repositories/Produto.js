@@ -37,18 +37,22 @@ const produtoController = {
 
   async createWithTransaction(produtoData, prisma) {
     try {
-      const produtosCriados = []; // Array para armazenar os produtos criados
-      for (const produto of produtoData) {
-        const produtoCriado = await prisma.produto.create({
-          data: produto,
-        });
-        produtosCriados.push(produtoCriado); // Adiciona o produto criado ao array
-      }
-      return produtosCriados;
-      // Retorna todos os produtos criados
+      // Inicia uma transação no Prisma para garantir atomicidade
+      const produtosCriados = await prisma.$transaction(async (tx) => {
+        const produtos = [];
+        for (const produto of produtoData) {
+          const produtoCriado = await tx.produto.create({
+            data: produto,
+          });
+          produtos.push(produtoCriado); // Adiciona cada produto ao array
+        }
+        return produtos; // Retorna todos os produtos criados
+      });
+
+      return produtosCriados; // Retorna os produtos criados
     } catch (error) {
-      console.error("Erro ao criar produto dentro da transação:", error);
-      throw new Error("Erro ao criar produto dentro da transação");
+      console.error("Erro ao criar produtos dentro da transação:", error);
+      throw new Error("Erro ao criar produtos dentro da transação");
     }
   },
 
