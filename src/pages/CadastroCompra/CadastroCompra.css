@@ -1,166 +1,191 @@
-/* Geral */
+/* Fundo da página */
+body {
+  background-color: #f0f0f0; /* Cinza suave */
+  margin: 0;
+  padding: 0;
+  font-family: "Arial", sans-serif; /* Fonte limpa e moderna */
+}
+
+
+/* Contêiner do formulário */
+
+.pai-container-form{
+  max-width: 900px;
+  margin:auto;
+  padding: 20px;
+}
 
 .form-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 0;
-  background: #fff;
-  border-radius: 8px;
+  max-width: 800px;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.purchase-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
 
-/* Estilo para cada seção */
+/* Título da página */
+.containertitle{
+  font-size: 14px;
+  margin: 0 0 10px 0;
+  border-bottom: 1px solid #b3b3b35d;
+}
+.divtitle{
+max-width: 1200px;
+margin: 0 auto;
+padding: 10px 0;
+} 
+
+/* Seções do formulário */
 .form-section {
-  flex: 1;
-  min-width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 15px;
-  background-color: #fdfdfd;
+  border: none;
+  margin-bottom: 20px;
+  padding: 0;
 }
 
 .form-section legend {
+  font-size: 18px;
   font-weight: bold;
-  padding: 0 5px;
+  color: #333;
   margin-bottom: 10px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
 }
 
+.form-section {
+  display: none; 
+}
+
+.form-section.active {
+  display: block; 
+}
+
+/* Grupos de formulário */
 .form-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 15px;
 }
 
 .form-group label {
   flex: 1 1 100%;
   font-size: 14px;
-  margin-bottom: 5px;
+  color: #555;
 }
 
 .form-group input,
-.form-group textarea {
-  flex: 1 1 100%;
-  padding: 8px;
+.form-group textarea,
+.form-group select {
+  flex: 1 1 calc(33.333% - 10px); /* Dividido em colunas */
+  padding: 12px;
   font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-textarea {
-  resize: none;
-  height: 80px;
+/* Foco nos campos */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #2a2770;
+  box-shadow: 0 0 4px rgba(42, 39, 112, 0.3);
+  outline: none;
 }
 
-/* Botões */
-.button-group {
-  width: 100%;
-  text-align: right;
-}
-
-.ButtonAdd{
-  background-color: #2a2770;
-  color: #fff;
-  padding: 10px 15px;
+/* Botões de navegação */
+.navigation-buttons button {
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: bold;
   border: none;
-  border-radius: 10px;
-  font-size: 14px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
-.ButtonCancel {
-  background-color: #ad1c1c;
-  color: #fff;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 10px;
+
+.navigation-buttons .prev-button {
+  border: 2px solid #4a4a4a;
+  margin-top: 30px;
+  margin-right: 30px;
+  background-color: #fff;
+  color: #4a4a4a;
+}
+
+.navigation-buttons .next-button {
+  margin-top: 30px;
+  border: 2px solid #4a4a4a;
+  background-color: #4a4a4a;
+  color: white;
+}
+
+.navigation-buttons button:hover {
+  transform: scale(1.05);
+}
+
+/* Botões de ações finais */
+.button-group button {
+  padding: 12px 24px;
   font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.button-group .back-button-cadastro{
+  margin-top: 20px;
+  background-color: #4caf50;
+  margin-right: 30px;
+  color: white;
+}
+.ButtonAdd {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-right: 20px;
+  background-color: #4caf50;
+  color: white;
 }
 
 .ButtonAdd:hover {
-  background-color: #555;
+  transform: scale(1.05);
 }
-
-.back-button-cadastro{
-  margin-right: 30px;
-  background-color: #70a24d;
-  color: #fff;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 10px;
+.ButtonCancel {
+  padding: 12px 24px;
   font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  background-color: #ad1c1c;
+  color: white;
 }
 
 .ButtonCancel:hover {
-  background-color: #777;
-}
-
-button[type="button"] {
-  margin-top: 10px;
-}
-
-.containertitle{
-      font-size: 14px;
-      margin: 0 0 34px 0;
-      border-bottom: 1px solid #b3b3b35d;
-}
-
-.divtitle{
-  max-width: 1200px;
-    margin: 0 auto;
-    padding: 10px 0;
+  transform: scale(1.05);
 }
 
 .Container-buttons-cadastro{
   display: flex;
-  justify-content: space-around;
+  justify-content: right;
+  padding: 10px 0;
+  border-bottom: 1px solid #b3b3b35d;
 }
 
 
-/* Classes para controlar visibilidade das seções */
-.form-section {
-  display: none; /* Todas as seções estão ocultas por padrão */
-}
-
-.form-section.active {
-  display: block; /* Apenas a seção ativa será visível */
-}
-
-/* Botão de navegação entre seções */
-.navigation-buttons {
-  display: flex;
-  justify-content: space-between;
+.button-group .back-button {
   margin-top: 20px;
-}
-
-.navigation-buttons button {
-  padding: 10px 20px;
-  font-size: 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.navigation-buttons .prev-button {
   background-color: #ad1c1c;
-  color: #fff;
+  color: white;
 }
 
-.navigation-buttons .next-button {
-  background-color: #2a2770;
-  color: #fff;
-}
-
-.navigation-buttons button:hover {
-  background-color: #555;
+.button-group button:hover {
+  transform: scale(1.05);
 }

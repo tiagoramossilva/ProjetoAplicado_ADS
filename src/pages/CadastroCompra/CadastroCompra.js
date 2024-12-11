@@ -210,6 +210,7 @@ function CadastroCompra() {
           <h1>Cadastro de Compra</h1>
         </div>
       </div>
+      <div className="pai-container-form">
       <div className="form-container">
         <form className="purchase-form" onSubmit={handleSubmit}>
           {/* Informações do fornecedor */}
@@ -623,6 +624,7 @@ function CadastroCompra() {
 
 
         </form>
+      </div>
       </div>
     </>
   );
