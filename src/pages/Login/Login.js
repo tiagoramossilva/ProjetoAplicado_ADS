@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate(); // Para redirecionar após o login
 
   const handleLogin = async () => {
     try {
@@ -21,11 +22,12 @@ function Login() {
       if (response.ok) {
         const data = await response.json();
         console.log("Token:", data.token);
+        localStorage.setItem("token", data.token); // Armazena o token no localStorage
         setSuccessMessage("Login realizado com sucesso!");
         setErrorMessage("");
+        navigate("/home"); // Redireciona para a página Home
       } else {
         const error = await response.json();
-        console.error("Erro ao fazer login:", error);
         setErrorMessage(error.error || "Erro desconhecido. Tente novamente.");
         setSuccessMessage("");
       }
@@ -39,7 +41,7 @@ function Login() {
   return (
     <div className="login-page">
       <div className="login-section">
-        <h2>Seja Bem Vindo!</h2>
+        <h2>Seja Bem-Vindo!</h2>
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         {successMessage && (
           <div className="success-message">{successMessage}</div>
@@ -62,10 +64,12 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {/* <button className="login-btn" onClick={handleLogin}>LOGIN</button> */}
-        <Link className="login-btn" to="/home">
+        <button className="login-btn" onClick={handleLogin}>
           LOGIN
-        </Link>
+        </button>
+        <p className="signup-link">
+          Não tem uma conta? <a href="/cadastro">Cadastre-se aqui</a>
+        </p>
       </div>
       <div className="welcome-section">
         <div className="containetTexts">

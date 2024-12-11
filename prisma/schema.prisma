@@ -10,7 +10,7 @@ datasource db {
 model Usuario {
   id          Int     @id @default(autoincrement())
   nome        String
-  email       String
+  email       String  @unique
   funcao      String
   admin       Boolean
   usuario     String  @unique

@@ -5,12 +5,14 @@ import CadastroCompra from '../pages/CadastroCompra/CadastroCompra';
 import Estoque from '../pages/Estoque/Estoque';
 import HistoricoCompras from '../pages/HistoricoCompras/HistoricoCompras';
 import CadastrarArmazenamento from '../pages/CadastrarArmazenamento/CadastrarArmazenamento';
+import Cadastro from '../pages/Cadastro/Cadastro';
 
 const AppRoutes = () => {
     return (
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/home" element={<Home />} />
           <Route path="/cadastro-compra" element={<CadastroCompra />} />
           <Route path="/estoque" element={<Estoque />} />

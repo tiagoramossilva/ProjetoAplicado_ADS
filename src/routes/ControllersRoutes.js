@@ -11,6 +11,8 @@ const clienteController = require("../repositories/Cliente");
 const AdicionaisController = require("../repositories/Adicionais");
 const cadastroCompraController = require("../controller/cadastroCompraController");
 
+router.post("/cadastro", usuarioController.create)
+
 router.post("/cadastro-compra", cadastroCompraController.create);
 
 router.post("/login", loginUser);
