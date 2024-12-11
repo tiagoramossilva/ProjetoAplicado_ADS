@@ -190,6 +190,18 @@ function CadastroCompra() {
     }
   };
 
+  const showSection = (sectionId) => {
+    const sections = document.querySelectorAll(".form-section");
+    sections.forEach((section) => {
+      if (section.id === sectionId) {
+        section.classList.add("active");
+      } else {
+        section.classList.remove("active");
+      }
+    });
+  };
+ 
+
   return (
     <>
       <Navigation />
@@ -201,7 +213,7 @@ function CadastroCompra() {
       <div className="form-container">
         <form className="purchase-form" onSubmit={handleSubmit}>
           {/* Informações do fornecedor */}
-          <fieldset className="form-section">
+          <fieldset className="form-section active" id="fornecedor-section">
             <legend>Informações do fornecedor</legend>
             <div className="form-group">
               <label>Razão Social:</label>
@@ -261,10 +273,19 @@ function CadastroCompra() {
                 onChange={handleFormChange}
               />
             </div>
+            <div className="navigation-buttons">
+              <button
+                type="button"
+                className="next-button"
+                onClick={() => showSection("cliente-section")}
+              >
+                Próximo
+              </button>
+            </div>
           </fieldset>
 
           {/* Informações do cliente */}
-          <fieldset className="form-section">
+          <fieldset className="form-section" id="cliente-section">
             <legend>Informações do cliente</legend>
             <div className="form-group">
               <label>Razão Social:</label>
@@ -324,10 +345,26 @@ function CadastroCompra() {
                 onChange={handleFormChange}
               />
             </div>
+            <div className="navigation-buttons">
+              <button
+                type="button"
+                className="prev-button"
+                onClick={() => showSection("fornecedor-section")}
+              >
+                Anterior
+              </button>
+              <button
+                type="button"
+                className="next-button"
+                onClick={() => showSection("compra-section")}
+              >
+                Próximo
+              </button>
+            </div>
           </fieldset>
 
           {/* Informações da compra */}
-          <fieldset className="form-section">
+          <fieldset className="form-section" id="compra-section">
             <legend>Informações da compra</legend>
             <div className="form-group">
               <label>Data da Compra:</label>
@@ -356,10 +393,26 @@ function CadastroCompra() {
                 onChange={handleFormChange}
               />
             </div>
+            <div className="navigation-buttons">
+              <button
+                type="button"
+                className="prev-button"
+                onClick={() => showSection("cliente-section")}
+              >
+                Anterior
+              </button>
+              <button
+                type="button"
+                className="next-button"
+                onClick={() => showSection("produtos-section")}
+              >
+                Próximo
+              </button>
+            </div>
           </fieldset>
 
           {/* Produtos */}
-          <fieldset className="form-section">
+          <fieldset className="form-section" id="produtos-section">
             <legend>Produtos</legend>
             {produtos.map((produto, index) => (
               <div key={index} className="form-group">
@@ -444,10 +497,27 @@ function CadastroCompra() {
                 Remover Produto
               </button>
             </div>
+            <div className="navigation-buttons">
+              <button
+                type="button"
+                className="prev-button"
+                onClick={() => showSection("compra-section")}
+              >
+                Anterior
+              </button>
+              <button
+                type="button"
+                className="next-button"
+                onClick={() => showSection("projeto-section")}
+              >
+                Próximo
+              </button>
+            </div>
+
           </fieldset>
 
           {/* Informações do projeto */}
-          <fieldset className="form-section">
+          <fieldset className="form-section" id="projeto-section">
             <legend>Informações do projeto</legend>
             <div className="form-group">
               <label>Nome do Projeto:</label>
@@ -493,10 +563,27 @@ function CadastroCompra() {
                 onChange={handleFormChange}
               />
             </div>
+            <div className="navigation-buttons">
+              <button
+                type="button"
+                className="prev-button"
+                onClick={() => showSection("produtos-section")}
+              >
+                Anterior
+              </button>
+              <button
+                type="button"
+                className="next-button"
+                onClick={() => showSection("adicionais-section")}
+              >
+                Próximo
+              </button>
+            </div>
+
           </fieldset>
 
           {/* Informações adicionais */}
-          <fieldset className="form-section">
+          <fieldset className="form-section" id="adicionais-section">
             <legend>Informações Adicionais</legend>
             <div className="form-group">
               <label>Usuário:</label>
@@ -508,9 +595,18 @@ function CadastroCompra() {
                 onChange={handleFormChange}
               ></textarea>
             </div>
-          </fieldset>
+            <div className="navigation-buttons">
+              <button
+                type="button"
+                className="prev-button"
+                onClick={() => showSection("projeto-section")}
+              >
+                Anterior
+              </button>
 
-          <div className="button-group">
+            </div>
+
+            <div className="button-group">
             <button type="submit" className="back-button-cadastro">
               Cadastrar Compra
             </button>
@@ -522,6 +618,10 @@ function CadastroCompra() {
               Cancelar
             </button>
           </div>
+
+          </fieldset>
+
+
         </form>
       </div>
     </>
