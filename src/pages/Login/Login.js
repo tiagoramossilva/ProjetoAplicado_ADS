@@ -67,9 +67,11 @@ function Login() {
         <button className="login-btn" onClick={handleLogin}>
           LOGIN
         </button>
+        <div className="container-link-register">
         <p className="signup-link">
           Não tem uma conta? <a href="/cadastro">Cadastre-se aqui</a>
         </p>
+        </div>
       </div>
       <div className="welcome-section">
         <div className="containetTexts">

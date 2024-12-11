@@ -1,8 +1,11 @@
 .historico-container {
-  width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .historico-title {
@@ -57,16 +60,8 @@ button[type="button"] {
   border: 1px solid black;
 }
 
-.table-header-row {
-  background-color: #f4f4f4;
-}
 
-.table-header {
-  padding: 10px;
-  border: 1px solid black;
-  text-align: left;
-  font-weight: bold;
-}
+
 
 .table-row {
   background-color: white;

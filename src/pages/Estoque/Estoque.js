@@ -345,11 +345,6 @@ function EstoquePage() {
           Próxima
         </button>
       </div>
-      <div className="button-container">
-      <button className="back-button" onClick={handleBackClick}>
-        Voltar
-      </button>
-      </div>
 
     
     </div>

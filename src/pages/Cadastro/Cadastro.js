@@ -118,6 +118,7 @@ function Cadastro() {
             <input
               type="checkbox"
               name="admin"
+              className="checkbox"
               checked={formData.admin}
               onChange={handleChange}
             />
@@ -127,9 +128,12 @@ function Cadastro() {
         <button className="login-btn" onClick={handleSubmit}>
           CADASTRAR
         </button>
+        <div className="container-link-register">
         <p className="signup-link">
           Já tem uma conta? <a href="/">Faça login aqui</a>
         </p>
+        </div>
+       
       </div>
       <div className="welcome-section">
         <div className="containetTexts">

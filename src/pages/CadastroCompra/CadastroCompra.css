@@ -16,7 +16,6 @@ body {
 }
 
 .form-container {
-  max-width: 800px;
   padding: 30px;
   background: #ffffff;
   border-radius: 16px;
@@ -31,7 +30,7 @@ body {
   border-bottom: 1px solid #b3b3b35d;
 }
 .divtitle{
-max-width: 1200px;
+max-width: 1400px;
 margin: 0 auto;
 padding: 10px 0;
 } 
@@ -79,7 +78,7 @@ padding: 10px 0;
   flex: 1 1 calc(33.333% - 10px); /* Dividido em colunas */
   padding: 12px;
   font-size: 14px;
-  border: 1px solid #ddd;
+  border: 1px solid #8f8f8f;
   border-radius: 8px;
   background-color: #f9f9f9;
   transition: border-color 0.3s, box-shadow 0.3s;
