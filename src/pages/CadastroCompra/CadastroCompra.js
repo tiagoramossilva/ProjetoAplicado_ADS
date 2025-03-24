@@ -200,6 +200,41 @@ function CadastroCompra() {
       }
     });
   };
+
+  // CEP
+  const buscarEndereco = async (cep, tipo) => {
+    cep = cep.replace(/\D/g, ''); // Remove tudo que não for número
+  
+    if (cep.length !== 8) {
+      alert("CEP inválido.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const data = await response.json();
+  
+      if (data.erro) {
+        alert("CEP não encontrado.");
+        return;
+      }
+  
+      setFormData((prevState) => ({
+        ...prevState,
+        [tipo]: {
+          ...prevState[tipo],
+          endereco: data.logradouro || "",
+          bairro: data.bairro || "",
+          municipio: data.localidade || "",
+          UF: data.uf || "",
+        },
+      }));
+    } catch (error) {
+      console.error("Erro ao buscar endereço:", error);
+      alert("Erro ao buscar endereço.");
+    }
+  }; 
+  
  
 
   return (
@@ -237,34 +272,42 @@ function CadastroCompra() {
               />
             </div>
             <div className="form-group">
-              <label>Endereço:</label>
+            <label>CEP:</label>
               <input
                 type="text"
-                name="fornecedor.endereco"
+                name="fornecedor.CEP"
+                value={formData.fornecedor.CEP}
                 onChange={handleFormChange}
+                onBlur={(e) => buscarEndereco(e.target.value, "fornecedor")}
               />
+              <label>Endereço:</label>
+              <input
+                  type="text"
+                  name="fornecedor.endereco"
+                  value={formData.fornecedor.endereco}
+                  onChange={handleFormChange}
+                />
               <label>Município:</label>
               <input
                 type="text"
                 name="fornecedor.municipio"
+                value={formData.fornecedor.municipio}
                 onChange={handleFormChange}
               />
               <label>UF:</label>
               <input
                 type="text"
                 name="fornecedor.UF"
+                value={formData.fornecedor.UF}
                 onChange={handleFormChange}
               />
-              <label>CEP:</label>
-              <input
-                type="text"
-                name="fornecedor.CEP"
-                onChange={handleFormChange}
-              />
+              
+
               <label>Bairro:</label>
               <input
                 type="text"
                 name="fornecedor.bairro"
+                value={formData.fornecedor.bairro}
                 onChange={handleFormChange}
               />
               <label>Telefone:</label>
@@ -309,34 +352,40 @@ function CadastroCompra() {
               />
             </div>
             <div className="form-group">
+            <label>CEP:</label>
+              <input
+              type="text"
+              name="cliente.CEP"
+              value={formData.cliente.CEP}
+              onChange={handleFormChange}
+              onBlur={(e) => buscarEndereco(e.target.value, "cliente")}
+            />
               <label>Endereço:</label>
               <input
                 type="text"
                 name="cliente.endereco"
+                value={formData.cliente.endereco}
                 onChange={handleFormChange}
               />
               <label>Município:</label>
               <input
                 type="text"
                 name="cliente.municipio"
+                value={formData.cliente.municipio}
                 onChange={handleFormChange}
               />
               <label>UF:</label>
               <input
                 type="text"
                 name="cliente.UF"
-                onChange={handleFormChange}
-              />
-              <label>CEP:</label>
-              <input
-                type="text"
-                name="cliente.CEP"
+                value={formData.cliente.UF}
                 onChange={handleFormChange}
               />
               <label>Bairro:</label>
               <input
                 type="text"
                 name="cliente.bairro"
+                value={formData.cliente.bairro}
                 onChange={handleFormChange}
               />
               <label>Telefone:</label>
