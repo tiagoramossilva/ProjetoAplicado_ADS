@@ -6,6 +6,7 @@ import Estoque from '../pages/Estoque/Estoque';
 import HistoricoCompras from '../pages/HistoricoCompras/HistoricoCompras';
 import CadastrarArmazenamento from '../pages/CadastrarArmazenamento/CadastrarArmazenamento';
 import Cadastro from '../pages/Cadastro/Cadastro';
+import ConfiguracoesUsuario from '../pages/Configuracoes/Configuracoes';
 
 const AppRoutes = () => {
     return (
@@ -18,6 +19,7 @@ const AppRoutes = () => {
           <Route path="/estoque" element={<Estoque />} />
           <Route path="/historico-compras" element={<HistoricoCompras />} />
           <Route path="/cadastrar-armazenamento" element={<CadastrarArmazenamento />} />
+          <Route path="/configuracoes" element={<ConfiguracoesUsuario />} />
         </Routes>
       </Router>
     );
