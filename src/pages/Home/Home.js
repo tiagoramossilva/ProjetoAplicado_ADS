@@ -49,92 +49,69 @@ function Home() {
     const reader = new FileReader();
     reader.onload = (e) => {
       const parser = new DOMParser();
-      const xml = parser.parseFromString(e.target.result, "text/xml");
+      const xmlDoc = parser.parseFromString(e.target.result, "text/xml");
 
-      const getText = (tag) => {
-        const elements = xml.getElementsByTagName(tag);
-        return elements.length > 0 ? elements[0].textContent : "";
+      // Extrai os dados do XML
+      const emitente = xmlDoc.querySelector("emit");
+      const enderEmit = emitente.querySelector("enderEmit");
+      const destinatario = xmlDoc.querySelector("dest");
+      const ide = xmlDoc.querySelector("ide");
+      const produtos = Array.from(xmlDoc.querySelectorAll("det"));
+
+      // Formata os dados para o formato que seu formulário espera
+      const invoiceData = {
+        fornecedor: {
+          razao_social_fornecedor:
+            emitente.querySelector("xNome")?.textContent || "",
+          CNPJ: emitente.querySelector("CNPJ")?.textContent || "",
+          inscricao_estadual: emitente.querySelector("IE")?.textContent || "",
+          endereco: `${enderEmit.querySelector("xLgr")?.textContent || ""}, ${
+            enderEmit.querySelector("nro")?.textContent || ""
+          }`,
+          bairro: enderEmit.querySelector("xBairro")?.textContent || "",
+          municipio: enderEmit.querySelector("xMun")?.textContent || "",
+          UF: enderEmit.querySelector("UF")?.textContent || "",
+          CEP: enderEmit.querySelector("CEP")?.textContent || "",
+          telefone: enderEmit.querySelector("fone")?.textContent || "",
+        },
+        cliente: {
+          razao_social_cliente:
+            destinatario.querySelector("xNome")?.textContent || "",
+          CNPJ: destinatario.querySelector("CPF" || "CNPJ")?.textContent || "",
+          inscricao_estadual: "",
+          endereco: destinatario.querySelector("xLgr").textContent || "",
+          bairro: destinatario.querySelector("xBairro").textContent || "",
+          CEP: destinatario.querySelector("CEP").textContent || "",
+          municipio: destinatario.querySelector("xMun").textContent || "",
+          UF: destinatario.querySelector("UF").textContent || "",
+          telefone: destinatario.querySelector("fone")?.textContent || "",
+        },
+        compra: {
+          data_emissao: ide.querySelector("dhEmi")?.textContent || "",
+          valor_total: xmlDoc.querySelector("vNF")?.textContent || "",
+          data_compra: "",
+          data_envio: ide.querySelector("dhSaiEnt")?.textContent || "",
+        },
+        produtos: produtos.map((prod) => ({
+          nome: prod.querySelector("xProd")?.textContent || "",
+          numero_serie: prod.querySelector("cProd")?.textContent || "",
+          fabricante: emitente.querySelector("xNome")?.textContent || "",
+          descricao: "",
+          tipo_unitario: prod.querySelector("uCom")?.textContent || "",
+          quantidade: prod.querySelector("qCom")?.textContent || "",
+          andar: "",
+          sala: "",
+          armario: "",
+        })),
       };
 
-      // Extração dos dados do fornecedor
-      const fornecedorNome = getText("xNome");
-      const fornecedorCNPJ = getText("CNPJ");
-      const fornecedorIE = getText("IE");
-      const fornecedorEndereco = getText("xLgr");
-      const fornecedorNumero = getText("nro");
-      const fornecedorBairro = getText("xBairro");
-      const fornecedorCidade = getText("xMun");
-      const fornecedorUF = getText("UF");
-      const fornecedorCEP = getText("CEP");
-      const fornecedorTelefone = getText("fone");
+      console.log("Dados que serão salvos:", invoiceData);
 
-      // Extração dos dados do cliente
-      const clienteNome = getText("xNome");
-      const clienteCPF = getText("CPF");
-      const clienteEmail = getText("email");
-
-      // Extração dos dados da compra
-      const numeroNota = getText("nNF");
-      const serieNota = getText("serie");
-      const dataEmissao = getText("dhEmi");
-      const valorTotal = getText("vNF");
-
-      // Extração dos produtos
-      const produtosNodes = xml.getElementsByTagName("det");
-      const produtos = Array.from(produtosNodes).map((item) => ({
-        nome: getTextFromNode(item, "xProd"),
-        numero_serie: getTextFromNode(item, "cProd"),
-        fabricante: fornecedorNome,
-        descricao: "",
-        tipo_unitario: getTextFromNode(item, "uCom"),
-        quantidade: parseFloat(getTextFromNode(item, "qCom")) || 1,
-        andar: "",
-        sala: "",
-        armario: "",
-      }));
-
-      // Armazenar os dados no localStorage para acessá-los na outra página
-      localStorage.setItem(
-        "invoiceData",
-        JSON.stringify({
-          fornecedor: {
-            razao_social_fornecedor: fornecedorNome,
-            CNPJ: fornecedorCNPJ,
-            inscricao_estadual: fornecedorIE,
-            endereco: `${fornecedorEndereco}, ${fornecedorNumero}`,
-            bairro: fornecedorBairro,
-            municipio: fornecedorCidade,
-            UF: fornecedorUF,
-            CEP: fornecedorCEP,
-            telefone: fornecedorTelefone,
-          },
-          cliente: {
-            razao_social_cliente: clienteNome,
-            CPF: clienteCPF,
-            email: clienteEmail,
-          },
-          compra: {
-            data_emissao: dataEmissao,
-            numero_nota: numeroNota,
-            serie: serieNota,
-            valor_total: valorTotal,
-          },
-          produtos: produtos,
-        })
-      );
-
-      // Redireciona para a página de Cadastro de Compra
+      // Salva no localStorage
+      localStorage.setItem("invoiceData", JSON.stringify(invoiceData));
       navigate("/cadastro-compra");
-      setShowInvoiceDropdown(false);
     };
-
     reader.readAsText(file);
-  };
-
-  // Função auxiliar para acessar nós dentro dos produtos corretamente
-  const getTextFromNode = (node, tag) => {
-    const elements = node.getElementsByTagName(tag);
-    return elements.length > 0 ? elements[0].textContent : "";
   };
 
   const handleInsertManually = () => {

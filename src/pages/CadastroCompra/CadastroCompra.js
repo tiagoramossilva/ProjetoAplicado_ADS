@@ -7,29 +7,67 @@ function CadastroCompra() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedData = localStorage.getItem("invoiceData");
-    if (storedData) {
-      const data = JSON.parse(storedData);
+    const loadInvoiceData = () => {
+      const storedData = localStorage.getItem("invoiceData");
+      if (storedData) {
+        const data = JSON.parse(storedData);
 
-      setFormData({
-        fornecedor: data.fornecedor || {},
-        cliente: data.cliente || {},
-        compra: data.compra || {},
-        projeto: data.projeto || {
-          nome_projeto: "",
-          responsavel_tecnico: "",
-          gerente_projeto: "",
-        }, 
-        adicionais: data.adicionais || { observacoes: "" },
-      });
+        // Formata a data para o input type="date"
+        const formatDate = (dateString) => {
+          if (!dateString) return "";
+          try {
+            const date = new Date(dateString);
+            return date.toISOString().split("T")[0];
+          } catch {
+            return "";
+          }
+        };
 
-      if (data.produtos) {
-        setProdutos(data.produtos);
+        setFormData((prev) => ({
+          ...prev,
+          fornecedor: {
+            ...prev.fornecedor,
+            ...data.fornecedor,
+          },
+          cliente: {
+            ...prev.cliente,
+            ...data.cliente,
+          },
+          compra: {
+            ...prev.compra,
+            ...data.compra,
+            data_emissao: formatDate(data.compra.data_emissao),
+          },
+        }));
+
+        setProdutos(
+          data.produtos || [
+            {
+              nome: "",
+              numero_serie: "",
+              fabricante: "",
+              descricao: "",
+              tipo_unitario: "",
+              quantidade: "",
+              andar: "",
+              sala: "",
+              armario: "",
+            },
+          ]
+        );
+
+        localStorage.removeItem("invoiceData");
       }
+    };
 
-      localStorage.removeItem("invoiceData"); 
-    }
+    loadInvoiceData();
   }, []);
+
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  };
 
   const [produtos, setProdutos] = useState([
     {
@@ -258,6 +296,11 @@ function CadastroCompra() {
     }
   };
 
+  console.log("Dados carregados:", {
+    formData,
+    produtos,
+  });
+
   return (
     <>
       <Navigation />
@@ -277,18 +320,21 @@ function CadastroCompra() {
                 <input
                   type="text"
                   name="fornecedor.razao_social_fornecedor"
+                  value={formData.fornecedor.razao_social_fornecedor || ""}
                   onChange={handleFormChange}
                 />
                 <label>CNPJ:</label>
                 <input
                   type="text"
                   name="fornecedor.CNPJ"
+                  value={formData.fornecedor.CNPJ || ""}
                   onChange={handleFormChange}
                 />
                 <label>Inscrição Estadual:</label>
                 <input
                   type="text"
                   name="fornecedor.inscricao_estadual"
+                  value={formData.fornecedor.inscricao_estadual || ""}
                   onChange={handleFormChange}
                 />
               </div>
@@ -335,6 +381,7 @@ function CadastroCompra() {
                 <input
                   type="text"
                   name="fornecedor.telefone"
+                  value={formData.fornecedor.telefone || ""}
                   onChange={handleFormChange}
                 />
               </div>
@@ -357,18 +404,21 @@ function CadastroCompra() {
                 <input
                   type="text"
                   name="cliente.razao_social_cliente"
+                  value={formData.cliente.razao_social_cliente || ""}
                   onChange={handleFormChange}
                 />
                 <label>CNPJ:</label>
                 <input
                   type="text"
                   name="cliente.CNPJ"
+                  value={formData.cliente.CNPJ || ""}
                   onChange={handleFormChange}
                 />
                 <label>Inscrição Estadual:</label>
                 <input
                   type="text"
                   name="cliente.inscricao_estadual"
+                  value={formData.cliente.inscricao_estadual || ""}
                   onChange={handleFormChange}
                 />
               </div>
@@ -414,6 +464,7 @@ function CadastroCompra() {
                 <input
                   type="text"
                   name="cliente.telefone"
+                  value={formData.cliente.telefone || ""}
                   onChange={handleFormChange}
                 />
               </div>
@@ -443,24 +494,28 @@ function CadastroCompra() {
                 <input
                   type="date"
                   name="compra.data_compra"
+                  value={formatDateForInput(formData.compra.data_compra)}
                   onChange={handleFormChange}
                 />
                 <label>Data de Emissão:</label>
                 <input
                   type="date"
                   name="compra.data_emissao"
+                  value={formatDateForInput(formData.compra.data_emissao)}
                   onChange={handleFormChange}
                 />
                 <label>Data de Envio:</label>
                 <input
                   type="date"
                   name="compra.data_envio"
+                  value={formatDateForInput(formData.compra.data_envio)}
                   onChange={handleFormChange}
                 />
                 <label>Valor Total:</label>
                 <input
                   type="number"
                   name="compra.valor_total"
+                  value={formData.compra.valor_total}
                   step="0.01"
                   onChange={handleFormChange}
                 />
