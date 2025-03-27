@@ -127,7 +127,7 @@ function Home() {
             <FaCog onClick={handleConfigClick} />
           </div>
           {showDropdown && (
-            <div className="dropdown-menu">
+            <div className="dropdown-menu-config">
               <p onClick={handleUserClick}>Usuários</p>
               <p onClick={handleLogoutClick}>Sair</p>
             </div>

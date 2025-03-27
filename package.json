@@ -42,6 +42,8 @@
     "seed": "node prisma/seed.js",
     "eslint": "eslint .",
     "start": "react-app-rewired start",
+    "server": "node src/server.js",
+    "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && npm run server\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -65,10 +67,12 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "eslint": "^8.57.1",
     "nodemon": "^3.1.6",
     "prisma": "^5.22.0",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "wait-on": "^8.0.3"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

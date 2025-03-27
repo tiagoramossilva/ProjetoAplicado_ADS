@@ -51,7 +51,7 @@
   cursor: pointer;
 }
 
-.dropdown-menu {
+.dropdown-menu-config {
   position: absolute;
   top: 60px; /* Ajuste conforme necessário */
   right: 20px;
@@ -62,13 +62,13 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.dropdown-menu p {
+.dropdown-menu-config p {
   margin: 0;
   padding: 10px 20px;
   cursor: pointer;
 }
 
-.dropdown-menu p:hover {
+.dropdown-menu-config p:hover {
   background-color: #505050;
 }
 
@@ -117,8 +117,8 @@
 
 .dropdown-menu {
   position: fixed;
-  top: 14rem;
-  right: 55rem;
+  top: 224px;
+  right: 880px;
   background-color: white;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5px;

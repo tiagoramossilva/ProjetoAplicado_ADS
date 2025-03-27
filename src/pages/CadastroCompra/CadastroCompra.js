@@ -12,7 +12,6 @@ function CadastroCompra() {
       if (storedData) {
         const data = JSON.parse(storedData);
 
-        // Formata a data para o input type="date"
         const formatDate = (dateString) => {
           if (!dateString) return "";
           try {
@@ -187,7 +186,7 @@ function CadastroCompra() {
         ...prevState,
         [section]: {
           ...prevState[section],
-          [field]: value.trim(), // Garantindo que o valor seja tratado como string
+          [field]: value.trim(), 
         },
       };
     });
@@ -543,6 +542,7 @@ function CadastroCompra() {
               <legend>Produtos</legend>
               {produtos.map((produto, index) => (
                 <div key={index} className="form-group">
+                  <br />
                   <label>Nome:</label>
                   <input
                     type="text"
