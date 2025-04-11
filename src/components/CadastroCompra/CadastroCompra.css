@@ -1,190 +1,201 @@
-/* Fundo da página */
-body {
-  background-color: #f0f0f0; /* Cinza suave */
-  margin: 0;
-  padding: 0;
-  font-family: "Arial", sans-serif; /* Fonte limpa e moderna */
-}
+/* CadastroCompra.css - Versão Simplificada e Linear */
 
-
-/* Contêiner do formulário */
-
-.pai-container-form{
-  max-width: 900px;
-  margin:auto;
-  padding: 20px;
-}
-
-.form-container {
-  padding: 30px;
+/* Container Principal */
+.pai-container-form {
+  max-width: 800px; /* Largura mais adequada para formulários */
+  margin: 2rem auto;
+  padding: 2rem;
   background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-
-/* Título da página */
-.containertitle{
-  font-size: 14px;
-  margin: 0 0 10px 0;
-  border-bottom: 1px solid #b3b3b35d;
-}
-.divtitle{
-max-width: 1400px;
-margin: 0 auto;
-padding: 10px 0;
-} 
-
-/* Seções do formulário */
-.form-section {
-  border: none;
-  margin-bottom: 20px;
-  padding: 0;
+/* Cabeçalho */
+.containertitle {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.form-section legend {
-  font-size: 18px;
-  font-weight: bold;
+.divtitle h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
   color: #333;
-  margin-bottom: 10px;
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 5px;
+  margin: 0;
 }
 
+/* Seções do Formulário */
 .form-section {
-  display: none; 
+  display: none;
 }
 
 .form-section.active {
-  display: block; 
+  display: block;
+  animation: fadeIn 0.3s ease-out;
 }
 
-/* Grupos de formulário */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 1.5rem;
+  display: block;
+  width: 100%;
+}
+
+/* Campos do Formulário - Layout Vertical */
 .form-group {
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .form-group label {
-  flex: 1 1 100%;
-  font-size: 14px;
+  font-weight: 500;
   color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  display: block;
 }
 
 .form-group input,
-.form-group textarea,
-.form-group select {
-  flex: 1 1 calc(33.333% - 10px); /* Dividido em colunas */
-  padding: 12px;
-  font-size: 14px;
-  border: 1px solid #8f8f8f;
-  border-radius: 8px;
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
   background-color: #f9f9f9;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: all 0.2s;
 }
 
-/* Foco nos campos */
 .form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-  border-color: #2a2770;
-  box-shadow: 0 0 4px rgba(42, 39, 112, 0.3);
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #515151;
   outline: none;
-}
-
-/* Botões de navegação */
-.navigation-buttons button {
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.navigation-buttons .prev-button {
-  border: 2px solid #4a4a4a;
-  margin-top: 30px;
-  margin-right: 30px;
   background-color: #fff;
-  color: #4a4a4a;
+  box-shadow: 0 0 0 2px rgba(81, 81, 81, 0.1);
 }
 
-.navigation-buttons .next-button {
-  margin-top: 30px;
-  border: 2px solid #4a4a4a;
-  background-color: #4a4a4a;
-  color: white;
+/* Área de Produtos */
+.product-item {
+  background: #f8f8f8;
+  padding: 1.5rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #eee;
 }
 
-.navigation-buttons button:hover {
-  transform: scale(1.05);
-}
-
-/* Botões de ações finais */
-.button-group button {
-  padding: 12px 24px;
-  font-size: 14px;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.button-group .back-button-cadastro{
-  margin-top: 20px;
-  background-color: #4caf50;
-  margin-right: 30px;
-  color: white;
-}
-.ButtonAdd {
-  padding: 12px 24px;
-  font-size: 14px;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  margin-right: 20px;
-  background-color: #4caf50;
-  color: white;
-}
-
-.ButtonAdd:hover {
-  transform: scale(1.05);
-}
-.ButtonCancel {
-  padding: 12px 24px;
-  font-size: 14px;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #ad1c1c;
-  color: white;
-}
-
-.ButtonCancel:hover {
-  transform: scale(1.05);
-}
-
-.Container-buttons-cadastro{
+.product-actions {
   display: flex;
-  justify-content: right;
-  padding: 10px 0;
-  border-bottom: 1px solid #b3b3b35d;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
+/* Botões - Estilo Simplificado */
+.button-group,
+.navigation-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
 
-.button-group .back-button {
-  margin-top: 20px;
-  background-color: #ad1c1c;
+.navigation-buttons {
+  justify-content: space-between;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+}
+
+button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.next-button,
+.submit-button {
+  background: #515151;
   color: white;
 }
 
-.button-group button:hover {
-  transform: scale(1.05);
+.next-button:hover,
+.submit-button:hover {
+  background: #3a3a3a;
+}
+
+.prev-button,
+.cancel-button {
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.prev-button:hover,
+.cancel-button:hover {
+  background: #e0e0e0;
+}
+
+.add-button {
+  background: #4CAF50;
+  color: white;
+}
+
+.remove-button {
+  background: #f44336;
+  color: white;
+}
+
+/* Textarea e Select */
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+/* Validação Simples */
+input:invalid {
+  border-color: #f44336;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .pai-container-form {
+    padding: 1.5rem;
+  }
+  
+  button {
+    width: 100%;
+  }
+  
+  .button-group,
+  .navigation-buttons,
+  .product-actions {
+    flex-direction: column;
+  }
 }

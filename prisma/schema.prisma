@@ -21,7 +21,7 @@ model Usuario {
 model Produto {
   id            Int      @id @default(autoincrement())
   nome          String
-  numero_serie  Int
+  numero_serie  String
   fabricante    String
   descricao     String
   tipo_unitario String
