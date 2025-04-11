@@ -186,7 +186,7 @@ function CadastroCompra() {
         ...prevState,
         [section]: {
           ...prevState[section],
-          [field]: value.trim(), 
+          [field]: value.trim(),
         },
       };
     });

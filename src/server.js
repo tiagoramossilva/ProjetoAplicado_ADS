@@ -16,15 +16,6 @@ app.use(bodyParser.json());
 // Rotas da API
 app.use("/api", routes);
 
-// Servindo arquivos estáticos do React (caso esteja rodando em produção)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/build")));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/build", "index.html"));
-  });
-}
-
 // Middleware de erro
 app.use((err, req, res, next) => {
   console.error(err.stack);

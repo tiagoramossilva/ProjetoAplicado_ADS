@@ -1,0 +1,161 @@
+/* Tabela - Estilo Harmonizado com Histórico de Compras */
+.estoque-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.containertitle h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.search-input::-webkit-outer-spin-button,
+.search-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.search-button {
+  background-color: #515151;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-button:hover {
+  background-color: #3a3a3a;
+}
+
+
+.estoque-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.estoque-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.estoque-table th, 
+.estoque-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.estoque-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.estoque-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.estoque-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Células de Ação - Estilo Igual ao Histórico */
+.table-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.action-button:hover {
+  background-color: #f0f0f0;
+}
+
+.update-button {
+  color: #2c7be5;
+}
+
+.update-button:hover {
+  color: #1a68d1;
+  background-color: rgba(44, 123, 229, 0.1);
+}
+
+.delete-button {
+  color: #e63757;
+}
+
+.delete-button:hover {
+  color: #d11a3d;
+  background-color: rgba(230, 55, 87, 0.1);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.buttonsPagination {
+  padding: 8px 16px;
+  background-color: #515151;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.buttonsPagination:hover {
+  background-color: #3a3a3a;
+}
+
+.buttonsPagination:disabled {
+  background-color: #d1d1d1;
+  cursor: not-allowed;
+}
+
+/* Mensagem de tabela vazia - Estilo idêntico */
+.no-data {
+  text-align: center;
+  padding: 30px;
+  color: #777;
+  font-size: 16px;
+  font-style: italic;
+}

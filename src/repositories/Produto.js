@@ -117,9 +117,30 @@ const produtoController = {
   delete: async (req, res) => {
     try {
       const { id } = req.params;
-      await prisma.produto.delete({ where: { id: Number(id) } });
-      res.status(204).send();
+
+      // Verifica se o ID é um número
+      const produtoId = Number(id);
+      if (isNaN(produtoId)) {
+        return res.status(400).json({ error: "ID inválido" });
+      }
+
+      // Verifica se o produto existe
+      const produtoExistente = await prisma.produto.findUnique({
+        where: { id: produtoId },
+      });
+
+      if (!produtoExistente) {
+        return res.status(404).json({ error: "Produto não encontrado" });
+      }
+
+      // Deleta o produto
+      await prisma.produto.delete({
+        where: { id: produtoId },
+      });
+
+      res.status(204).send(); // Sucesso: sem conteúdo
     } catch (error) {
+      console.error("Erro ao deletar produto:", error);
       res.status(500).json({ error: "Erro ao deletar produto" });
     }
   },

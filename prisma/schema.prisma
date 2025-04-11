@@ -38,8 +38,8 @@ model Compra {
   data_emissao  DateTime
   data_envio    DateTime
   valor_total   Float
-  produto_id    Int
-  produto       Produto    @relation(fields: [produto_id], references: [id])
+  produto_id    Int?
+  produto       Produto?    @relation(fields: [produto_id], references: [id])
   projeto_id    Int
   projeto       Projeto?    @relation(fields: [projeto_id], references: [id])
   fornecedor_id Int
