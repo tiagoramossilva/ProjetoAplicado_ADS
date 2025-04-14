@@ -1,101 +1,114 @@
 .profile-container {
-    padding: 40px;
-    font-family: 'Segoe UI', sans-serif;
-    color: #333;
-  }
-  
-  .profile-title {
-    font-size: 20px;
-    margin-bottom: 20px;
-    color: #5a41dc;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .profile-card {
-    display: flex;
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    padding: 30px;
-    gap: 40px;
-    align-items: center;
-  }
-  
-  .profile-avatar-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-  
-  .avatar {
-    position: relative;
-    width: 100px;
-    height: 100px;
-  }
-  
-  .avatar img {
-    width: 100px;
-    height: 100px;
-    border-radius: 16px;
-    object-fit: cover;
-  }
-  
-  .camera-btn {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background: #fff;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-  }
-  
-  .upload-boxes {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .upload-box {
-    border: 2px dashed #dcdcdc;
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 12px;
-    text-align: center;
-    color: #999;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .upload-box:hover {
-    border-color: #5a41dc;
-    color: #5a41dc;
-  }
-  
-  .profile-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    font-size: 16px;
-  }
-  
-  .edit-btn {
-    margin-top: 16px;
-    padding: 10px 20px;
-    border: 1px solid #5a41dc;
-    background-color: #fff;
-    color: #5a41dc;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-    font-weight: bold;
-  }
-  
-  .edit-btn:hover {
-    background-color: #5a41dc;
-    color: #fff;
-  }
-  
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.profile-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-avatar-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  position: relative;
+  margin-right: 20px;
+}
+
+.avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.camera-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.upload-boxes {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-box {
+  background: #e0e0e0;
+  padding: 10px;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.profile-info {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.submit-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #45a049;
+}
+
+.edit-btn {
+  background-color: #ffa500;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.edit-btn:hover {
+  background-color: #e69500;
+}
+
+.message {
+  margin-top: 20px;
+  text-align: center;
+  color: green;
+  font-weight: bold;
+}

@@ -1,66 +1,76 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../Login/Login.css"; // Reutiliza o CSS do Login
+import InputField from "./component/InputField"; // Importa o componente InputField
 
 function Cadastro() {
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
     funcao: "",
-    admin: false,
     usuario: "",
     senha: "",
+    admin: false,
   });
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const navigate = useNavigate(); // Para redirecionar após o cadastro
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
+  const [messages, setMessages] = useState({
+    success: "",
+    error: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleChange = ({ target }) => { 
+    const { name, value, type, checked } = target;
+    setFormData((prev) => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await fetch("http://localhost:3000/api/cadastro", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        setSuccessMessage("Cadastro realizado com sucesso!");
-        setErrorMessage("");
+        setMessages({ success: "Cadastro realizado com sucesso!", error: "" });
         navigate("/home");
       } else {
         const error = await response.json();
-        setErrorMessage(error.error || "Erro desconhecido. Tente novamente.");
-        setSuccessMessage("");
+        setMessages({
+          error: error.error || "Erro desconhecido. Tente novamente.",
+          success: "",
+        });
       }
-    } catch (error) {
-      console.error("Erro na solicitação:", error);
-      setErrorMessage("Erro na solicitação. Tente novamente mais tarde.");
-      setSuccessMessage("");
+    } catch (err) {
+      console.error("Erro na solicitação:", err);
+      setMessages({
+        error: "Erro na solicitação. Tente novamente mais tarde.",
+        success: "",
+      });
     }
   };
 
   return (
-    <div className="login-page"> {/* Reutiliza a estrutura da página de login */}
+    <div className="login-page">
       <div className="login-section">
         <h2>Cadastro de Usuário</h2>
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
-        {successMessage && (
-          <div className="success-message">{successMessage}</div>
+
+        {messages.error && (
+          <div className="error-message">{messages.error}</div>
         )}
-        <div className="input-container">
-          <input
-            className="InputLogin"
+        {messages.success && (
+          <div className="success-message">{messages.success}</div>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <InputField
             type="text"
             name="nome"
             placeholder="Nome"
@@ -68,10 +78,7 @@ function Cadastro() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className="input-container">
-          <input
-            className="InputLogin"
+          <InputField
             type="email"
             name="email"
             placeholder="E-mail"
@@ -79,10 +86,7 @@ function Cadastro() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className="input-container">
-          <input
-            className="InputLogin"
+          <InputField
             type="text"
             name="funcao"
             placeholder="Função"
@@ -90,10 +94,7 @@ function Cadastro() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className="input-container">
-          <input
-            className="InputLogin"
+          <InputField
             type="text"
             name="usuario"
             placeholder="Usuário"
@@ -101,10 +102,7 @@ function Cadastro() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className="input-container">
-          <input
-            className="InputLogin"
+          <InputField
             type="password"
             name="senha"
             placeholder="Senha"
@@ -112,29 +110,32 @@ function Cadastro() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className="input-container">
-          <label style={{ color: "#939393" }}>
-            <input
-              type="checkbox"
-              name="admin"
-              className="checkbox"
-              checked={formData.admin}
-              onChange={handleChange}
-            />
-            Administrador
-          </label>
-        </div>
-        <button className="login-btn" onClick={handleSubmit}>
-          CADASTRAR
-        </button>
+
+          <div className="input-container">
+            <label style={{ color: "#939393" }}>
+              <input
+                type="checkbox"
+                name="admin"
+                className="checkbox"
+                checked={formData.admin}
+                onChange={handleChange}
+              />
+              Administrador
+            </label>
+          </div>
+
+          <button className="login-btn" type="submit">
+            CADASTRAR
+          </button>
+        </form>
+
         <div className="container-link-register">
-        <p className="signup-link">
-          Já tem uma conta? <a href="/">Faça login aqui</a>
-        </p>
+          <p className="signup-link">
+            Já tem uma conta? <Link to="/">Faça login aqui</Link>
+          </p>
         </div>
-       
       </div>
+
       <div className="welcome-section">
         <div className="containetTexts">
           <p className="MArcalogin">StockMaster</p>

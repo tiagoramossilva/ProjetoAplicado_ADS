@@ -51,23 +51,25 @@ function Home() {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(e.target.result, "text/xml");
 
-      // Extrai os dados do XML
+      // Verifica se o XML contém as informações esperadas
       const emitente = xmlDoc.querySelector("emit");
-      const enderEmit = emitente.querySelector("enderEmit");
+      const enderEmit = emitente ? emitente.querySelector("enderEmit") : null;
       const destinatario = xmlDoc.querySelector("dest");
       const ide = xmlDoc.querySelector("ide");
       const produtos = Array.from(xmlDoc.querySelectorAll("det"));
 
-      // Formata os dados para o formato que seu formulário espera
+      if (!emitente || !enderEmit || !destinatario || !ide) {
+        alert("Erro ao processar a invoice. Dados incompletos.");
+        return;
+      }
+
+      // Extrai os dados do XML de forma mais robusta
       const invoiceData = {
         fornecedor: {
-          razao_social_fornecedor:
-            emitente.querySelector("xNome")?.textContent || "",
+          razao_social_fornecedor: emitente.querySelector("xNome")?.textContent || "",
           CNPJ: emitente.querySelector("CNPJ")?.textContent || "",
           inscricao_estadual: emitente.querySelector("IE")?.textContent || "",
-          endereco: `${enderEmit.querySelector("xLgr")?.textContent || ""}, ${
-            enderEmit.querySelector("nro")?.textContent || ""
-          }`,
+          endereco: `${enderEmit.querySelector("xLgr")?.textContent || ""}, ${enderEmit.querySelector("nro")?.textContent || ""}`,
           bairro: enderEmit.querySelector("xBairro")?.textContent || "",
           municipio: enderEmit.querySelector("xMun")?.textContent || "",
           UF: enderEmit.querySelector("UF")?.textContent || "",
@@ -75,15 +77,13 @@ function Home() {
           telefone: enderEmit.querySelector("fone")?.textContent || "",
         },
         cliente: {
-          razao_social_cliente:
-            destinatario.querySelector("xNome")?.textContent || "",
-          CNPJ: destinatario.querySelector("CPF" || "CNPJ")?.textContent || "",
-          inscricao_estadual: "",
-          endereco: destinatario.querySelector("xLgr").textContent || "",
-          bairro: destinatario.querySelector("xBairro").textContent || "",
-          CEP: destinatario.querySelector("CEP").textContent || "",
-          municipio: destinatario.querySelector("xMun").textContent || "",
-          UF: destinatario.querySelector("UF").textContent || "",
+          razao_social_cliente: destinatario.querySelector("xNome")?.textContent || "",
+          CNPJ: destinatario.querySelector("CPF")?.textContent || destinatario.querySelector("CNPJ")?.textContent || "",
+          endereco: destinatario.querySelector("xLgr")?.textContent || "",
+          bairro: destinatario.querySelector("xBairro")?.textContent || "",
+          CEP: destinatario.querySelector("CEP")?.textContent || "",
+          municipio: destinatario.querySelector("xMun")?.textContent || "",
+          UF: destinatario.querySelector("UF")?.textContent || "",
           telefone: destinatario.querySelector("fone")?.textContent || "",
         },
         compra: {
