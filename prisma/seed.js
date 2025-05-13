@@ -11,7 +11,7 @@ async function main() {
         funcao: "Analista",
         admin: true,
         usuario: "joao.silva",
-        senha: "senha123",
+        senha: "senha123", // senha123 criptografada
       },
       {
         nome: "Maria Souza",
@@ -88,12 +88,12 @@ async function main() {
     ],
   });
 
-  // Populando a tabela Produto com componentes eletrônicos realistas
+  // Populando a tabela Produto com componentes eletrônicos
   await prisma.produto.createMany({
     data: [
       {
         nome: "Resistor 220 Ohm",
-        numero_serie: 1234501,
+        numero_serie: "RES-220-001",
         fabricante: "EletroComp",
         descricao: "Resistor de precisão 1%",
         tipo_unitario: "Unidade",
@@ -104,7 +104,7 @@ async function main() {
       },
       {
         nome: "Capacitor Cerâmico 100nF",
-        numero_serie: 1234502,
+        numero_serie: "CAP-100N-002",
         fabricante: "Eletronix",
         descricao: "Capacitor de cerâmica para circuitos AC/DC",
         tipo_unitario: "Unidade",
@@ -115,7 +115,7 @@ async function main() {
       },
       {
         nome: "Transistor NPN BC547",
-        numero_serie: 1234503,
+        numero_serie: "TR-BC547-003",
         fabricante: "SemiTek",
         descricao: "Transistor de uso geral",
         tipo_unitario: "Unidade",
@@ -126,7 +126,7 @@ async function main() {
       },
       {
         nome: "Microcontrolador ATmega328P",
-        numero_serie: 1234504,
+        numero_serie: "MC-ATMEGA-004",
         fabricante: "MicroChip",
         descricao: "Microcontrolador usado em Arduino",
         tipo_unitario: "Unidade",
@@ -137,7 +137,7 @@ async function main() {
       },
       {
         nome: "Indutor 10uH",
-        numero_serie: 1234505,
+        numero_serie: "IND-10U-005",
         fabricante: "MagComp",
         descricao: "Indutor de potência",
         tipo_unitario: "Unidade",
@@ -148,7 +148,7 @@ async function main() {
       },
       {
         nome: "Sensor de Temperatura LM35",
-        numero_serie: 1234506,
+        numero_serie: "SEN-LM35-006",
         fabricante: "SensTech",
         descricao: "Sensor de temperatura de precisão",
         tipo_unitario: "Unidade",
@@ -159,7 +159,7 @@ async function main() {
       },
       {
         nome: "Oscilador Cristalino 16MHz",
-        numero_serie: 1234507,
+        numero_serie: "OSC-16M-007",
         fabricante: "OscilComp",
         descricao: "Cristal oscilador para circuitos de relógio",
         tipo_unitario: "Unidade",
@@ -170,7 +170,7 @@ async function main() {
       },
       {
         nome: "Amplificador LM358",
-        numero_serie: 1234508,
+        numero_serie: "AMP-LM358-008",
         fabricante: "AudioTech",
         descricao: "Amplificador operacional dual",
         tipo_unitario: "Unidade",
@@ -181,7 +181,7 @@ async function main() {
       },
       {
         nome: "Diodo Zener 5V1",
-        numero_serie: 1234509,
+        numero_serie: "DIO-Z5V1-009",
         fabricante: "Diodix",
         descricao: "Diodo regulador de tensão 5V",
         tipo_unitario: "Unidade",
@@ -192,7 +192,7 @@ async function main() {
       },
       {
         nome: "Relé de Potência 5V",
-        numero_serie: 1234510,
+        numero_serie: "REL-5V-010",
         fabricante: "PowerRelays",
         descricao: "Relé de acionamento com bobina de 5V",
         tipo_unitario: "Unidade",
@@ -202,19 +202,8 @@ async function main() {
         armario: "E2",
       },
       {
-        nome: "Sensor de Temperatura LM35",
-        numero_serie: 1234520,
-        fabricante: "SensTech",
-        descricao: "Sensor de temperatura com alta precisão",
-        tipo_unitario: "Unidade",
-        quantidade: 150,
-        andar: "3",
-        sala: "305",
-        armario: "A1",
-      },
-      {
         nome: "Placa Arduino Uno",
-        numero_serie: 1234530,
+        numero_serie: "ARD-UNO-011",
         fabricante: "Arduino",
         descricao: "Placa de prototipagem com microcontrolador",
         tipo_unitario: "Unidade",
@@ -224,19 +213,8 @@ async function main() {
         armario: "C3",
       },
       {
-        nome: "Resistor 220 Ohms",
-        numero_serie: 1234540,
-        fabricante: "ResistTech",
-        descricao: "Resistor para circuitos eletrônicos",
-        tipo_unitario: "Pacote",
-        quantidade: 500,
-        andar: "1",
-        sala: "101",
-        armario: "B2",
-      },
-      {
         nome: "Display LCD 16x2",
-        numero_serie: 1234550,
+        numero_serie: "LCD-16X2-012",
         fabricante: "DisplayWorks",
         descricao: "Tela LCD para exibição de informações",
         tipo_unitario: "Unidade",
@@ -247,7 +225,7 @@ async function main() {
       },
       {
         nome: "Módulo Bluetooth HC-05",
-        numero_serie: 1234560,
+        numero_serie: "BLT-HC05-013",
         fabricante: "ConnectTech",
         descricao: "Módulo Bluetooth para comunicação sem fio",
         tipo_unitario: "Unidade",
@@ -257,19 +235,8 @@ async function main() {
         armario: "A3",
       },
       {
-        nome: "Capacitor 100uF",
-        numero_serie: 1234570,
-        fabricante: "Capacitech",
-        descricao: "Capacitor eletrolítico para circuitos",
-        tipo_unitario: "Pacote",
-        quantidade: 300,
-        andar: "3",
-        sala: "308",
-        armario: "B1",
-      },
-      {
         nome: "Motor DC 12V",
-        numero_serie: 1234580,
+        numero_serie: "MOT-DC12-014",
         fabricante: "MotoTech",
         descricao: "Motor elétrico para projetos de automação",
         tipo_unitario: "Unidade",
@@ -280,7 +247,7 @@ async function main() {
       },
       {
         nome: "Protoboard 830 pontos",
-        numero_serie: 1234590,
+        numero_serie: "PRO-830-015",
         fabricante: "ProtoWorks",
         descricao: "Placa de prototipagem para montagem de circuitos",
         tipo_unitario: "Unidade",
@@ -291,7 +258,7 @@ async function main() {
       },
       {
         nome: "Módulo WiFi ESP8266",
-        numero_serie: 1234600,
+        numero_serie: "WIF-ESP8266-016",
         fabricante: "NetConnect",
         descricao: "Módulo de comunicação WiFi para IoT",
         tipo_unitario: "Unidade",
@@ -301,20 +268,53 @@ async function main() {
         armario: "D3",
       },
       {
-        nome: "Chave Push Button",
-        numero_serie: 1234610,
-        fabricante: "SwitchWorks",
-        descricao: "Chave de acionamento momentâneo",
-        tipo_unitario: "Pacote",
-        quantidade: 400,
+        nome: "Fonte de Alimentação 5V 2A",
+        numero_serie: "FON-5V2A-017",
+        fabricante: "PowerTech",
+        descricao: "Fonte regulada para projetos eletrônicos",
+        tipo_unitario: "Unidade",
+        quantidade: 60,
         andar: "1",
         sala: "105",
-        armario: "A2",
+        armario: "B3",
+      },
+      {
+        nome: "Sensor de Movimento PIR",
+        numero_serie: "SEN-PIR-018",
+        fabricante: "MotionTech",
+        descricao: "Sensor de movimento para automação",
+        tipo_unitario: "Unidade",
+        quantidade: 85,
+        andar: "3",
+        sala: "303",
+        armario: "C4",
+      },
+      {
+        nome: "Bateria LiPo 3.7V 2000mAh",
+        numero_serie: "BAT-LIPO-019",
+        fabricante: "BatteryPower",
+        descricao: "Bateria recarregável para dispositivos móveis",
+        tipo_unitario: "Unidade",
+        quantidade: 120,
+        andar: "5",
+        sala: "504",
+        armario: "E3",
+      },
+      {
+        nome: "Conjunto Jumpers 40 peças",
+        numero_serie: "JMP-40-020",
+        fabricante: "ConnectParts",
+        descricao: "Cabos para conexão em protoboards",
+        tipo_unitario: "Kit",
+        quantidade: 40,
+        andar: "1",
+        sala: "103",
+        armario: "A4",
       },
     ],
   });
 
-  // Populando a tabela Cliente com nomes de empresas fictícias
+  // Populando a tabela Cliente
   await prisma.cliente.createMany({
     data: [
       {
@@ -540,7 +540,7 @@ async function main() {
     ],
   });
 
-  // Populando a tabela Fornecedor com nomes de empresas fictícias
+  // Populando a tabela Fornecedor
   await prisma.fornecedor.createMany({
     data: [
       {
@@ -765,31 +765,33 @@ async function main() {
       },
     ],
   });
+
+  // Populando a tabela Projeto
   await prisma.projeto.createMany({
     data: [
       {
         nome_projeto: "Sistema de Monitoramento",
         responsavel_tecnico: "João da Silva",
         gerente_projeto: "Ana Clara",
-        cliente_id: 9,
+        cliente_id: 1,
       },
       {
         nome_projeto: "Automação Residencial",
         responsavel_tecnico: "Marcos Pereira",
         gerente_projeto: "Carlos Lima",
-        cliente_id: 8,
+        cliente_id: 2,
       },
       {
         nome_projeto: "Rede de Distribuição",
         responsavel_tecnico: "Luciana Almeida",
         gerente_projeto: "Pedro Fonseca",
-        cliente_id: 7,
+        cliente_id: 3,
       },
       {
         nome_projeto: "Plataforma de E-commerce",
         responsavel_tecnico: "Fernanda Torres",
         gerente_projeto: "Gabriel Santos",
-        cliente_id: 6,
+        cliente_id: 4,
       },
       {
         nome_projeto: "Sistema de Segurança",
@@ -801,25 +803,25 @@ async function main() {
         nome_projeto: "Gerenciamento de Estoque",
         responsavel_tecnico: "Luis Martins",
         gerente_projeto: "Mariana Gomes",
-        cliente_id: 4,
+        cliente_id: 6,
       },
       {
         nome_projeto: "Controle de Acesso",
         responsavel_tecnico: "Thiago Ramos",
         gerente_projeto: "Lívia Nunes",
-        cliente_id: 3,
+        cliente_id: 7,
       },
       {
         nome_projeto: "Sistema de Vendas",
         responsavel_tecnico: "Carla Souza",
         gerente_projeto: "Ricardo Lima",
-        cliente_id: 2,
+        cliente_id: 8,
       },
       {
         nome_projeto: "Aplicativo Mobile",
         responsavel_tecnico: "Bruno Marques",
         gerente_projeto: "Sofia Mendes",
-        cliente_id: 1,
+        cliente_id: 9,
       },
       {
         nome_projeto: "Integração de Sistemas",
@@ -882,20 +884,51 @@ async function main() {
         cliente_id: 19,
       },
       {
-        nome_projeto: "Plataforma de E-learning",
-        responsavel_tecnico: "André Rocha",
-        gerente_projeto: "Simone Ferreira",
+        nome_projeto: "Sistema de IoT Industrial",
+        responsavel_tecnico: "Roberto Campos",
+        gerente_projeto: "Vanessa Lima",
         cliente_id: 20,
-      },
-      {
-        nome_projeto: "Plataforma de E-learning",
-        responsavel_tecnico: "André Rocha",
-        gerente_projeto: "Simone Ferreira",
-        cliente_id: 10,
       },
     ],
   });
 
+  // Populando a tabela Adicionais
+  await prisma.adicionais.createMany({
+    data: [
+      {
+        observacoes: "Entrega urgente, prioridade máxima",
+      },
+      {
+        observacoes: "Embalagem especial requerida",
+      },
+      {
+        observacoes: "Fatura com dados fiscais completos",
+      },
+      {
+        observacoes: "Necessário certificado de garantia",
+      },
+      {
+        observacoes: "Produto frágil, manuseio cuidadoso",
+      },
+      {
+        observacoes: "Documentação técnica em inglês",
+      },
+      {
+        observacoes: "Entrega agendada para manhã",
+      },
+      {
+        observacoes: "Nota fiscal em 2 vias",
+      },
+      {
+        observacoes: "Necessário laudo de qualidade",
+      },
+      {
+        observacoes: "Embalagem neutra sem identificação",
+      },
+    ],
+  });
+
+  // Populando a tabela Compra
   await prisma.compra.createMany({
     data: [
       {
@@ -907,6 +940,7 @@ async function main() {
         projeto_id: 1,
         fornecedor_id: 1,
         cliente_id: 1,
+        adicionais_id: 1,
       },
       {
         data_compra: new Date("2024-02-10"),
@@ -917,6 +951,7 @@ async function main() {
         projeto_id: 2,
         fornecedor_id: 2,
         cliente_id: 2,
+        adicionais_id: 2,
       },
       {
         data_compra: new Date("2024-03-05"),
@@ -927,6 +962,7 @@ async function main() {
         projeto_id: 3,
         fornecedor_id: 3,
         cliente_id: 3,
+        adicionais_id: 3,
       },
       {
         data_compra: new Date("2024-04-01"),
@@ -937,6 +973,7 @@ async function main() {
         projeto_id: 4,
         fornecedor_id: 4,
         cliente_id: 4,
+        adicionais_id: 4,
       },
       {
         data_compra: new Date("2024-04-20"),
@@ -947,6 +984,7 @@ async function main() {
         projeto_id: 5,
         fornecedor_id: 5,
         cliente_id: 5,
+        adicionais_id: 5,
       },
       {
         data_compra: new Date("2024-05-10"),
@@ -957,6 +995,7 @@ async function main() {
         projeto_id: 6,
         fornecedor_id: 6,
         cliente_id: 6,
+        adicionais_id: 6,
       },
       {
         data_compra: new Date("2024-06-01"),
@@ -967,6 +1006,7 @@ async function main() {
         projeto_id: 7,
         fornecedor_id: 7,
         cliente_id: 7,
+        adicionais_id: 7,
       },
       {
         data_compra: new Date("2024-06-15"),
@@ -977,6 +1017,7 @@ async function main() {
         projeto_id: 8,
         fornecedor_id: 8,
         cliente_id: 8,
+        adicionais_id: 8,
       },
       {
         data_compra: new Date("2024-07-05"),
@@ -987,6 +1028,7 @@ async function main() {
         projeto_id: 9,
         fornecedor_id: 9,
         cliente_id: 9,
+        adicionais_id: 9,
       },
       {
         data_compra: new Date("2024-08-01"),
@@ -997,6 +1039,7 @@ async function main() {
         projeto_id: 10,
         fornecedor_id: 10,
         cliente_id: 10,
+        adicionais_id: 10,
       },
       {
         data_compra: new Date("2024-02-10"),
@@ -1101,12 +1144,15 @@ async function main() {
     ],
   });
 
-  console.log("Dados de Projeto e Compra populados com sucesso!");
+  console.log("Seed concluído com sucesso!");
 }
 
 main()
-  .then(() => console.log("Dados populados com sucesso!"))
-  .catch((e) => console.error(e))
-  .finally(async () => {
+  .then(async () => {
     await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
   });
