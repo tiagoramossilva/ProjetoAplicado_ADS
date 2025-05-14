@@ -93,7 +93,7 @@ async function main() {
     data: [
       {
         nome: "Resistor 220 Ohm",
-        numero_serie: 1234501,
+        numero_serie: "1234501",
         fabricante: "EletroComp",
         descricao: "Resistor de precisão 1%",
         tipo_unitario: "Unidade",
@@ -104,7 +104,7 @@ async function main() {
       },
       {
         nome: "Capacitor Cerâmico 100nF",
-        numero_serie: 1234502,
+        numero_serie: "1234502",
         fabricante: "Eletronix",
         descricao: "Capacitor de cerâmica para circuitos AC/DC",
         tipo_unitario: "Unidade",
@@ -115,7 +115,7 @@ async function main() {
       },
       {
         nome: "Transistor NPN BC547",
-        numero_serie: 1234503,
+        numero_serie: "1234503",
         fabricante: "SemiTek",
         descricao: "Transistor de uso geral",
         tipo_unitario: "Unidade",
@@ -126,7 +126,7 @@ async function main() {
       },
       {
         nome: "Microcontrolador ATmega328P",
-        numero_serie: 1234504,
+        numero_serie: "1234504",
         fabricante: "MicroChip",
         descricao: "Microcontrolador usado em Arduino",
         tipo_unitario: "Unidade",
@@ -137,7 +137,7 @@ async function main() {
       },
       {
         nome: "Indutor 10uH",
-        numero_serie: 1234505,
+        numero_serie: "1234505",
         fabricante: "MagComp",
         descricao: "Indutor de potência",
         tipo_unitario: "Unidade",
@@ -148,7 +148,7 @@ async function main() {
       },
       {
         nome: "Sensor de Temperatura LM35",
-        numero_serie: 1234506,
+        numero_serie: "1234506",
         fabricante: "SensTech",
         descricao: "Sensor de temperatura de precisão",
         tipo_unitario: "Unidade",
@@ -159,7 +159,7 @@ async function main() {
       },
       {
         nome: "Oscilador Cristalino 16MHz",
-        numero_serie: 1234507,
+        numero_serie: "1234507",
         fabricante: "OscilComp",
         descricao: "Cristal oscilador para circuitos de relógio",
         tipo_unitario: "Unidade",
@@ -170,7 +170,7 @@ async function main() {
       },
       {
         nome: "Amplificador LM358",
-        numero_serie: 1234508,
+        numero_serie: "1234508",
         fabricante: "AudioTech",
         descricao: "Amplificador operacional dual",
         tipo_unitario: "Unidade",
@@ -181,7 +181,7 @@ async function main() {
       },
       {
         nome: "Diodo Zener 5V1",
-        numero_serie: 1234509,
+        numero_serie: "1234509",
         fabricante: "Diodix",
         descricao: "Diodo regulador de tensão 5V",
         tipo_unitario: "Unidade",
@@ -192,7 +192,7 @@ async function main() {
       },
       {
         nome: "Relé de Potência 5V",
-        numero_serie: 1234510,
+        numero_serie: "1234510",
         fabricante: "PowerRelays",
         descricao: "Relé de acionamento com bobina de 5V",
         tipo_unitario: "Unidade",
@@ -203,7 +203,7 @@ async function main() {
       },
       {
         nome: "Sensor de Temperatura LM35",
-        numero_serie: 1234520,
+        numero_serie: "1234520",
         fabricante: "SensTech",
         descricao: "Sensor de temperatura com alta precisão",
         tipo_unitario: "Unidade",
@@ -214,7 +214,7 @@ async function main() {
       },
       {
         nome: "Placa Arduino Uno",
-        numero_serie: 1234530,
+        numero_serie: "1234530",
         fabricante: "Arduino",
         descricao: "Placa de prototipagem com microcontrolador",
         tipo_unitario: "Unidade",
@@ -225,7 +225,7 @@ async function main() {
       },
       {
         nome: "Resistor 220 Ohms",
-        numero_serie: 1234540,
+        numero_serie: "1234540",
         fabricante: "ResistTech",
         descricao: "Resistor para circuitos eletrônicos",
         tipo_unitario: "Pacote",
@@ -236,7 +236,7 @@ async function main() {
       },
       {
         nome: "Display LCD 16x2",
-        numero_serie: 1234550,
+        numero_serie: "1234550",
         fabricante: "DisplayWorks",
         descricao: "Tela LCD para exibição de informações",
         tipo_unitario: "Unidade",
@@ -247,7 +247,7 @@ async function main() {
       },
       {
         nome: "Módulo Bluetooth HC-05",
-        numero_serie: 1234560,
+        numero_serie: "1234560",
         fabricante: "ConnectTech",
         descricao: "Módulo Bluetooth para comunicação sem fio",
         tipo_unitario: "Unidade",
@@ -258,7 +258,7 @@ async function main() {
       },
       {
         nome: "Capacitor 100uF",
-        numero_serie: 1234570,
+        numero_serie: "1234570",
         fabricante: "Capacitech",
         descricao: "Capacitor eletrolítico para circuitos",
         tipo_unitario: "Pacote",
@@ -269,7 +269,7 @@ async function main() {
       },
       {
         nome: "Motor DC 12V",
-        numero_serie: 1234580,
+        numero_serie: "1234580",
         fabricante: "MotoTech",
         descricao: "Motor elétrico para projetos de automação",
         tipo_unitario: "Unidade",
@@ -280,7 +280,7 @@ async function main() {
       },
       {
         nome: "Protoboard 830 pontos",
-        numero_serie: 1234590,
+        numero_serie: "1234590",
         fabricante: "ProtoWorks",
         descricao: "Placa de prototipagem para montagem de circuitos",
         tipo_unitario: "Unidade",
@@ -291,7 +291,7 @@ async function main() {
       },
       {
         nome: "Módulo WiFi ESP8266",
-        numero_serie: 1234600,
+        numero_serie: "1234600",
         fabricante: "NetConnect",
         descricao: "Módulo de comunicação WiFi para IoT",
         tipo_unitario: "Unidade",
@@ -302,7 +302,7 @@ async function main() {
       },
       {
         nome: "Chave Push Button",
-        numero_serie: 1234610,
+        numero_serie: "1234610",
         fabricante: "SwitchWorks",
         descricao: "Chave de acionamento momentâneo",
         tipo_unitario: "Pacote",
