@@ -19,44 +19,50 @@ const useCadastroCompra = () => {
   ]);
 
   // Usando useMemo para initialFormData
-  const initialFormData = useMemo(() => ({
-    cliente: {
-      razao_social_cliente: "",
-      CNPJ: "",
-      inscricao_estadual: "",
-      endereco: "",
-      bairro: "",
-      CEP: "",
-      municipio: "",
-      UF: "",
-      telefone: "",
-    },
-    fornecedor: {
-      razao_social_fornecedor: "",
-      CNPJ: "",
-      inscricao_estadual: "",
-      endereco: "",
-      bairro: "",
-      CEP: "",
-      municipio: "",
-      UF: "",
-      telefone: "",
-    },
-    compra: {
-      data_compra: "",
-      data_emissao: "",
-      data_envio: "",
-      valor_total: "",
-    },
-    projeto: {
-      nome_projeto: "",
-      responsavel_tecnico: "",
-      gerente_projeto: "",
-    },
-    adicionais: {
-      observacoes: "",
-    },
-  }), []);
+  const initialFormData = useMemo(
+    () => ({
+      cliente: {
+        razao_social_cliente: "",
+        CNPJ: "",
+        inscricao_estadual: "",
+        endereco: "",
+        bairro: "",
+        CEP: "",
+        municipio: "",
+        UF: "",
+        telefone: "",
+      },
+      fornecedor: {
+        razao_social_fornecedor: "",
+        CNPJ: "",
+        inscricao_estadual: "",
+        endereco: "",
+        bairro: "",
+        CEP: "",
+        municipio: "",
+        UF: "",
+        telefone: "",
+      },
+      compra: {
+        data_compra: "",
+        data_emissao: "",
+        data_envio: "",
+        valor_total: "",
+        xml_url: "",
+      },
+      projeto: {
+        nome_projeto: "",
+        responsavel_tecnico: "",
+        gerente_projeto: "",
+      },
+      adicionais: {
+        observacoes: "",
+      },
+    }),
+    []
+  );
+
+  console.log("initialFormData: ", initialFormData);
 
   const [formData, setFormData] = useState(initialFormData);
   const [projetos, setProjetos] = useState([]);
@@ -65,9 +71,11 @@ const useCadastroCompra = () => {
 
   const loadInvoiceData = useCallback(() => {
     const storedData = localStorage.getItem("invoiceData");
+    console.log("storedData: ", storedData);
     if (storedData) {
       try {
         const data = JSON.parse(storedData);
+        console.log("data: ", data);
 
         const formattedProdutos = (
           data.produtos || [
@@ -193,7 +201,7 @@ const useCadastroCompra = () => {
     try {
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
       if (!response.ok) throw new Error("Erro ao buscar CEP");
-      
+
       const data = await response.json();
       if (data.erro) throw new Error("CEP não encontrado");
 
@@ -219,13 +227,18 @@ const useCadastroCompra = () => {
   };
 
   const validateForm = () => {
-    if (!formData.fornecedor.razao_social_fornecedor || !formData.fornecedor.CNPJ) {
+    if (
+      !formData.fornecedor.razao_social_fornecedor ||
+      !formData.fornecedor.CNPJ
+    ) {
       alert("Por favor, preencha os dados obrigatórios do fornecedor");
       return false;
     }
 
-    if (produtos.some(p => !p.nome || !p.quantidade)) {
-      alert("Por favor, preencha pelo menos o nome e quantidade para todos os produtos");
+    if (produtos.some((p) => !p.nome || !p.quantidade)) {
+      alert(
+        "Por favor, preencha pelo menos o nome e quantidade para todos os produtos"
+      );
       return false;
     }
 
@@ -234,28 +247,33 @@ const useCadastroCompra = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:3000/api/cadastro-compra", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fornecedor: formData.fornecedor,
-          cliente: formData.cliente,
-          compra: formData.compra,
-          produtos: produtos.map(p => ({
-            ...p,
-            numero_serie: p.numero_serie || null,
-            quantidade: p.quantidade ? parseInt(p.quantidade, 10) : null,
-          })),
-          projeto: formData.projeto,
-          adicionais: formData.adicionais,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/cadastro-compra",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fornecedor: formData.fornecedor,
+            cliente: formData.cliente,
+            compra: formData.compra,
+            produtos: produtos.map((p) => ({
+              ...p,
+              numero_serie: p.numero_serie || null,
+              quantidade: p.quantidade ? parseInt(p.quantidade, 10) : null,
+            })),
+            projeto: formData.projeto,
+            adicionais: formData.adicionais,
+          }),
+        }
+      );
+
+      console.log("formData: ", formData);
 
       if (!response.ok) {
         const errorData = await response.json();

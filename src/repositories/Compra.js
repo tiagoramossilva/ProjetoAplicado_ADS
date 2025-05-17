@@ -1,11 +1,10 @@
 const { PrismaClient } = require("@prisma/client");
-const { log } = require("util");
 const prisma = new PrismaClient();
 
 const CompraController = {
   // Método original para criar uma compra (sem transação)
   async create(req, res) {
-    const { data_compra, data_emissao, data_envio, valor_total } = req.body;
+    const { data_compra, data_emissao, data_envio, valor_total, xml_url } = req.body;
 
     try {
       const compra = await prisma.compra.create({
@@ -14,6 +13,7 @@ const CompraController = {
           data_emissao,
           data_envio,
           valor_total,
+          xml_url, // incluído aqui
         },
       });
       return res.status(201).json(compra);
@@ -27,13 +27,13 @@ const CompraController = {
 
   async createWithTransaction(compraData, prisma) {
     try {
-
       const compra = await prisma.compra.create({
         data: {
           data_compra: new Date(compraData.data_compra),
           data_emissao: new Date(compraData.data_emissao),
           data_envio: new Date(compraData.data_envio),
           valor_total: parseFloat(compraData.valor_total),
+          xml_url: compraData.xml_url, // incluído aqui
 
           produto: { connect: { id: compraData.produto_id } },
           projeto: compraData.projeto_id
@@ -86,7 +86,7 @@ const CompraController = {
 
   async update(req, res) {
     const { id } = req.params;
-    const { data_compra, data_emissao, data_envio, valor_total } = req.body;
+    const { data_compra, data_emissao, data_envio, valor_total, xml_url } = req.body;
 
     try {
       const compra = await prisma.compra.update({
@@ -96,6 +96,7 @@ const CompraController = {
           data_emissao,
           data_envio,
           valor_total,
+          xml_url, // incluído aqui
         },
       });
       return res.json(compra);
@@ -124,6 +125,16 @@ const CompraController = {
     try {
       const compras = await prisma.compra.findMany({
         include: {
+          fornecedor: true,
+          projeto: true,
+        },
+        select: {
+          id: true,
+          data_compra: true,
+          data_emissao: true,
+          data_envio: true,
+          valor_total: true,
+          xml_url: true, // garante que traga esse campo
           fornecedor: true,
           projeto: true,
         },

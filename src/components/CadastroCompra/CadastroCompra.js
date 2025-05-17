@@ -1,17 +1,15 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Navigation from '../Navigation/Navigation';
-import useCadastroCompra from './hooks/useCadastroCompra';
-import FornecedorSection from './sections/FornecedorSection';
-import ClienteSection from './sections/ClienteSection';
-import CompraSection from './sections/CompraSection';
-import ProdutosSection from './sections/ProdutosSection';
-import ProjetoSection from './sections/ProjetoSection';
-import AdicionaisSection from './sections/AdicionaisSection';
-import './CadastroCompra.css';
+import React from "react";
+import Navigation from "../Navigation/Navigation";
+import useCadastroCompra from "./hooks/useCadastroCompra";
+import FornecedorSection from "./sections/FornecedorSection";
+import ClienteSection from "./sections/ClienteSection";
+import CompraSection from "./sections/CompraSection";
+import ProdutosSection from "./sections/ProdutosSection";
+import ProjetoSection from "./sections/ProjetoSection";
+import AdicionaisSection from "./sections/AdicionaisSection";
+import "./CadastroCompra.css";
 
 const CadastroCompra = () => {
-  const navigate = useNavigate();
   const {
     formData,
     produtos,
@@ -27,11 +25,12 @@ const CadastroCompra = () => {
     showSection,
     handleSubmit,
     formatDateForInput,
-    handleCancel
+    handleCancel,
   } = useCadastroCompra();
 
+
   const sectionComponents = {
-    'fornecedor-section': (
+    "fornecedor-section": (
       <FornecedorSection
         formData={formData}
         handleFormChange={handleFormChange}
@@ -39,7 +38,7 @@ const CadastroCompra = () => {
         showSection={showSection}
       />
     ),
-    'cliente-section': (
+    "cliente-section": (
       <ClienteSection
         formData={formData}
         handleFormChange={handleFormChange}
@@ -47,7 +46,7 @@ const CadastroCompra = () => {
         showSection={showSection}
       />
     ),
-    'compra-section': (
+    "compra-section": (
       <CompraSection
         formData={formData}
         handleFormChange={handleFormChange}
@@ -55,7 +54,7 @@ const CadastroCompra = () => {
         showSection={showSection}
       />
     ),
-    'produtos-section': (
+    "produtos-section": (
       <ProdutosSection
         produtos={produtos}
         handleChange={handleChange}
@@ -64,7 +63,7 @@ const CadastroCompra = () => {
         showSection={showSection}
       />
     ),
-    'projeto-section': (
+    "projeto-section": (
       <ProjetoSection
         formData={formData}
         projetos={projetos}
@@ -74,14 +73,15 @@ const CadastroCompra = () => {
         showSection={showSection}
       />
     ),
-    'adicionais-section': (
+
+    "adicionais-section": (
       <AdicionaisSection
         formData={formData}
         handleFormChange={handleFormChange}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
       />
-    )
+    ),
   };
 
   return (
@@ -92,32 +92,56 @@ const CadastroCompra = () => {
           <h1>Cadastro de Compra</h1>
         </div>
       </div>
-      
+
       <div className="pai-container-form">
         <div className="form-container">
           <form className="purchase-form" onSubmit={handleSubmit}>
-            <div className={`form-section ${currentSection === 'fornecedor-section' ? 'active' : ''}`}>
-              {sectionComponents['fornecedor-section']}
+            <div
+              className={`form-section ${
+                currentSection === "fornecedor-section" ? "active" : ""
+              }`}
+            >
+              {sectionComponents["fornecedor-section"]}
             </div>
-            
-            <div className={`form-section ${currentSection === 'cliente-section' ? 'active' : ''}`}>
-              {sectionComponents['cliente-section']}
+
+            <div
+              className={`form-section ${
+                currentSection === "cliente-section" ? "active" : ""
+              }`}
+            >
+              {sectionComponents["cliente-section"]}
             </div>
-            
-            <div className={`form-section ${currentSection === 'compra-section' ? 'active' : ''}`}>
-              {sectionComponents['compra-section']}
+
+            <div
+              className={`form-section ${
+                currentSection === "compra-section" ? "active" : ""
+              }`}
+            >
+              {sectionComponents["compra-section"]}
             </div>
-            
-            <div className={`form-section ${currentSection === 'produtos-section' ? 'active' : ''}`}>
-              {sectionComponents['produtos-section']}
+
+            <div
+              className={`form-section ${
+                currentSection === "produtos-section" ? "active" : ""
+              }`}
+            >
+              {sectionComponents["produtos-section"]}
             </div>
-            
-            <div className={`form-section ${currentSection === 'projeto-section' ? 'active' : ''}`}>
-              {sectionComponents['projeto-section']}
+
+            <div
+              className={`form-section ${
+                currentSection === "projeto-section" ? "active" : ""
+              }`}
+            >
+              {sectionComponents["projeto-section"]}
             </div>
-            
-            <div className={`form-section ${currentSection === 'adicionais-section' ? 'active' : ''}`}>
-              {sectionComponents['adicionais-section']}
+
+            <div
+              className={`form-section ${
+                currentSection === "adicionais-section" ? "active" : ""
+              }`}
+            >
+              {sectionComponents["adicionais-section"]}
             </div>
           </form>
         </div>

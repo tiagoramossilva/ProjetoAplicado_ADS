@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -48,6 +48,7 @@ model Compra {
   cliente       Cliente?    @relation(fields: [cliente_id], references: [id])
   adicionais_id Int?
   adicionais    Adicionais? @relation(fields: [adicionais_id], references: [id])
+  xml_url      String? 
 }
 
 model Projeto {

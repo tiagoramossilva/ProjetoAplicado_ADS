@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaUpload, FaBox, FaHistory, FaCog } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../../supabaseClient.js";
 import "./Home.css";
 
 function Home() {
@@ -42,9 +43,26 @@ function Home() {
     setShowModal(false);
   };
 
-  const handleUploadInvoice = (event) => {
+  const handleUploadInvoice = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
+
+    const fileName = `${Date.now()}-${file.name}`;
+    const { error } = supabase.storage
+      .from("stockmaster")
+      .upload(fileName, file);
+    if (error) {
+      alert("Erro ao fazer upload da nota.");
+      console.error(error);
+      return;
+    }
+
+    // Pega a URL pública (ou use `getPublicUrl` se for bucket público)
+    const { data: publicUrlData } = supabase.storage
+      .from("stockmaster")
+      .getPublicUrl(fileName);
+
+    const notaUrl = publicUrlData.publicUrl;
 
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -100,6 +118,7 @@ function Home() {
           valor_total: xmlDoc.querySelector("vNF")?.textContent || "",
           data_compra: ide.querySelector("dhEmi")?.textContent || "",
           data_envio: ide.querySelector("dhSaiEnt")?.textContent || "",
+          xml_url: notaUrl || "",
         },
         produtos: produtos.map((prod) => ({
           nome: prod.querySelector("xProd")?.textContent || "",
@@ -156,14 +175,15 @@ function Home() {
           <div className="dropdown-menu">
             <p onClick={handleInsertManually}>Inserir Manualmente</p>
             <p>
-              <label htmlFor="uploadXML">Fazer Upload da Invoice</label>
+              <label htmlFor="arquivoXml">Fazer Upload da Invoice</label>
               <input
-                id="uploadXML"
+                id="arquivoXml"
                 type="file"
                 accept=".xml"
                 style={{ display: "none" }}
                 onChange={handleUploadInvoice}
               />
+
             </p>
           </div>
         )}

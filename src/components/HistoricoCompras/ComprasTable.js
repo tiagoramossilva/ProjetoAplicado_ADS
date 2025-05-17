@@ -1,6 +1,6 @@
 import React from "react";
-import { LiaEditSolid } from "react-icons/lia";
 import { MdDeleteOutline } from "react-icons/md";
+import { FaFileDownload } from "react-icons/fa";
 
 const ComprasTable = ({ compras, onDelete }) => {
   return (
@@ -37,9 +37,18 @@ const ComprasTable = ({ compras, onDelete }) => {
                 {compra.projeto?.gerente_projeto || "N/A"}
               </td>
               <td className="table-actions">
-                <button className="action-button edit-button">
-                  <LiaEditSolid />
-                </button>
+                {compra.xml_url ? (
+                  <a
+                    href={compra.xml_url}
+                    download
+                    className="action-button edit-button"
+                    title="Download da Nota Fiscal"
+                  >
+                    <FaFileDownload />
+                  </a>
+                ) : (
+                  <span className="no-file">—</span> // ícone ou texto indicando ausência
+                )}
                 <button
                   className="action-button delete-button"
                   onClick={() => onDelete(compra.id)}
