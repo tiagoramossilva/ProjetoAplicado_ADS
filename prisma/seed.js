@@ -11,7 +11,7 @@ async function main() {
         funcao: "Analista",
         admin: true,
         usuario: "joao.silva",
-        senha: "senha123", // senha123 criptografada
+        senha: "senha123",
       },
       {
         nome: "Maria Souza",
@@ -88,7 +88,7 @@ async function main() {
     ],
   });
 
-  // Populando a tabela Produto com componentes eletrônicos
+  // Populando a tabela Produto
   await prisma.produto.createMany({
     data: [
       {
