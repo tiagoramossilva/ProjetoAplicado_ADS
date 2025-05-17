@@ -66,10 +66,13 @@ function Home() {
       // Extrai os dados do XML de forma mais robusta
       const invoiceData = {
         fornecedor: {
-          razao_social_fornecedor: emitente.querySelector("xNome")?.textContent || "",
+          razao_social_fornecedor:
+            emitente.querySelector("xNome")?.textContent || "",
           CNPJ: emitente.querySelector("CNPJ")?.textContent || "",
           inscricao_estadual: emitente.querySelector("IE")?.textContent || "",
-          endereco: `${enderEmit.querySelector("xLgr")?.textContent || ""}, ${enderEmit.querySelector("nro")?.textContent || ""}`,
+          endereco: `${enderEmit.querySelector("xLgr")?.textContent || ""}, ${
+            enderEmit.querySelector("nro")?.textContent || ""
+          }`,
           bairro: enderEmit.querySelector("xBairro")?.textContent || "",
           municipio: enderEmit.querySelector("xMun")?.textContent || "",
           UF: enderEmit.querySelector("UF")?.textContent || "",
@@ -77,8 +80,14 @@ function Home() {
           telefone: enderEmit.querySelector("fone")?.textContent || "",
         },
         cliente: {
-          razao_social_cliente: destinatario.querySelector("xNome")?.textContent || "",
-          CNPJ: destinatario.querySelector("CPF")?.textContent || destinatario.querySelector("CNPJ")?.textContent || "",
+          razao_social_cliente:
+            destinatario.querySelector("xNome")?.textContent || "",
+          CNPJ:
+            destinatario.querySelector("CPF")?.textContent ||
+            destinatario.querySelector("CNPJ")?.textContent ||
+            "",
+          inscricao_estadual:
+            destinatario.querySelector("IE")?.textContent || "",
           endereco: destinatario.querySelector("xLgr")?.textContent || "",
           bairro: destinatario.querySelector("xBairro")?.textContent || "",
           CEP: destinatario.querySelector("CEP")?.textContent || "",
@@ -89,7 +98,7 @@ function Home() {
         compra: {
           data_emissao: ide.querySelector("dhEmi")?.textContent || "",
           valor_total: xmlDoc.querySelector("vNF")?.textContent || "",
-          data_compra: "",
+          data_compra: ide.querySelector("dhEmi")?.textContent || "",
           data_envio: ide.querySelector("dhSaiEnt")?.textContent || "",
         },
         produtos: produtos.map((prod) => ({
