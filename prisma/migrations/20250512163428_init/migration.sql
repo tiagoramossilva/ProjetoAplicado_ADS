@@ -40,7 +40,7 @@ CREATE TABLE "Compra" (
     "fornecedor_id" INTEGER NOT NULL,
     "cliente_id" INTEGER NOT NULL,
     "adicionais_id" INTEGER,
-
+    "xml_url" TEXT NOT NULL,
     CONSTRAINT "Compra_pkey" PRIMARY KEY ("id")
 );
 
