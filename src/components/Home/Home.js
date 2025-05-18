@@ -48,9 +48,10 @@ function Home() {
     if (!file) return;
 
     const fileName = `${Date.now()}-${file.name}`;
-    const { error } = supabase.storage
+    const { error } = await supabase.storage
       .from("stockmaster")
-      .upload(fileName, file);
+      .upload(fileName, file, { upsert: true });
+      console.log(error)
     if (error) {
       alert("Erro ao fazer upload da nota.");
       console.error(error);
@@ -183,7 +184,6 @@ function Home() {
                 style={{ display: "none" }}
                 onChange={handleUploadInvoice}
               />
-
             </p>
           </div>
         )}

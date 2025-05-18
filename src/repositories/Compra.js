@@ -4,7 +4,8 @@ const prisma = new PrismaClient();
 const CompraController = {
   // Método original para criar uma compra (sem transação)
   async create(req, res) {
-    const { data_compra, data_emissao, data_envio, valor_total, xml_url } = req.body;
+    const { data_compra, data_emissao, data_envio, valor_total, xml_url } =
+      req.body;
 
     try {
       const compra = await prisma.compra.create({
@@ -86,7 +87,8 @@ const CompraController = {
 
   async update(req, res) {
     const { id } = req.params;
-    const { data_compra, data_emissao, data_envio, valor_total, xml_url } = req.body;
+    const { data_compra, data_emissao, data_envio, valor_total, xml_url } =
+      req.body;
 
     try {
       const compra = await prisma.compra.update({
@@ -124,21 +126,36 @@ const CompraController = {
   getAllWithRelatedData: async (req, res) => {
     try {
       const compras = await prisma.compra.findMany({
-        include: {
-          fornecedor: true,
-          projeto: true,
-        },
         select: {
           id: true,
           data_compra: true,
           data_emissao: true,
           data_envio: true,
           valor_total: true,
-          xml_url: true, // garante que traga esse campo
-          fornecedor: true,
-          projeto: true,
+          xml_url: true,
+          fornecedor: {
+            select: {
+              id: true,
+              razao_social_fornecedor: true,
+              CNPJ: true,
+              inscricao_estadual: true,
+              endereco: true,
+              bairro: true,
+              CEP: true,
+              municipio: true,
+              UF: true,
+              telefone: true,
+            },
+          },
+
+          projeto: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
+
       res.status(200).json(compras);
     } catch (error) {
       console.error("Erro ao buscar compras com dados relacionados:", error);

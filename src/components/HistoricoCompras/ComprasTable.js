@@ -1,6 +1,7 @@
 import React from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaFileDownload } from "react-icons/fa";
+import downloadPDF from "./hooks/downloadPDF";
 
 const ComprasTable = ({ compras, onDelete }) => {
   return (
@@ -38,16 +39,17 @@ const ComprasTable = ({ compras, onDelete }) => {
               </td>
               <td className="table-actions">
                 {compra.xml_url ? (
-                  <a
-                    href={compra.xml_url}
-                    download
-                    className="action-button edit-button"
-                    title="Download da Nota Fiscal"
-                  >
-                    <FaFileDownload />
-                  </a>
+                  <>
+                    <button
+                      className="action-button edit-button"
+                      title="Download da Nota Fiscal (PDF)"
+                      onClick={() => downloadPDF(compra.xml_url)}
+                    >
+                      <FaFileDownload />
+                    </button>
+                  </>
                 ) : (
-                  <span className="no-file">—</span> // ícone ou texto indicando ausência
+                  <span className="no-file">—</span>
                 )}
                 <button
                   className="action-button delete-button"

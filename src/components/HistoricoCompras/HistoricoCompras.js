@@ -7,7 +7,6 @@ import "./HistoricoCompras.css";
 
 const HistoricoCompras = () => {
   const {
-    compras,
     filters,
     currentPage,
     totalPages,
@@ -17,7 +16,6 @@ const HistoricoCompras = () => {
     fetchData,
     handleDeleteCompra,
   } = useCompras();
-
 
   return (
     <>

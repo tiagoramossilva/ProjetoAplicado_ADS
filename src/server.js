@@ -4,13 +4,31 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const routes = require("./routes/ControllersRoutes");
+// Backend (Node.js/Express)
+const WebSocket = require("ws");
+const wss = new WebSocket.Server({ port: 3002 }); // Use outra porta
+
+wss.on("connection", (ws) => {
+  console.log("Cliente conectado");
+  ws.send("Conexão estabelecida!");
+});
+
+// Frontend
+const socket = new WebSocket("ws://localhost:3002"); // Ajuste a URL
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.use(express.static("public"));
 
-app.use(cors());
+const PORT = process.env.PORT || 3001;
+
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Seu frontend
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 
 // Rotas da API

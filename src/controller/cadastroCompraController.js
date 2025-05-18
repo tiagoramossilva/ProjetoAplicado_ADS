@@ -13,6 +13,9 @@ const cadastroCompraController = {
       req.body;
 
     try {
+      // Extrai o xml_url de compra
+      const { xml_url } = compra;
+
       // Criar as entidades relacionadas
       const novoFornecedor = await fornecedorController.createWithTransaction(
         fornecedor,
@@ -30,7 +33,6 @@ const cadastroCompraController = {
         adicionais,
         prisma
       );
-
       const novoProduto = await produtoController.createWithTransaction(
         produtos,
         prisma
@@ -40,6 +42,7 @@ const cadastroCompraController = {
       const novaCompra = await compraController.createWithTransaction(
         {
           ...compra,
+          xml_url, // Garante que o xml_url está presente
           produto_id: novoProduto[0].id,
           projeto_id: novoProjeto.id,
           fornecedor_id: novoFornecedor.id,

@@ -115,7 +115,7 @@ const useCadastroCompra = () => {
 
   const fetchProjetos = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/projetos");
+      const response = await fetch("http://localhost:3001/api/projetos");
       if (!response.ok) throw new Error("Erro ao buscar projetos");
       const data = await response.json();
       setProjetos(data);
@@ -254,7 +254,7 @@ const useCadastroCompra = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/cadastro-compra",
+        "http://localhost:3001/api/cadastro-compra",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

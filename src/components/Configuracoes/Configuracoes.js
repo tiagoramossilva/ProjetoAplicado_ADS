@@ -18,7 +18,7 @@ function ConfiguracoesUsuario() {
   useEffect(() => {
     async function carregarDadosUsuario() {
       try {
-        const response = await fetch("http://localhost:3000/api/usuarios/1"); // Supondo que o ID seja 1
+        const response = await fetch("http://localhost:3001/api/usuarios/1"); // Supondo que o ID seja 1
         const dados = await response.json();
         setFormData(dados);
         setUserId(dados.id); // Armazenando o ID do usuário
@@ -42,7 +42,7 @@ function ConfiguracoesUsuario() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/api/usuarios/${userId}`, { // Usando o ID do usuário na URL
+      const response = await fetch(`http://localhost:3001/api/usuarios/${userId}`, { // Usando o ID do usuário na URL
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

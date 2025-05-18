@@ -13,7 +13,7 @@ const useCompras = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/compras-com-relacionamentos");
+      const response = await fetch("http://localhost:3001/api/compras-com-relacionamentos");
       if (!response.ok) throw new Error("Erro ao buscar compras");
       const data = await response.json();
       setCompras(data);
@@ -52,7 +52,7 @@ const useCompras = () => {
   const handleDeleteCompra = async (id) => {
     if (window.confirm("Tem certeza que deseja excluir esta compra?")) {
       try {
-        const response = await fetch(`http://localhost:3000/api/compra/${id}`, {
+        const response = await fetch(`http://localhost:3001/api/compra/${id}`, {
           method: "DELETE"
         });
         if (response.ok) {

@@ -23,7 +23,7 @@ module.exports = function override(config, env) {
     },
     hot: true,
     compress: true,
-    port: 3000,
+    port: 3001,
     devMiddleware: {
       publicPath: '/',
       writeToDisk: true, 
