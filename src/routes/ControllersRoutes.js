@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const { loginUser } = require("../controller/authController");
+
+const { auth, isAdmin } = require("../middleware/auth");
 const usuarioController = require("../repositories/Usuario");
 const projetoController = require("../repositories/Projeto");
 const produtoController = require("../repositories/Produto");
@@ -11,7 +13,7 @@ const clienteController = require("../repositories/Cliente");
 const AdicionaisController = require("../repositories/Adicionais");
 const cadastroCompraController = require("../controller/cadastroCompraController");
 
-router.post("/cadastro", usuarioController.create)
+router.post("/cadastro", usuarioController.create);
 
 router.post("/cadastro-compra", cadastroCompraController.create);
 
@@ -21,7 +23,12 @@ router.post("/compra", compraController.create);
 router.get("/compra", compraController.getAll);
 router.get("/compra/:id", compraController.getById);
 router.put("/compra/:id", compraController.update);
-router.delete("/compra/:id", compraController.delete);
+router.delete(
+  "/compra/:id",
+  auth, // ← Middleware que adiciona req.user
+  isAdmin,
+  compraController.delete
+);
 router.get(
   "/compras-com-relacionamentos",
   compraController.getAllWithRelatedData
@@ -30,15 +37,40 @@ router.get(
 router.post("/produto", produtoController.create);
 router.get("/produto", produtoController.getAll);
 router.get("/produto/:id", produtoController.getById);
-router.put("/produto/:id", produtoController.update);
-router.delete("/produto/:id", produtoController.delete);
+router.put(
+  "/produto/:id",
+  auth, // ← Middleware que adiciona req.user
+  isAdmin,
+  produtoController.update
+);
+router.delete(
+  "/produto/:id",
+  auth, // ← Middleware que adiciona req.user
+  isAdmin, // ← Middleware que verifica req.user.admin
+  produtoController.delete
+);
 router.get("/produto-com-projeto", produtoController.getProdutosComProjetos);
 
 router.post("/usuarios", usuarioController.create);
-router.get("/usuarios", usuarioController.getAll);
+router.get(
+  "/usuarios",
+  auth, // ← Middleware que adiciona req.user
+  isAdmin,
+  usuarioController.getAll
+);
 router.get("/usuarios/:id", usuarioController.getById);
-router.put("/usuarios/:id", usuarioController.update);
-router.delete("/usuarios/:id", usuarioController.delete);
+router.put(
+  "/usuarios/:id",
+  auth, // ← Middleware que adiciona req.user
+  isAdmin,
+  usuarioController.update
+);
+router.delete(
+  "/usuarios/:id",
+  auth, // ← Middleware que adiciona req.user
+  isAdmin,
+  usuarioController.delete
+);
 
 router.post("/projetos", projetoController.create);
 router.get("/projetos", projetoController.getAll);

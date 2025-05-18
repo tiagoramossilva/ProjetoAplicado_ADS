@@ -6,6 +6,7 @@ import Estoque from "../components/Estoque/Estoque";
 import HistoricoCompras from "../components/HistoricoCompras/HistoricoCompras";
 import Cadastro from "../components/Cadastro/Cadastro";
 import ConfiguracoesUsuario from "../components/Configuracoes/Configuracoes";
+import Usuarios from "../components/Usuarios/UsuariosAdmin"
 import NotFound from "../components/NotFound/NotFound";
 
 const AppRoutes = () => {
@@ -20,6 +21,7 @@ const AppRoutes = () => {
         <Route path="/estoque" element={<Estoque />} />
         <Route path="/historico-compras" element={<HistoricoCompras />} />
         <Route path="/configuracoes" element={<ConfiguracoesUsuario />} />
+        <Route path="/usuarios" element={<Usuarios />} />
       </Routes>
     </Router>
   );

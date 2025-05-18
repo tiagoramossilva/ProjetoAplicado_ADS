@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import {
   fetchProdutos,
   deleteProduto,
@@ -15,6 +16,8 @@ import "./Estoque.css";
 const ITEMS_PER_PAGE = 12;
 
 export const EstoquePage = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+
   const [produtos, setProdutos] = useState([]);
   const [searchQuery, setSearchQuery] = useState({
     nome: "",
@@ -30,6 +33,10 @@ export const EstoquePage = () => {
 
   // Busca os produtos ao carregar
   useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setCurrentUser(JSON.parse(userData));
+    }
     const loadProdutos = async () => {
       try {
         const data = await fetchProdutos();
@@ -139,18 +146,22 @@ export const EstoquePage = () => {
                   <td>{safeGet(item, "compras.0.projeto.nome_projeto")}</td>
                   <td>
                     <div className="table-actions">
-                      <button
-                        className="action-button update-button"
-                        onClick={() => handleUpdate(item)}
-                      >
-                        <LiaEditSolid />
-                      </button>
-                      <button
-                        className="action-button delete-button"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        <MdDeleteOutline />
-                      </button>
+                      {currentUser?.admin && (
+                        <>
+                          <button
+                            className="action-button update-button"
+                            onClick={() => handleUpdate(item)}
+                          >
+                            <LiaEditSolid />
+                          </button>
+                          <button
+                            className="action-button delete-button"
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            <MdDeleteOutline />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </td>
                 </tr>

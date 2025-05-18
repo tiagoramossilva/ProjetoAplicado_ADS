@@ -1,22 +1,31 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+// auth.js
+const jwt = require("jsonwebtoken");
 
+// Middleware básico de autenticação
 const auth = (req, res, next) => {
-  const authHeader = req.header('Authorization');
+  const authHeader = req.header("Authorization");
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Acesso negado. Token não fornecido.' });
+  if (!authHeader?.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Token não fornecido" });
   }
 
-  const token = authHeader.split(' ')[1];
+  const token = authHeader.split(" ")[1];
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; 
-    next(); 
+    req.user = decoded; // Adiciona user à requisição
+    next();
   } catch (err) {
-    res.status(400).json({ error: 'Token inválido.' });
+    res.status(401).json({ error: "Token inválido" });
   }
 };
 
-module.exports = auth;
+// Middleware separado para verificar admin
+const isAdmin = (req, res, next) => {
+  if (!req.user?.admin) {
+    return res.status(403).json({ error: "Acesso requer admin" });
+  }
+  next();
+};
+
+module.exports = { auth, isAdmin };

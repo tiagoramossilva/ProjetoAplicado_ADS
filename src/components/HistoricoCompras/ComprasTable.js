@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import { MdDeleteOutline } from "react-icons/md";
 import { FaFileDownload } from "react-icons/fa";
 import downloadPDF from "./hooks/downloadPDF";
 
 const ComprasTable = ({ compras, onDelete }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+
+    useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setCurrentUser(JSON.parse(userData));
+    }
+  }, []);
+
   return (
     <table className="historico-table">
       <thead>
@@ -51,12 +61,14 @@ const ComprasTable = ({ compras, onDelete }) => {
                 ) : (
                   <span className="no-file">—</span>
                 )}
-                <button
-                  className="action-button delete-button"
-                  onClick={() => onDelete(compra.id)}
-                >
-                  <MdDeleteOutline />
-                </button>
+                {currentUser?.admin && (
+                  <button
+                    className="action-button delete-button"
+                    onClick={() => onDelete(compra.id)}
+                  >
+                    <MdDeleteOutline />
+                  </button>
+                )}
               </td>
             </tr>
           ))

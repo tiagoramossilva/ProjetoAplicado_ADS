@@ -82,6 +82,9 @@ const produtoController = {
 
   update: async (req, res) => {
     try {
+      if (!req.user.admin) {
+      return res.status(403).json({ error: "Acesso negado: requer privilégios de admin" });
+    }
       const { id } = req.params;
       const {
         nome,
@@ -132,6 +135,10 @@ const produtoController = {
       if (!produtoExistente) {
         return res.status(404).json({ error: "Produto não encontrado" });
       }
+
+      if (!req.user?.admin) {
+      return res.status(403).json({ error: "Acesso negado: requer privilégios de admin" });
+    }
 
       // Deleta o produto
       await prisma.produto.delete({

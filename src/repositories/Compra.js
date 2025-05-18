@@ -91,6 +91,9 @@ const CompraController = {
       req.body;
 
     try {
+      if (!req.user.admin) {
+      return res.status(403).json({ error: "Acesso negado: requer privilégios de admin" });
+    }
       const compra = await prisma.compra.update({
         where: { id: Number(id) },
         data: {
@@ -113,6 +116,9 @@ const CompraController = {
   async delete(req, res) {
     const { id } = req.params;
     try {
+      if (!req.user.admin) {
+      return res.status(403).json({ error: "Acesso negado: requer privilégios de admin" });
+    }
       await prisma.compra.delete({
         where: { id: Number(id) },
       });
