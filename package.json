@@ -22,6 +22,7 @@
     "https-browserify": "^1.0.0",
     "jsonwebtoken": "^9.0.2",
     "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "jsx-ast-utils": "^3.3.5",
     "net": "^1.0.2",
     "node-polyfill-webpack-plugin": "^4.0.0",

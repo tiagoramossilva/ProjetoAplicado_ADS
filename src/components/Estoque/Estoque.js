@@ -16,6 +16,47 @@ import "./Estoque.css";
 const ITEMS_PER_PAGE = 12;
 
 export const EstoquePage = () => {
+  const exportToCSV = (produtos) => {
+    // Cabeçalhos do CSV
+    const headers = [
+      "Item",
+      "Quantidade",
+      "Tipo Unitário",
+      "Andar",
+      "Sala",
+      "Armário",
+      "Projeto",
+    ];
+
+    // Dados dos produtos
+    const rows = produtos.map((produto) => [
+      `"${safeGet(produto, "nome")}"`,
+      `"${safeGet(produto, "quantidade")}"`,
+      `"${safeGet(produto, "tipo_unitario")}"`,
+      `"${safeGet(produto, "andar")}"`,
+      `"${safeGet(produto, "sala")}"`,
+      `"${safeGet(produto, "armario")}"`,
+      `"${safeGet(produto, "compras.0.projeto.nome_projeto")}"`,
+    ]);
+
+    // Junta cabeçalhos e dados
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((row) => row.join(",")),
+    ].join("\n");
+
+    // Cria o arquivo CSV
+    const blob = new Blob(["\uFEFF" + csvContent], {
+      type: "text/csv;charset=utf-8;",
+    });
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+    link.download = `estoque_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   const [currentUser, setCurrentUser] = useState(null);
 
   const [produtos, setProdutos] = useState([]);
@@ -106,6 +147,12 @@ export const EstoquePage = () => {
       <Navigation />
       <div className="containertitle">
         <h1>Estoque</h1>
+        <button
+          onClick={() => exportToCSV(filteredProdutos)}
+          className="export-button"
+        >
+          Exportar para CSV
+        </button>
       </div>
       <div className="estoque-container">
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
