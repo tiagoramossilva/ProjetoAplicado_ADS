@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../Login/Login.css"; // Reutiliza o CSS do Login
 import InputField from "./component/InputField"; // Importa o componente InputField
 
@@ -20,7 +20,7 @@ function Cadastro() {
 
   const navigate = useNavigate();
 
-  const handleChange = ({ target }) => { 
+  const handleChange = ({ target }) => {
     const { name, value, type, checked } = target;
     setFormData((prev) => ({
       ...prev,
@@ -40,7 +40,7 @@ function Cadastro() {
 
       if (response.ok) {
         setMessages({ success: "Cadastro realizado com sucesso!", error: "" });
-        navigate("/home");
+        navigate("/usuarios");
       } else {
         const error = await response.json();
         setMessages({
@@ -124,26 +124,11 @@ function Cadastro() {
             </label>
           </div>
 
-          <button className="login-btn" type="submit">
+          <button className="login-btn" type="submit" >
             CADASTRAR
+            
           </button>
         </form>
-
-        <div className="container-link-register">
-          <p className="signup-link">
-            Já tem uma conta? <Link to="/">Faça login aqui</Link>
-          </p>
-        </div>
-      </div>
-
-      <div className="welcome-section">
-        <div className="containetTexts">
-          <p className="MArcalogin">StockMaster</p>
-          <p className="textlogin">
-            Gestão de Estoque e Compras Inteligente para a Eficiência da Sua
-            Empresa.
-          </p>
-        </div>
       </div>
     </div>
   );

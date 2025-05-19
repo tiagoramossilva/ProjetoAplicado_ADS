@@ -1,6 +1,7 @@
 import React from 'react';
 
 const AdicionaisSection = ({ formData, handleFormChange, handleSubmit, handleCancel }) => {
+  const user = JSON.parse(localStorage.getItem('user'));
   return (
     <fieldset>
       <legend>Informações Adicionais</legend>
@@ -9,7 +10,7 @@ const AdicionaisSection = ({ formData, handleFormChange, handleSubmit, handleCan
         <input
           type="text"
           name="usuario"
-          value={formData.usuario || ''}
+          value={user.nome || ''}
           onChange={handleFormChange}
           disabled
         />
@@ -32,6 +33,8 @@ const AdicionaisSection = ({ formData, handleFormChange, handleSubmit, handleCan
         </button>
       </div>
     </fieldset>
+
+    
   );
 };
 

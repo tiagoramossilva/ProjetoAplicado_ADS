@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import './UsuariosAdmin.css'; // Usaremos o mesmo CSS do HistoricoCompras
 
@@ -130,6 +130,11 @@ function UsuariosAdmin() {
       <div className="historico-container">
         <div className="containertitle">
           <h1>Administração de Usuários</h1>
+        </div>
+           <div className="container-link-register">
+          <button className="signup-link">
+          <Link to="/cadastro">Cadastrar usuario novo</Link>
+          </button>
         </div>
 
         <div className="search-bar">

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { login } from "../../services/authService";
 import InputField from "./components/InputField";
 import "./Login.css";
@@ -50,11 +50,7 @@ function Login() {
         <button className="login-btn" onClick={handleLogin}>
           LOGIN
         </button>
-        <div className="container-link-register">
-          <p className="signup-link">
-            Não tem uma conta? <Link to="/cadastro">Cadastre-se aqui</Link>
-          </p>
-        </div>
+     
       </div>
 
       <div className="welcome-section">

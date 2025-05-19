@@ -118,7 +118,7 @@ function Home() {
           data_emissao: ide.querySelector("dhEmi")?.textContent || "",
           valor_total: xmlDoc.querySelector("vNF")?.textContent || "",
           data_compra: ide.querySelector("dhEmi")?.textContent || "",
-          data_envio: ide.querySelector("dhSaiEnt")?.textContent || "",
+          data_envio: ide.querySelector("dhEmi")?.textContent || "",
           xml_url: notaUrl || "",
         },
         produtos: produtos.map((prod) => ({
