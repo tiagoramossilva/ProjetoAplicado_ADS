@@ -3,6 +3,7 @@ import { FaUpload, FaBox, FaHistory, FaCog } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient.js";
 import "./Home.css";
+import Navigation from "../Navigation/Navigation";
 
 function Home() {
   const navigate = useNavigate();
@@ -22,9 +23,9 @@ function Home() {
     navigate("/historico-compras");
   };
 
-  const handleConfigClick = () => {
-    setShowDropdown(!showDropdown);
-  };
+const handleConfigClick = () => {
+  setShowDropdown(!showDropdown);
+};
 
   const handleUserClick = () => {
     navigate("/usuarios");
@@ -148,74 +149,100 @@ function Home() {
     navigate("/cadastro-compra");
   };
 
-  return (
-    <>
-      <div className="containerhomeconfig">
-        <div className="config-button">
-          <div className="icon-container upload-icon">
-            <FaCog onClick={handleConfigClick} />
-          </div>
-          {showDropdown && (
-            <div className="dropdown-menu-config">
-              <p onClick={handleUserClick}>Usuários</p>
-              <p onClick={handleLogoutClick}>Sair</p>
-            </div>
-          )}
+ return (
+ <>
+  <Navigation />
+
+  <div className="home-wrapper">
+    <div className="home-title">
+      <h1>Eficiência, controle e praticidade</h1>
+      <p>
+      Envie invoices com facilidade, gerencie o estoque em tempo real <br/>
+      e acompanhe o histórico de compras, tudo em um só lugar
+      </p>
+    </div>
+
+{/* <div className="containerhomeconfig">
+  <div className="config-button">
+    <div className="icon-container upload-icon">
+      <FaCog onClick={handleConfigClick} />
+    </div>
+
+    {showDropdown && (
+      <div className="dropdown-menu-config">
+        <p onClick={handleUserClick}>Usuários</p>
+        <p onClick={handleLogoutClick}>Sair</p>
+      </div>
+    )}
+  </div>
+</div> */}
+
+    <div className="home-container">
+<div className="card-wrapper">
+  <div className="card" onClick={handleUploadClick}>
+    <div className="icon-container upload-icon">
+      <FaUpload className="iconUpload" />
+    </div>
+    <p className="card-title">Upload de Invoices</p>
+    <p className="card-description">
+      Envie arquivos XML de notas fiscais de forma rápida. Seus dados são processados automaticamente para cadastro da compra.
+    </p>
+  </div>
+
+  {showInvoiceDropdown && (
+    <div className="dropdown-menu">
+      <p onClick={handleInsertManually}>Inserir Manualmente</p>
+      <p>
+        <label htmlFor="arquivoXml">Fazer Upload da Invoice</label>
+        <input
+          id="arquivoXml"
+          type="file"
+          accept=".xml"
+          style={{ display: "none" }}
+          onChange={handleUploadInvoice}
+        />
+      </p>
+    </div>
+  )}
+</div>
+
+      <div className="card" onClick={handleStockClick}>
+        <div className="icon-container stock-icon">
+          <FaBox className="iconUpload" />
         </div>
+        <p className="card-title">Controle de estoques</p>
+        <p className="card-description">
+         Visualize, edite e acompanhe o estoque dos produtos cadastrados. Tenha mais controle e organização no seu dia a dia.
+        </p>
       </div>
 
-      <div className="home-container">
-        <div className="card" onClick={handleUploadClick}>
-          <div className="icon-container upload-icon">
-            <FaUpload className="iconUpload" />
-          </div>
-          <p className="card-title">Upload de Invoices</p>
+      <div className="card" onClick={handleHistoricoClick}>
+        <div className="icon-container history-icon">
+          <FaHistory className="iconUpload" />
         </div>
+        <p className="card-title">Histórico de compras</p>
+        <p className="card-description">
+          Consulte todas as compras realizadas e os detalhes das notas fiscais. Mantenha o controle e facilite suas análises.
+        </p>
+      </div>
+    </div>
 
-        {showInvoiceDropdown && (
-          <div className="dropdown-menu">
-            <p onClick={handleInsertManually}>Inserir Manualmente</p>
-            <p>
-              <label htmlFor="arquivoXml">Fazer Upload da Invoice</label>
-              <input
-                id="arquivoXml"
-                type="file"
-                accept=".xml"
-                style={{ display: "none" }}
-                onChange={handleUploadInvoice}
-              />
-            </p>
+    {showModal && (
+       <div className="modal-overlay">
+        <div className="modal">
+          <p>Tem certeza que deseja sair?</p>
+          <div className="modal-buttons">
+            <button onClick={confirmLogout}>Sim</button>
+            <button onClick={cancelLogout}>Cancelar</button>
           </div>
-        )}
-
-        <div className="card" onClick={handleStockClick}>
-          <div className="icon-container stock-icon">
-            <FaBox className="iconUpload" />
-          </div>
-          <p className="card-title">Controle de estoques</p>
-        </div>
-
-        <div className="card" onClick={handleHistoricoClick}>
-          <div className="icon-container history-icon">
-            <FaHistory className="iconUpload" />
-          </div>
-          <p className="card-title">Histórico de compras</p>
         </div>
       </div>
+    )}
+  </div>
+</>
 
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <p>Tem certeza que deseja sair?</p>
-            <div className="modal-buttons">
-              <button onClick={confirmLogout}>Sim</button>
-              <button onClick={cancelLogout}>Cancelar</button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
+);
+
 }
 
 export default Home;

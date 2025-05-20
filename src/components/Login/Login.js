@@ -23,45 +23,48 @@ function Login() {
   }, [email, password, navigate]);
 
   return (
-    <div className="login-page">
-      <div className="login-section">
-        <h2>Seja Bem-Vindo!</h2>
-        {message.text && (
-          <div
-            className={
-              message.type === "error" ? "error-message" : "success-message"
-            }
-          >
-            {message.text}
-          </div>
-        )}
-        <InputField
-          type="email"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <InputField
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className="login-btn" onClick={handleLogin}>
-          LOGIN
-        </button>
-     
-      </div>
-
+    <div className="login-wrapper">
+      
+      {/* Lado esquerdo com texto e fundo ilustrativo */}
       <div className="welcome-section">
-        <div className="containetTexts">
-          <p className="MArcalogin">StockMaster</p>
-          <p className="textlogin">
-            Gestão de Estoque e Compras Inteligente para a Eficiência da Sua
-            Empresa.
+        <div className="login-brand">
+          <h1>StockMaster</h1>
+          <p>
+            Gestão de Estoque e Compras Inteligente<br />
+            para a Eficiência da Sua Empresa.
           </p>
         </div>
       </div>
+
+      {/* Lado direito com o formulário */}
+<div className="login-section">
+  <h2>Seja bem-vindo</h2>
+
+  {message.text && (
+    <div className={message.type === "error" ? "error-message" : "success-message"}>
+      {message.text}
+    </div>
+  )}
+
+  <form onSubmit={(e) => e.preventDefault()}>
+    <InputField
+      type="email"
+      placeholder="E-mail"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+    />
+    <InputField
+      type="password"
+      placeholder="Senha"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+    <button className="login-btn" onClick={handleLogin}>
+      LOGIN
+    </button>
+  </form>
+</div>
+
     </div>
   );
 }

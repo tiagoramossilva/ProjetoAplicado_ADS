@@ -1,77 +1,135 @@
-.home-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-image: url("./wpp.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.card {
+/* Wrappa tudo */
+.home-wrapper {
+  min-height: 90vh;
+  padding: 60px 40px 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 300px;
-  height: 250px;
-  margin: 20px;
-  background-color: #3b3b3b;
-  border-radius: 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
+  background-color: white;
 }
 
-.icon-container {
-  font-size: 40px;
+/* Título */
+.home-title {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.home-title h1 {
+  font-size: 42px;
+  font-weight: 800;
+  color: #000;
   margin-bottom: 10px;
 }
-.iconUpload {
-  color: #ffffff;
+
+.home-title p {
+  font-size: 18px;
+  color: #444;
+  line-height: 1.5;
 }
 
-.card-title {
-  font-size: 18px;
-  text-align: center;
-  color: #ffffff;
+/* Container de cards */
+.home-container {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 100px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Card */
+.card {
+  background-color: #ffffff;
+  border: 2px solid #b6b5b5;
+  color: #000000;
+  width: 280px;
+  height: 260px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 24px;
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .card:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
-}
-
-.config-button {
-  position: absolute;
-  top: 40px; /* Ajuste a posição do botão */
-  right: 200px;
-  font-size: 20px;
-  color: #3b3b3b;
-  cursor: pointer;
-}
-
-.dropdown-menu-config {
-  position: absolute;
-  top: 60px; /* Ajuste conforme necessário */
-  right: 20px;
-  background-color: #3b3b3b;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(180deg, #3b3f48 0%, #757575 100%);
   color: #ffffff;
+}
+
+.card:hover .iconUpload {
+  color: #ffffff;
+}
+
+.card:hover .card-title {
+  color: #ffffff;
+  font-size: 19px;
+}
+
+.card:hover .card-description {
+  color: #dcdcdc;
+}
+
+/* Ícone */
+.icon-container {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.iconUpload {
+  color: #3b3b3b;
+  transition: color 0.3s ease;
+}
+
+/* Título do card */
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  transition: color 0.3s ease, font-size 0.3s ease;
+}
+
+/* Descrição do card */
+.card-description {
+  font-size: 14px;
+  color: #555555;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+/* Dropdown abaixo do primeiro card */
+.dropdown-menu {
+  position: absolute;
+  top: 270px;
+  background-color: rgb(241, 241, 241);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  margin-top: 10px;
   padding: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
-.dropdown-menu-config p {
-  margin: 0;
-  padding: 10px 20px;
+.dropdown-menu p {
+  padding: 8px;
   cursor: pointer;
+  margin: 0;
+  color: #3b3b3b;
 }
 
-.dropdown-menu-config p:hover {
-  background-color: #505050;
+.dropdown-menu p:hover {
+  background-color: #dedede;
 }
 
+/* Modal de confirmação */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -89,7 +147,6 @@
   background-color: #3b3b3b;
   padding: 60px;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   text-align: center;
   color: #ffffff;
 }
@@ -113,27 +170,4 @@
 
 .modal-buttons button:hover {
   background-color: #6b6b6b;
-}
-
-.dropdown-menu {
-  position: fixed;
-  top: 224px;
-  right: 880px;
-  background-color: white;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  margin-top: 10px;
-  padding: 10px;
-  z-index: 10;
-}
-
-.dropdown-menu p {
-  padding: 8px;
-  cursor: pointer;
-  margin: 0;
-  color: #3b3b3b;
-}
-
-.dropdown-menu p:hover {
-  background-color: #f0f0f0;
 }

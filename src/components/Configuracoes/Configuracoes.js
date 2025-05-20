@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./Configuracoes.css";
 import Navigation from "../Navigation/Navigation";
+import { useNavigate } from "react-router-dom";
 
 function ConfiguracoesUsuario() {
-  // Estados do componente
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
@@ -16,7 +16,17 @@ function ConfiguracoesUsuario() {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Carrega os dados do usuário ao montar o componente
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
+  const handleUserClick = () => {
+    navigate("/usuarios");
+  };
+
   useEffect(() => {
     const carregarDadosUsuario = async () => {
       try {
@@ -45,7 +55,6 @@ function ConfiguracoesUsuario() {
     carregarDadosUsuario();
   }, []);
 
-  // Manipulador de alterações nos campos do formulário
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -54,13 +63,12 @@ function ConfiguracoesUsuario() {
     }));
   };
 
-  // Envio do formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
       const userData = JSON.parse(localStorage.getItem('user'));
-      
+
       const response = await fetch(`http://localhost:3001/api/usuarios/${userData.id}`, {
         method: "PUT",
         headers: {
@@ -71,11 +79,10 @@ function ConfiguracoesUsuario() {
       });
 
       const data = await response.json();
-      
+
       if (response.ok) {
         setMessage("Perfil atualizado com sucesso!");
         setIsEditing(false);
-        // Atualiza os dados locais
         localStorage.setItem('user', JSON.stringify({ ...userData, ...formData }));
       } else {
         throw new Error(data.error || "Erro ao atualizar perfil");
@@ -86,7 +93,6 @@ function ConfiguracoesUsuario() {
     }
   };
 
-  // Alternar modo de edição
   const toggleEdit = () => {
     setIsEditing(prev => !prev);
     setMessage("");
@@ -108,7 +114,7 @@ function ConfiguracoesUsuario() {
       <Navigation />
       <div className="profile-container">
         <h2>Configurações do Usuário</h2>
-        
+
         {message && (
           <div className={`alert ${message.includes("sucesso") ? "success" : "error"}`}>
             {message}
@@ -200,22 +206,22 @@ function ConfiguracoesUsuario() {
                 <span className="field-label">Nome:</span>
                 <span className="field-value">{formData.nome}</span>
               </div>
-              
+
               <div className="profile-field">
                 <span className="field-label">Email:</span>
                 <span className="field-value">{formData.email}</span>
               </div>
-              
+
               <div className="profile-field">
                 <span className="field-label">Função:</span>
                 <span className="field-value">{formData.funcao || "-"}</span>
               </div>
-              
+
               <div className="profile-field">
                 <span className="field-label">Usuário:</span>
                 <span className="field-value">{formData.usuario}</span>
               </div>
-              
+
               <div className="profile-field">
                 <span className="field-label">Tipo:</span>
                 <span className="field-value">
@@ -225,6 +231,15 @@ function ConfiguracoesUsuario() {
             </div>
           )}
         </div>
+        <div className="config-actions-bottom">
+          <button className="secondary-button" onClick={handleUserClick}>
+            Usuários
+          </button>
+          <button className="secondary-button logout-button" onClick={handleLogout}>
+            Sair
+          </button>
+        </div>
+
       </div>
     </>
   );

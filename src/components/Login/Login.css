@@ -1,126 +1,155 @@
+/* Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body, html {
-    height: 100%;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .login-page {
-    display: flex;
-    height: 100vh;
-
-    color: white;
-
-    background-image: url('./StockMaster2.png');
-    background-size: cover; 
-    background-position: center; 
-    background-repeat: no-repeat; 
-  }
-  
-  .welcome-section {
-    color: white;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Alinhamento à esquerda */
-    justify-content: flex-start; /* Alinhamento ao topo */
-    padding: 40px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.containetTexts{
-  margin-top: 100px;
-  width: 50%;
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.MArcalogin {
-    font-size: 45px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #898989;
-}
-
-.textlogin {
-    font-size: 16px;
-    color: #898989;
-
-}
- 
-  
-  .welcome-section h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
-  }
-  
-  .textlogin {
-    font-size: 18px;
-  }
-  
-
-  
-  .login-section {
-    background-color: #000000;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-  }
-  
-  .login-section h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #b9b9b9;
-  }
-  
-  .input-container {
-    margin-bottom: 20px; 
-    width: 100%;
-    max-width: 400px; 
-  }
-  
- .InputLogin {
+/* Lado esquerdo com fundo e imagem */
+.welcome-section {
+  background-color: #bdbdbd;
   color: #fff;
-    width: 100%;
-    background: #000;
-    padding: 15px;
-    border: 2px solid #939393;
-    border-radius: 10px;
-    font-size: 18px;
+  flex: 1;
+  padding: 60px 40px;
+  position: relative;
+  border-top-right-radius: 80px;
+  border-bottom-right-radius: 80px;
+
+  background-image: url("./login-ilustration.png");
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: 80%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
-  
-  
-  .login-btn {
-    padding: 15px; 
-    background-color: #9d9d9d;
-    color: rgb(0, 0, 0);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 18px; 
-    width: 100%;
-    max-width: 400px;
+
+.login-brand {
+  z-index: 2;
+  margin-top: 20px;
+}
+
+.login-brand h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.login-brand p {
+  font-size: 20px;
+  line-height: 1.5;
+  max-width: 400px;
+  color: #f1f1f1;
+}
+
+/* Lado direito com form */
+.login-section {
+  flex: 1;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #fff;
+  align-items: center;
+}
+
+.login-section h2 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+/* Inputs e botão com largura limitada */
+.login-section form {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px 18px;
+  background-color: #444;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.login-btn:hover {
+  background-color: #333;
+}
+
+/* Mensagens de erro e sucesso */
+.success-message,
+.error-message {
+  font-size: 14px;
+  margin-bottom: 16px;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  width: 100%;
+  max-width: 420px;
+}
+
+.success-message {
+  background-color: #e6f9ec;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+.error-message {
+  background-color: #ffeaea;
+  color: #c62828;
+  border: 1px solid #f19999;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .login-wrapper {
+    flex-direction: column;
+  }
+
+  .welcome-section {
+    border-radius: 0;
+    height: 300px;
+    padding: 30px;
+    align-items: center;
     text-align: center;
-    text-decoration: none;
-  }
-  
-  .login-btn:hover {
-    background-color: #838383;
-  }
-
-  .container-link-register{
-    width: 100%;
-    display: flex;
+    background-size: contain;
     justify-content: center;
-    padding: 20px 0;
   }
 
-  .signup-link a{
-    color: #898989;
+  .login-section {
+    padding: 40px 24px;
   }
 
-
+  .login-section form {
+    width: 100%;
+  }
+}

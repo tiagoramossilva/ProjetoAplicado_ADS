@@ -1,144 +1,206 @@
+/* Container geral */
 .profile-container {
   max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 40px auto;
+  padding: 0 24px;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.profile-card {
-  background: white;
+/* Título da página */
+.profile-container h2 {
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  color: #222;
+  margin-bottom: 30px;
+}
+
+/* Ações embaixo do card */
+.config-actions-bottom {
+  display: flex;
+  justify-content: flex-end; 
+  gap: 16px;
+  margin-top: 24px;
+  padding-right: 12px; 
+}
+
+/* Botão base */
+.secondary-button {
+  padding: 10px 22px;
+  font-size: 15px;
+  border: 2px solid #444;
+  background-color: transparent;
+  color: #444;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 25px;
-  margin-top: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secondary-button:hover {
+  background-color: #f1f1f1;
+  border-color: #222;
+  color: #000;
+}
+
+/* Estilo específico pro botão de Sair */
+.secondary-button.logout-button {
+  border: 2px solid #f19999;
+  background-color: #ffecec;
+  color: #c0392b;
+}
+
+.secondary-button.logout-button:hover {
+  background-color: #fcd3d3;
+  color: #a5281f;
+  border-color: #f07777;
+}
+
+/* Mensagem de feedback */
+.alert {
+  text-align: center;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+
+.alert.success {
+  background-color: #e7fbee;
+  color: #1d7f41;
+  border: 1px solid #a3e4b0;
+}
+
+.alert.error {
+  background-color: #ffeaea;
+  color: #c0392b;
+  border: 1px solid #e5a4a4;
+}
+
+/* Cartão do perfil */
+.profile-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #d7d7d76b;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  padding: 30px;
+  transition: box-shadow 0.3s ease;
 }
 
 .profile-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .profile-header h3 {
-  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
   color: #333;
 }
 
+/* Botão editar */
 .edit-button {
-  background: #4CAF50;
-  color: white;
+  background-color: #747474;
+  color: #ffffff !important;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 10px 18px;
   font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .edit-button:hover {
-  background: #45a049;
+  background-color: #5c5c5c;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
 }
 
+/* Inputs do formulário */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
   font-weight: 500;
+  margin-bottom: 6px;
   color: #555;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"] {
+.form-group input {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.2s;
 }
 
-.checkbox-group {
-  display: flex;
-  align-items: center;
+.form-group input:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
-.checkbox-group label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.checkbox-group input {
-  margin-right: 8px;
-}
-
+/* Botões salvar e cancelar */
 .form-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
 }
 
 .save-button {
-  background: #2196F3;
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 500;
   cursor: pointer;
 }
 
 .save-button:hover {
-  background: #0b7dda;
+  background-color: #0056b3;
 }
 
 .cancel-button {
-  background: #f44336;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  background-color: transparent;
+  border: 2px solid #999;
+  color: #333;
+  padding: 10px 18px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 500;
 }
 
 .cancel-button:hover {
-  background: #da190b;
+  background-color: #f2f2f2;
 }
 
+/* Visualização de perfil */
 .profile-view {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .profile-field {
   display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
 }
 
 .field-label {
-  font-weight: 500;
-  min-width: 120px;
+  font-weight: 600;
   color: #555;
 }
 
 .field-value {
-  color: #333;
-}
-
-.alert {
-  padding: 10px 15px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-}
-
-.alert.success {
-  background: #dff0d8;
-  color: #3c763d;
-}
-
-.alert.error {
-  background: #f2dede;
-  color: #a94442;
+  color: #222;
 }
