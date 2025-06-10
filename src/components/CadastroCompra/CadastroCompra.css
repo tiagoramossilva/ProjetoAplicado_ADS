@@ -73,7 +73,6 @@ legend {
 .form-group input,
 .form-group select,
 .form-group textarea {
-  width: 100%;
   padding: 0.8rem;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -120,7 +119,7 @@ legend {
   border-top: 1px solid #eee;
 }
 
-button {
+/* button {
   padding: 0.8rem 1.5rem;
   border-radius: 6px;
   font-weight: 500;
@@ -128,7 +127,7 @@ button {
   border: none;
   cursor: pointer;
   transition: all 0.2s;
-}
+} */
 
 .next-button,
 .submit-button {

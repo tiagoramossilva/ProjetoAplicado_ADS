@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../services/authService";
 import InputField from "./components/InputField";
 import "./Login.css";
+import ilustracao from './ilustration.png';
+
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -22,51 +24,54 @@ function Login() {
     }
   }, [email, password, navigate]);
 
-  return (
-    <div className="login-wrapper">
-      
-      {/* Lado esquerdo com texto e fundo ilustrativo */}
-      <div className="welcome-section">
-        <div className="login-brand">
-          <h1>StockMaster</h1>
-          <p>
-            Gestão de Estoque e Compras Inteligente<br />
-            para a Eficiência da Sua Empresa.
-          </p>
-        </div>
-      </div>
+return (
+  <div className="login-page">
+    <div className="login-card">
+      <h1 className="title-stockmaster">StockMaster</h1>
+      <p>Bem vindo de volta!</p>
 
-      {/* Lado direito com o formulário */}
-<div className="login-section">
-  <h2>Seja bem-vindo</h2>
+      <form onSubmit={(e) => e.preventDefault()} className="login-form">
+  <label className="input-label">Email</label>
+  <input
+    className="input-field"
+    type="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+  />
 
-  {message.text && (
-    <div className={message.type === "error" ? "error-message" : "success-message"}>
-      {message.text}
-    </div>
-  )}
 
-  <form onSubmit={(e) => e.preventDefault()}>
-    <InputField
-      type="email"
-      placeholder="E-mail"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-    />
-    <InputField
+  <div className="password-label-row">
+  <label className="input-label">Senha</label>
+  <a href="#" className="forgot-password">Esqueceu sua senha?</a>
+</div>
+
+  <div className="password-wrapper">
+    <input
+      className="input-field"
       type="password"
-      placeholder="Senha"
       value={password}
       onChange={(e) => setPassword(e.target.value)}
     />
-    <button className="login-btn" onClick={handleLogin}>
-      LOGIN
-    </button>
-  </form>
-</div>
+    <span className="toggle-password">👁️</span>
+  </div>
+
+  <div className="checkbox-wrapper">
+    <input type="checkbox" id="remember" className="checkbox-input" />
+    <label htmlFor="remember" className="checkbox-label">Manter logado</label>
+  </div>
+
+  <button className="login-btn" onClick={handleLogin}>
+    Login
+  </button>
+</form>
 
     </div>
-  );
+    <div className="illustration-area">
+      <img src={ilustracao} alt="Ilustração" />
+    </div>
+  </div>
+);
+
 }
 
 export default Login;

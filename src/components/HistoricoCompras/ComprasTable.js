@@ -47,11 +47,11 @@ const ComprasTable = ({ compras, onDelete }) => {
               <td className="table-data">
                 {compra.projeto?.gerente_projeto || "N/A"}
               </td>
-              <td className="table-actions">
+              <td className="table-actions-compras">
                 {compra.xml_url ? (
                   <>
                     <button
-                      className="action-button edit-button"
+                      className="dowload"
                       title="Download da Nota Fiscal (PDF)"
                       onClick={() => downloadPDF(compra.xml_url)}
                     >

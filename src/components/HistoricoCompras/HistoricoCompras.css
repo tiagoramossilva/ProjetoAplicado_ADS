@@ -12,7 +12,6 @@
 .containertitle h1 {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 20px;
   text-align: left;
 }
 
@@ -92,6 +91,10 @@
   padding: 4px;
   border-radius: 4px;
   transition: all 0.2s;
+}
+.dowload{
+  margin: none;
+  border: none;
 }
 
 .action-button:hover {

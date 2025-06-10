@@ -145,16 +145,21 @@ export const EstoquePage = () => {
   return (
     <>
       <Navigation />
-      <div className="containertitle">
-        <h1>Estoque</h1>
-        <button
-          onClick={() => exportToCSV(filteredProdutos)}
-          className="export-button"
-        >
-          Exportar para CSV
-        </button>
-      </div>
+<div className="containertitle">
+  <h1>Estoque</h1>
+  <div className="actions-bar">
+   
+
+  </div>
+</div>
+
       <div className="estoque-container">
+         <button
+      onClick={() => exportToCSV(filteredProdutos)}
+      className="export-button"
+    >
+      Exportar para CSV
+    </button>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
         <EditModal
