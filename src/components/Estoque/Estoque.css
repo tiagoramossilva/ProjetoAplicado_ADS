@@ -133,9 +133,6 @@
   transition: all 0.2s;
 }
 
-.action-button:hover {
-  background-color: #f0f0f0;
-}
 
 .update-button {
   color: #2c7be5;

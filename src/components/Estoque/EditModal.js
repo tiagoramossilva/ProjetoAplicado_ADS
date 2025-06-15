@@ -1,5 +1,6 @@
 import React from "react";
 import { validateProduto, sanitizeProdutoData } from "../../services/validation";
+import "./EditModal.css";
 
 export const EditModal = ({
   isEditing,
@@ -18,24 +19,40 @@ export const EditModal = ({
   };
 
   return (
-    <div className="edit-container">
-      <h2>Atualizar Item</h2>
-      {Object.entries(updatedData).map(([field, value]) => (
-        <div key={field}>
-          <label htmlFor={field}>{field}:</label>
-          <input
-            type={field === "quantidade" ? "number" : "text"}
-            id={field}
-            name={field}
-            value={value || ""}
-            onChange={(e) =>
-              setUpdatedData({ ...updatedData, [field]: e.target.value })
-            }
-          />
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2 className="modal-title">Atualizar Item</h2>
+        <div className="modal-form">
+          {Object.entries(updatedData).map(([field, value]) => (
+            <div className="form-group" key={field}>
+              <label htmlFor={field} className="form-label">
+                {field}:
+              </label>
+              <input
+                type={field === "quantidade" ? "number" : "text"}
+                id={field}
+                name={field}
+                className="form-input"
+                value={value || ""}
+                onChange={(e) =>
+                  setUpdatedData({ ...updatedData, [field]: e.target.value })
+                }
+              />
+            </div>
+          ))}
         </div>
-      ))}
-      <button onClick={handleSave}>Salvar</button>
-      <button onClick={() => setIsEditing(false)}>Cancelar</button>
+        <div className="modal-actions">
+          <button onClick={handleSave} className="modal-button save-button">
+            Salvar
+          </button>
+          <button
+            onClick={() => setIsEditing(false)}
+            className="modal-button cancel-button"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

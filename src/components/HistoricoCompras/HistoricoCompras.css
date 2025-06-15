@@ -59,7 +59,7 @@
 
 .historico-table th,
 .historico-table td {
-  border: 1px solid #ddd;
+  border: 1px solid;
   padding: 12px;
   text-align: left;
 }
@@ -79,9 +79,11 @@
 
 .table-actions {
   display: flex;
-  gap: 8px;
+  align-items: center;
   justify-content: center;
+  gap: 8px;
 }
+
 
 .action-button {
   background: none;
@@ -92,21 +94,20 @@
   border-radius: 4px;
   transition: all 0.2s;
 }
-.dowload{
+.download{
+  font-size: 15px;
   margin: none;
   border: none;
+  color: #515151;
+   background: transparent !important;
+  box-shadow: none;
+  padding: 6px 8px;
+  cursor: pointer;
 }
 
-.action-button:hover {
-  background-color: #f0f0f0;
-}
 
 .edit-button {
   color: #2c7be5;
-}
-
-.delete-button {
-  color: #e63757;
 }
 
 

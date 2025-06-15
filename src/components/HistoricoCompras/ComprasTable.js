@@ -51,7 +51,7 @@ const ComprasTable = ({ compras, onDelete }) => {
                 {compra.xml_url ? (
                   <>
                     <button
-                      className="dowload"
+                      className="download"
                       title="Download da Nota Fiscal (PDF)"
                       onClick={() => downloadPDF(compra.xml_url)}
                     >
