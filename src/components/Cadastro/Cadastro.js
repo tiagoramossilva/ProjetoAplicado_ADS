@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "../Login/Login.css"; // Reutiliza o CSS do Login
 import InputField from "./component/InputField"; // Importa o componente InputField
+import './Cadastro.css'; 
 
-function Cadastro() {
+function Cadastro({ onClose }) {
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
@@ -17,8 +16,6 @@ function Cadastro() {
     success: "",
     error: "",
   });
-
-  const navigate = useNavigate();
 
   const handleChange = ({ target }) => {
     const { name, value, type, checked } = target;
@@ -40,7 +37,7 @@ function Cadastro() {
 
       if (response.ok) {
         setMessages({ success: "Cadastro realizado com sucesso!", error: "" });
-        navigate("/usuarios");
+        onClose();
       } else {
         const error = await response.json();
         setMessages({
@@ -58,19 +55,21 @@ function Cadastro() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-section">
-        <h2>Cadastro de Usuário</h2>
+    <div className="cadastro-container">
+      <div className="cadastro-box">
+        <button className="cadastro-close-btn" onClick={onClose}>×</button>
+        <h2 className="cadastro-title">Cadastro de Usuário</h2>
 
         {messages.error && (
-          <div className="error-message">{messages.error}</div>
+          <div className="cadastro-error-message">{messages.error}</div>
         )}
         {messages.success && (
-          <div className="success-message">{messages.success}</div>
+          <div className="cadastro-success-message">{messages.success}</div>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form className="cadastro-form" onSubmit={handleSubmit}>
           <InputField
+            className="cadastro-input"
             type="text"
             name="nome"
             placeholder="Nome"
@@ -79,6 +78,7 @@ function Cadastro() {
             required
           />
           <InputField
+            className="cadastro-input"
             type="email"
             name="email"
             placeholder="E-mail"
@@ -87,6 +87,7 @@ function Cadastro() {
             required
           />
           <InputField
+            className="cadastro-input"
             type="text"
             name="funcao"
             placeholder="Função"
@@ -95,6 +96,7 @@ function Cadastro() {
             required
           />
           <InputField
+            className="cadastro-input"
             type="text"
             name="usuario"
             placeholder="Usuário"
@@ -103,6 +105,7 @@ function Cadastro() {
             required
           />
           <InputField
+            className="cadastro-input"
             type="password"
             name="senha"
             placeholder="Senha"
@@ -111,12 +114,12 @@ function Cadastro() {
             required
           />
 
-          <div className="input-container">
-            <label style={{ color: "#939393" }}>
+          <div className="cadastro-checkbox-container">
+            <label className="cadastro-checkbox-label">
               <input
                 type="checkbox"
                 name="admin"
-                className="checkbox"
+                className="cadastro-checkbox"
                 checked={formData.admin}
                 onChange={handleChange}
               />
@@ -124,9 +127,8 @@ function Cadastro() {
             </label>
           </div>
 
-          <button className="login-btn" type="submit" >
+          <button className="cadastro-btn" type="submit">
             CADASTRAR
-            
           </button>
         </form>
       </div>

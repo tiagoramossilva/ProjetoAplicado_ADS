@@ -1,5 +1,6 @@
 // InputField.js
 import React from "react";
+import "../Cadastro.css"
 
 function InputField({ type, name, placeholder, value, onChange, required }) {
   return (

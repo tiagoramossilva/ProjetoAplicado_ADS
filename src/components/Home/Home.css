@@ -99,7 +99,6 @@
 
 /* Descrição do card */
 .card-description {
-  font-size: 14px;
   color: #555555;
   line-height: 1.4;
   transition: color 0.3s ease;

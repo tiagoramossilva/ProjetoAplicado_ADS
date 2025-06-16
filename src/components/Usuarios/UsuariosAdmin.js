@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import './UsuariosAdmin.css'; 
 import { MdDeleteOutline } from "react-icons/md";
 import { LiaEditSolid } from "react-icons/lia";
 import { FaCheck, FaTimes } from "react-icons/fa";
-
-
+import Cadastro from "../Cadastro/Cadastro";
 
 function UsuariosAdmin() {
   const [usuarios, setUsuarios] = useState([]);
@@ -16,6 +15,7 @@ function UsuariosAdmin() {
   const [searchTerm, setSearchTerm] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({});
+  const [showCadastroModal, setShowCadastroModal] = useState(false);
   const itemsPerPage = 10;
 
   const navigate = useNavigate();
@@ -131,6 +131,7 @@ function UsuariosAdmin() {
 
   
 
+
   return (
     <>
       <Navigation />
@@ -140,9 +141,10 @@ function UsuariosAdmin() {
       <div className="historico-container">
 
            <div className="container-link-register">
-          <button className="signup-button">
-          <Link to="/cadastro">Cadastrar usuario novo</Link>
-          </button>
+            <button className="signup-button" onClick={() => setShowCadastroModal(true)}>
+              Cadastrar usuário novo
+            </button>
+
         </div>
 
         <div className="search-bar">
@@ -281,6 +283,16 @@ function UsuariosAdmin() {
           </div>
         )}
       </div>
+
+      {showCadastroModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button className="close-modal" onClick={() => setShowCadastroModal(false)}>X</button>
+            <Cadastro onClose={() => setShowCadastroModal(false)} />
+          </div>
+        </div>
+      )}
+
     </>
   );
 }
