@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
-import './UsuariosAdmin.css'; // Usaremos o mesmo CSS do HistoricoCompras
+import './UsuariosAdmin.css'; 
+import { MdDeleteOutline } from "react-icons/md";
+import { LiaEditSolid } from "react-icons/lia";
+import { FaCheck, FaTimes } from "react-icons/fa";
+
+
 
 function UsuariosAdmin() {
   const [usuarios, setUsuarios] = useState([]);
@@ -124,15 +129,18 @@ function UsuariosAdmin() {
   if (loading) return <div className="historico-container">Carregando...</div>;
   if (error) return <div className="historico-container">Erro: {error}</div>;
 
+  
+
   return (
     <>
       <Navigation />
-      <div className="historico-container">
-        <div className="containertitle">
+              <div className="containertitle">
           <h1>Administração de Usuários</h1>
         </div>
+      <div className="historico-container">
+
            <div className="container-link-register">
-          <button className="signup-link">
+          <button className="signup-button">
           <Link to="/cadastro">Cadastrar usuario novo</Link>
           </button>
         </div>
@@ -216,32 +224,27 @@ function UsuariosAdmin() {
                       {editingId === usuario.id ? (
                         <>
                           <button 
-                            className="action-button edit-button"
+                            className="action-button update-button"
                             onClick={() => salvarEdicao(usuario.id)}
                           >
-                            ✔️
+                            <FaCheck />
                           </button>
                           <button 
                             className="action-button delete-button"
                             onClick={cancelarEdicao}
                           >
-                            ❌
+                            <FaTimes />
                           </button>
+
                         </>
                       ) : (
                         <>
-                          <button 
-                            className="action-button edit-button"
-                            onClick={() => iniciarEdicao(usuario)}
-                          >
-                            ✏️
+                          <button className="action-button update-button" onClick={() => iniciarEdicao(usuario)}>
+                            <LiaEditSolid />
                           </button>
-                          <button 
-                            className="action-button delete-button"
-                            onClick={() => deletarUsuario(usuario.id)}
-                          >
-                            🗑️
-                          </button>
+                            <button className="action-button delete-button" onClick={() => deletarUsuario(usuario.id)}>
+                              <MdDeleteOutline />
+                            </button>
                         </>
                       )}
                     </div>
