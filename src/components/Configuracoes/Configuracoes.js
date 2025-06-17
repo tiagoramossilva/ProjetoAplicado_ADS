@@ -235,9 +235,9 @@ function ConfiguracoesUsuario() {
           <button className="secondary-button" onClick={handleUserClick}>
             Usuários
           </button>
-          <button className="secondary-button logout-button" onClick={handleLogout}>
+          {/* <button className="secondary-button logout-button" onClick={handleLogout}>
             Sair
-          </button>
+          </button> */}
         </div>
 
       </div>

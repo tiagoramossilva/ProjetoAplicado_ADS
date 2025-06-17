@@ -14,6 +14,9 @@ function UsuariosAdmin() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingId, setEditingId] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(null); // null = ainda verificando
+  const [userChecked, setUserChecked] = useState(false);
+
   const [editForm, setEditForm] = useState({});
   const [showCadastroModal, setShowCadastroModal] = useState(false);
   const itemsPerPage = 10;
@@ -21,12 +24,16 @@ function UsuariosAdmin() {
   const navigate = useNavigate();
 
   // Verifica se o usuário é admin
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user || !user.admin) {
-      navigate('/'); // Redireciona se não for admin
-    }
-  }, [navigate]);
+useEffect(() => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user) {
+    setIsAdmin(false);
+  } else {
+    setIsAdmin(user.admin);
+  }
+  setUserChecked(true);
+}, []);
+
 
   // Carrega os usuários
   useEffect(() => {
@@ -126,8 +133,34 @@ function UsuariosAdmin() {
     }
   };
 
-  if (loading) return <div className="historico-container">Carregando...</div>;
-  if (error) return <div className="historico-container">Erro: {error}</div>;
+if (!userChecked) {
+  return <div className="historico-container">Verificando permissões...</div>;
+}
+
+if (isAdmin === false) {
+return (
+  <>
+    <Navigation />
+    <div className="historico-container access-denied">
+      <div className="access-box">
+        <h2 className="access-title">Acesso Negado</h2>
+        <p className="access-message">
+          Você não tem permissão para visualizar esta página.
+        </p>
+        <button className="ok-button" onClick={() => navigate(-1)}>
+          OK
+        </button>
+      </div>
+    </div>
+  </>
+);
+
+
+}
+
+if (loading) return <div className="historico-container">Carregando usuários...</div>;
+if (error) return <div className="historico-container">Erro: {error}</div>;
+
 
   
 

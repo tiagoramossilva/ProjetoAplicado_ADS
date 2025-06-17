@@ -122,35 +122,55 @@ legend {
 
 .next-button,
 .submit-button {
-  background: #515151;
-  color: white;
+background-color: #333;
+    border: 2px solid ;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
 }
 
 .next-button:hover,
 .submit-button:hover {
-  background: #3a3a3a;
+  background: #666666;
 }
 
 .prev-button,
 .cancel-button {
-  background: #f5f5f5;
-  color: #333;
-  border: 1px solid #ddd;
+background-color: #333;
+    border: 2px solid ;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
 }
 
 .prev-button:hover,
 .cancel-button:hover {
-  background: #e0e0e0;
+  background: #666666;
 }
 
 .add-button {
   background: #4CAF50;
   color: white;
+    border: 2px solid ;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
 }
 
 .remove-button {
   background: #f44336;
-  color: white;
+    border: 2px solid ;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
 }
 
 /* Textarea e Select */

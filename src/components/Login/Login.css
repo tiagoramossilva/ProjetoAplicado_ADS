@@ -19,21 +19,27 @@
 }
 
 .title-stockmaster{
-  font-size: 2em;
+  font-size: 2.2em;
 }
 
 .login-card p {
-  font-size: 1.3em;
+  font-size: 1.4em;
+}
+.input-label{
+  font-size: 1.1em;
 }
 
 .login-card input[type="email"],
-.login-card input[type="password"] {
+.login-card input[type="password"],
+.login-card input[type="text"] {
   width: 93%;
+  font-size: 1em;
   padding: 0.7rem;
   margin-bottom: 1rem;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
 
 .password-wrapper {
   position: relative;
