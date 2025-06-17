@@ -47,7 +47,7 @@ const ComprasTable = ({ compras, onDelete }) => {
               <td className="table-data">
                 {compra.projeto?.gerente_projeto || "N/A"}
               </td>
-              <td className="table-actions-compras">
+              <td className="table-actions">
                 {compra.xml_url ? (
                   <>
                     <button

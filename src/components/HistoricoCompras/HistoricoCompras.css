@@ -77,32 +77,17 @@ HistoricoCompras.css
   background-color: #f1f1f1;
 }
 
-.table-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
 
 
-.action-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  padding: 4px;
-  border-radius: 4px;
-  transition: all 0.2s;
-}
 .download{
-  font-size: 15px;
-  margin: none;
-  border: none;
-  color: #515151;
-   background: transparent !important;
-  box-shadow: none;
-  padding: 6px 8px;
-  cursor: pointer;
+  color: #558568;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s;
 }
 
 

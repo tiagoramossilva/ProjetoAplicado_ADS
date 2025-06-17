@@ -2,48 +2,51 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #3b3b3b;
-  padding: 1rem 10rem;
+  background-color: #2f2f2f;
+  padding: 1rem 3rem;
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
 
 .navbar-brand {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
   text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: #dddddd;
 }
 
 .navbar-list {
   list-style: none;
   display: flex;
-  gap: 3rem;
+  align-items: center;
+  gap: 2rem;
   margin: 0;
   padding: 0;
 }
 
-.navbar-item {
-  margin: 0;
-}
-
 .navbar-link {
-  color: white;
+  color: #f0f0f0;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
-  transition: opacity 0.3s;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+.navbar-link.active,
 .navbar-link:hover {
-  opacity: 0.8;
+  background-color: #525252;
+  color: #ffffff;
 }
 
-.navbar-link.active {
-  font-weight: bold;
-  text-decoration: underline; 
-  text-underline-offset: 7px; 
-}
-
-/* ----------- */
 .dropdown {
   position: relative;
 }
@@ -51,36 +54,54 @@
 .dropdown-toggle {
   background: none;
   border: none;
-  color: white;
+  color: #f0f0f0;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.dropdown-toggle:hover {
+  background-color: #444;
 }
 
 .dropdown-menu {
   position: absolute;
-  width: 100%;
-  top: 35px;
+  top: 40px;
   right: 0;
-  background-color: #444;
-  border-radius: 5px;
+  background-color: #3b3b3b;
+  border-radius: 8px;
   padding: 0.5rem 0;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  min-width: 150px;
+  animation: fadeIn 0.2s ease-in-out;
 }
 
 .dropdown-menu li {
-  padding: 0.5rem 1.2rem;
-  color: white;
+  padding: 10px 16px;
+  color: #ffffff;
   cursor: pointer;
-  white-space: nowrap;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
 }
 
 .dropdown-menu li:hover {
-  background-color: #555;
+  background-color: #505050;
 }
 
 .dropdown-menu li + li {
-  border-top: 1px solid #818181;
+  border-top: 1px solid #5c5c5c;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
