@@ -1,6 +1,6 @@
-import React from "react";
-import { validateProduto, sanitizeProdutoData } from "../../services/validation";
-import "./EditModal.css";
+import React, { useState } from "react";
+import "../Cadastro/Cadastro.css"
+
 
 export const EditModal = ({
   isEditing,
@@ -10,48 +10,53 @@ export const EditModal = ({
   setUpdatedData,
   onSave,
 }) => {
+  const [message, setMessage] = useState("");
+
   if (!isEditing) return null;
 
   const handleSave = () => {
-    const sanitizedData = sanitizeProdutoData(updatedData);
-    if (!validateProduto(sanitizedData)) return;
-    onSave(sanitizedData);
+    const camposObrigatorios = ["nome", "quantidade", "tipo_unitario"];
+    const faltando = camposObrigatorios.find(
+      (campo) => !updatedData[campo]?.toString().trim()
+    );
+
+    if (faltando) {
+      setMessage(`Preencha o campo obrigatório: ${faltando}`);
+      return;
+    }
+
+    setMessage("");
+    onSave(updatedData);
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2 className="modal-title">Atualizar Item</h2>
-        <div className="modal-form">
+    <div className="cadastro-container">
+      <div className="cadastro-box">
+        <button className="cadastro-close-btn" onClick={() => setIsEditing(false)}>×</button>
+        <h2 className="cadastro-title">Atualizar Produto</h2>
+
+        {message && <div className="cadastro-error-message">{message}</div>}
+
+        <form className="cadastro-form" onSubmit={(e) => e.preventDefault()}>
           {Object.entries(updatedData).map(([field, value]) => (
-            <div className="form-group" key={field}>
-              <label htmlFor={field} className="form-label">
-                {field}:
-              </label>
+            <div className="input-container" key={field}>
               <input
+                className="InputLogin"
                 type={field === "quantidade" ? "number" : "text"}
-                id={field}
                 name={field}
-                className="form-input"
+                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                 value={value || ""}
                 onChange={(e) =>
                   setUpdatedData({ ...updatedData, [field]: e.target.value })
                 }
+                required={["nome", "quantidade", "tipo_unitario"].includes(field)}
               />
             </div>
           ))}
-        </div>
-        <div className="modal-actions">
-          <button onClick={handleSave} className="modal-button save-button">
-            Salvar
+          <button className="cadastro-btn" type="submit" onClick={handleSave}>
+            SALVAR
           </button>
-          <button
-            onClick={() => setIsEditing(false)}
-            className="modal-button cancel-button"
-          >
-            Cancelar
-          </button>
-        </div>
+        </form>
       </div>
     </div>
   );

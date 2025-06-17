@@ -1,0 +1,56 @@
+.estoque-search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  width: 100%; 
+}
+
+
+.estoque-searchfield {
+  flex: 1; /* 👈 faz os campos crescerem igualmente */
+  min-width: 200px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 0 12px;
+  height: 40px;
+  box-shadow: inset 0 0 0 1px #ccc;
+  transition: box-shadow 0.2s;
+}
+
+
+.estoque-searchfield:focus-within {
+  box-shadow: inset 0 0 0 2px #6c63ff;
+}
+
+.estoque-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+}
+
+.estoque-search-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c63ff;
+  transition: color 0.2s;
+}
+
+.estoque-search-button:hover {
+  color: #4e47d2;
+}
+
+.estoque-search-icon {
+  font-size: 18px;
+}

@@ -23,11 +23,18 @@ export const deleteProduto = async (id) => {
 };
 
 export const updateProduto = async (id, data) => {
+  const token = localStorage.getItem("token");
+
   const response = await fetch(`${API_BASE_URL}/produto/${id}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, 
+    },
     body: JSON.stringify(data),
   });
+
   if (!response.ok) throw new Error("Erro ao atualizar produto");
   return await response.json();
 };
+

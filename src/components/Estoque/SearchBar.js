@@ -1,20 +1,22 @@
 import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
+import "./SearchField.css"
 
 const SearchField = ({ placeholder, value, onChange }) => (
-  <div className="search-field">
+  <div className="estoque-searchfield">
     <input
-      className="search-input"
+      className="estoque-search-input"
       type="text"
       placeholder={placeholder}
       value={value}
       onChange={onChange}
     />
-    <button className="search-button">
-      <IoSearchOutline className="iconSearch" />
+    <button className="estoque-search-button" type="button">
+      <IoSearchOutline className="estoque-search-icon" />
     </button>
   </div>
 );
+
 
 export const SearchBar = ({ searchQuery, setSearchQuery }) => {
   const searchFields = [
@@ -26,7 +28,7 @@ export const SearchBar = ({ searchQuery, setSearchQuery }) => {
   ];
 
   return (
-    <div className="search-bar">
+    <div className="estoque-search-bar">
       {searchFields.map(({ key, placeholder }) => (
         <SearchField
           key={key}

@@ -82,7 +82,7 @@
 
 /* Botão */
 .cadastro-btn {
-  background-color: #6c63ff;
+  background-color: #638dff;
   color: white;
   padding: 0.75rem;
   border: none;
@@ -94,7 +94,7 @@
 }
 
 .cadastro-btn:hover {
-  background-color: #574bdb;
+  background-color: #4b65db;
 }
 
 /* Mensagens */

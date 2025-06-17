@@ -171,7 +171,7 @@ if (error) return <div className="historico-container">Erro: {error}</div>;
               <div className="containertitle">
           <h1>Administração de Usuários</h1>
         </div>
-      <div className="historico-container">
+      <div className="estoque-container">
 
            <div className="container-link-register">
             <button className="signup-button" onClick={() => setShowCadastroModal(true)}>

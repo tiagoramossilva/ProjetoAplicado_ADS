@@ -20,12 +20,12 @@ const HistoricoCompras = () => {
   return (
     <>
       <Navigation />
-      <div className="containertitle">
+            <div className="containertitle">
         <div className="divtitle">
           <h1>Histórico de compras</h1>
         </div>
       </div>
-
+      <div className="estoque-container">
       <div className="historico-container">
         <FiltrosCompras
           filters={filters}
@@ -55,6 +55,7 @@ const HistoricoCompras = () => {
           </button>
         </div>
       </div>
+    </div>
     </>
   );
 };
