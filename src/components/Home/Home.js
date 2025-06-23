@@ -190,7 +190,7 @@ const handleConfigClick = () => {
   </div>
 
   {showInvoiceDropdown && (
-    <div className="dropdown-menu">
+    <div className="dropdown-menu-home">
       <p onClick={handleInsertManually}>Inserir Manualmente</p>
       <p>
         <label htmlFor="arquivoXml">Fazer Upload da Invoice</label>

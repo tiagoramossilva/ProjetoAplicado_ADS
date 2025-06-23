@@ -50,12 +50,8 @@
   justify-content: flex-start;
   align-items: flex-start;
   padding: 24px;
-  transition:
-    transform 0.3s ease,
-    background 0.3s ease,
-    color 0.3s ease,
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease,
+    box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .card:hover {
@@ -105,7 +101,7 @@
 }
 
 /* Dropdown abaixo do primeiro card */
-.dropdown-menu {
+.dropdown-menu-home {
   position: absolute;
   top: 270px;
   background-color: rgb(241, 241, 241);
@@ -116,14 +112,14 @@
   z-index: 10;
 }
 
-.dropdown-menu p {
+.dropdown-menu-home p {
   padding: 8px;
   cursor: pointer;
   margin: 0;
   color: #3b3b3b;
 }
 
-.dropdown-menu p:hover {
+.dropdown-menu-home p:hover {
   background-color: #dedede;
 }
 
