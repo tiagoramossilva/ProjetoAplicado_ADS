@@ -126,21 +126,30 @@ export const EstoquePage = () => {
     });
   };
 
-  const handleSaveUpdate = async (data) => {
-    try {
-      const updatedItem = await updateProduto(currentItem.id, data);
-      setProdutos(
-        produtos.map((item) =>
-          item.id === currentItem.id ? { ...item, ...updatedItem } : item
-        )
-      );
-      setIsEditing(false);
-      alert("Item atualizado com sucesso!");
-    } catch (error) {
-      console.error("Erro ao atualizar:", error);
-      alert("Erro ao atualizar item. Verifique o console.");
-    }
-  };
+const handleSaveUpdate = async (data) => {
+  try {
+    const dataCorrigida = {
+      ...data,
+      quantidade: Number(data.quantidade), 
+    };
+
+    console.log("Enviando para atualização:", dataCorrigida);
+
+    const updatedItem = await updateProduto(currentItem.id, dataCorrigida);
+
+    setProdutos(
+      produtos.map((item) =>
+        item.id === currentItem.id ? { ...item, ...updatedItem } : item
+      )
+    );
+    setIsEditing(false);
+    alert("Item atualizado com sucesso!");
+  } catch (error) {
+    console.error("Erro ao atualizar:", error);
+    alert("Erro ao atualizar item. Verifique o console.");
+  }
+};
+
 
   return (
     <>
