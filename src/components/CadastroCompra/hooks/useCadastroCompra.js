@@ -159,13 +159,14 @@ const useCadastroCompra = () => {
     setProdutos(newProdutos);
   };
 
-  const handleRemoveProduct = (index) => {
-    if (produtos.length <= 1) {
-      alert("Você deve ter pelo menos um produto.");
-      return;
-    }
-    setProdutos(produtos.filter((_, i) => i !== index));
-  };
+const handleRemoveProduct = () => {
+  if (produtos.length <= 1) {
+    alert("Você deve ter pelo menos um produto.");
+    return;
+  }
+  setProdutos((prev) => prev.slice(0, -1)); // remove o último
+};
+
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
