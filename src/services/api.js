@@ -29,12 +29,12 @@ export const updateProduto = async (id, data) => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`, 
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   });
 
   if (!response.ok) throw new Error("Erro ao atualizar produto");
+  console.log(data);
   return await response.json();
 };
-

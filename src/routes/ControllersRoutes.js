@@ -22,7 +22,12 @@ router.post("/login", loginUser);
 router.post("/compra", compraController.create);
 router.get("/compra", compraController.getAll);
 router.get("/compra/:id", compraController.getById);
-router.put("/compra/:id", compraController.update);
+router.put(
+  "/compra/:id",
+  auth, // ← Middleware que adiciona req.user
+  isAdmin,
+  compraController.update
+);
 router.delete(
   "/compra/:id",
   auth, // ← Middleware que adiciona req.user
